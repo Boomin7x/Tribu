@@ -19,7 +19,7 @@ export const NewAudienceGroup = () => {
   console.log('Rendering NewAudienceGroup ....');
   const allBlocs: Bloc[] = [
     {
-      questions: [
+      fields: [
         ...demographicFormData.map((item, index) => ({
           metaData: item,
           key: `${Parameters.Demographics}-${index}`,
@@ -32,7 +32,7 @@ export const NewAudienceGroup = () => {
     },
 
     {
-      questions: [
+      fields: [
         ...psychographicFormData.map((item, index) => ({
           metaData: item,
           key: `${Parameters.Psychographics}-${index}`,
@@ -45,7 +45,7 @@ export const NewAudienceGroup = () => {
     },
 
     {
-      questions: [
+      fields: [
         ...weatherAndClimateFormData.map((item, index) => ({
           metaData: item,
           key: `${Parameters.WeatherAndClimate}-${index}`,
@@ -57,7 +57,7 @@ export const NewAudienceGroup = () => {
       key: Parameters.WeatherAndClimate,
     },
     {
-      questions: [
+      fields: [
         ...transactionFormData.map((item, index) => ({
           metaData: item,
           key: `${Parameters.TransactionalData}-${index}`,
@@ -70,7 +70,7 @@ export const NewAudienceGroup = () => {
     },
 
     {
-      questions: [
+      fields: [
         ...[].map((item, index) => ({
           metaData: item,
           key: `${Parameters.DeviceType}-${index}`,
@@ -82,7 +82,7 @@ export const NewAudienceGroup = () => {
       key: Parameters.DeviceType,
     },
     {
-      questions: [
+      fields: [
         ...[].map((item, index) => ({
           metaData: item,
           key: `${Parameters.Location}-${index}`,
@@ -100,7 +100,7 @@ export const NewAudienceGroup = () => {
   const schema = generateValidationSchema(
     allBlocs
       .map((item) =>
-        item.questions.map((field) => {
+        item.fields.map((field) => {
           return {
             ...field.metaData,
             name: generateFormName(item.key, field.metaData.label),

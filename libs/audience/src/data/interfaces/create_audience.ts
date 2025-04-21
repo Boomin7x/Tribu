@@ -10,7 +10,7 @@ export interface CreateAudience {
 
 export interface Bloc {
   key: string;
-  questions: Question[];
+  fields: Question[];
 }
 
 export interface BlocMetaData {
