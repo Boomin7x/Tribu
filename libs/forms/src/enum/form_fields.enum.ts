@@ -4,6 +4,7 @@ export enum FormFields {
   DIVIDER = 'divider',
   CHECKBOX = 'checkbox',
   NUMBER_INPUT = 'number',
+  LOCATION = 'location',
   SLIDER = 'slider',
   RATING = 'rating',
   RANKING = 'ranking',

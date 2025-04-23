@@ -1,11 +1,5 @@
 import { AllFormInterfacesType, FormFields } from '@tribu/forms';
-import {
-  AdvertisingExposure,
-  Currencies,
-  PaymentMethod,
-  SocialMediaInteraction,
-  SubscriptionStatus,
-} from '@tribu/targets';
+import { Currencies, PaymentMethod } from '@tribu/targets';
 export const transactionFormData: AllFormInterfacesType[] = [
   {
     id: '',

@@ -30,20 +30,22 @@ export const Sidebar = (props: SidebarProps) => {
   ];
   const navigate = useNavigate();
   return (
-    <div className="h-screen flex flex-col py-10 justify-between w-[15vw] bg-purple-50">
-      <AppIcon
-        icon={logo}
-        width={10}
-        additionalClass="rounded-sm cursor-pointer"
-        onClick={() => navigate('/dashboard')}
-      />
-      <div className="mt-20 flex flex-col gap-y-5 grow">
-        {sidebarItems.map((item) => {
-          return <SidebarItem {...item} key={item.label} />;
-        })}
-      </div>
-      <div className="flex items-center justify-center">
-        <img src={logout} alt="" />
+    <div {...props}>
+      <div className="h-screen flex flex-col py-10 justify-between bg-purple-50">
+        <AppIcon
+          icon={logo}
+          width={10}
+          additionalClass="rounded-sm cursor-pointer"
+          onClick={() => navigate('/dashboard')}
+        />
+        <div className="mt-20 flex flex-col gap-y-5 grow">
+          {sidebarItems.map((item) => {
+            return <SidebarItem {...item} key={item.label} />;
+          })}
+        </div>
+        <div className="flex items-center justify-center">
+          <img src={logout} alt="" />
+        </div>
       </div>
     </div>
   );

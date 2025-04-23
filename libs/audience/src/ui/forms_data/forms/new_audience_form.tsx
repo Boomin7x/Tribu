@@ -39,8 +39,8 @@ const GenerateForm = ({
           formTitle={Parameters.Demographics}
           control={control}
           updateField={(index, value) => {
-            currentBloc.questions[index].metaData.value = value;
-            currentBloc.questions[index].description = value;
+            currentBloc.fields[index].metaData.value = value;
+            currentBloc.fields[index].description = value;
             updateBloc(currentBloc);
           }}
           updateAudienceGenericFormFIelds={(data) => {
@@ -59,8 +59,8 @@ const GenerateForm = ({
             setFormDataValue({ ...formDataValue, psychographics: data });
           }}
           updateField={(index, value) => {
-            currentBloc.questions[index].metaData.value = value;
-            currentBloc.questions[index].description = value;
+            currentBloc.fields[index].metaData.value = value;
+            currentBloc.fields[index].description = value;
             updateBloc(currentBloc);
           }}
         />
@@ -76,8 +76,8 @@ const GenerateForm = ({
             setFormDataValue({ ...formDataValue, behavioral: data });
           }}
           updateField={(index, value) => {
-            currentBloc.questions[index].metaData.value = value;
-            currentBloc.questions[index].description = value;
+            currentBloc.fields[index].metaData.value = value;
+            currentBloc.fields[index].description = value;
             updateBloc(currentBloc);
           }}
         />
@@ -93,8 +93,8 @@ const GenerateForm = ({
             setFormDataValue({ ...formDataValue, weatherAndClimate: data });
           }}
           updateField={(index, value) => {
-            currentBloc.questions[index].metaData.value = value;
-            currentBloc.questions[index].description = value;
+            currentBloc.fields[index].metaData.value = value;
+            currentBloc.fields[index].description = value;
             updateBloc(currentBloc);
           }}
         />
@@ -110,15 +110,39 @@ const GenerateForm = ({
             setFormDataValue({ ...formDataValue, transactionalData: data });
           }}
           updateField={(index, value) => {
-            currentBloc.questions[index].metaData.value = value;
-            currentBloc.questions[index].description = value;
+            currentBloc.fields[index].metaData.value = value;
+            currentBloc.fields[index].description = value;
             updateBloc(currentBloc);
           }}
         />
       );
 
     case Parameters.Location:
-      return <AudienceGLMap />;
+      return (
+        <div className="flex flex-col  item-center justify-center">
+          <AudienceGLMap
+            onLocationUpdate={(location) => {
+              currentBloc.fields[0].metaData.value = location?.text;
+              currentBloc.fields[0].description = location?.place_name ?? '';
+              updateBloc(currentBloc);
+              setFormDataValue({
+                ...formDataValue,
+                location: {
+                  country: 'string',
+                  region: 'string',
+                  city: location?.text,
+                  postalCode: 'string',
+                  latitude: location?.coordinates.latitude,
+                  longitude: location?.coordinates.longitude,
+                  neighborhood: location?.place_name,
+                  proximityToLandmark: 'string',
+                  timeZone: 'string',
+                },
+              });
+            }}
+          />
+        </div>
+      );
 
     default:
       break;

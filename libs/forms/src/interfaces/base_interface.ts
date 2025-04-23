@@ -1,4 +1,4 @@
-import { ConditionLinkEnum } from '../enum';
+import { ConditionLinkEnum, FormFields } from '../enum';
 import { BranchingBlockInterface } from './branching.interface';
 
 export interface BaseInterface {

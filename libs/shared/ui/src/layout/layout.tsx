@@ -8,8 +8,8 @@ export const Layout: FC<React.HTMLAttributes<HTMLDivElement>> = () => {
   const isNewSurvey = location.pathname.includes('surveys/new');
   return (
     <div className="flex flex-row h-screen w-screen justify-between items-center">
-      {/* <Sidebar className="w-[5%] bg-primary-50 w-10" /> */}
-      <Sidebar className=" bg-primary-50 mx-auto" />
+      <Sidebar className="w-[5%] bg-primary-50" />
+      {/* <Sidebar className=" bg-primary-50 mx-auto" /> */}
       <Main className="w-full h-screen">
         {!isNewSurvey && <AppHeader className="h-[10vh]" />}
         <div

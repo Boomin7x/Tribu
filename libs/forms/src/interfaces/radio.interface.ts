@@ -1,7 +1,4 @@
 import { FormFields } from '../enum';
-
-import { BranchingBlockInterface } from './index';
-import { ConditionLinkEnum } from '../enum/condition_actions';
 import { SelectChangeEvent } from '@mui/material';
 import { BaseInterface } from './base_interface';
 // interface RadioItemInterface {
@@ -10,7 +7,6 @@ import { BaseInterface } from './base_interface';
 // }
 export interface RadioInterface extends BaseInterface {
   type: FormFields.RADIO;
-  // elements: RadioItemInterface[];
   elements: number[] | string[] | undefined;
 
   //*Optional Fields

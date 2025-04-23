@@ -2,7 +2,11 @@ import { AppButton, AppChip } from '@tribu/ui';
 import { useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { demographicFormData } from '../../ui/forms_data/data/demographic_form_data';
-import { generateFormName, generateValidationSchema } from '@tribu/forms';
+import {
+  FormFields,
+  generateFormName,
+  generateValidationSchema,
+} from '@tribu/forms';
 import { PersonaDto } from '@tribu/targets';
 import { psychographicFormData } from '../../ui/forms_data/data/psychographic_form_data';
 import { weatherAndClimateFormData } from '../../ui/forms_data/data/weather_and_climate_form_data';
@@ -83,13 +87,31 @@ export const NewAudienceGroup = () => {
     },
     {
       fields: [
-        ...[].map((item, index) => ({
-          metaData: item,
-          key: `${Parameters.Location}-${index}`,
+        // ...[].map((item, index) => ({
+        //   metaData: item,
+        //   key: `${Parameters.Location}-${index}`,
+        //   name: '',
+        //   description: '',
+        //   type: '',
+        // })),
+
+        {
+          metaData: {
+            id: '',
+            index: 0,
+            activeSectionIndex: 0,
+            label: 'Location',
+            placeholder: 'Location',
+            icon: 'location',
+            name: 'location',
+            type: FormFields.LOCATION,
+            required: true,
+          },
+          key: `${Parameters.Location}-${0}`,
           name: '',
           description: '',
           type: '',
-        })),
+        },
       ],
       key: Parameters.Location,
     },
@@ -395,6 +417,35 @@ const GenerateChipPreview = ({
                       ...persona,
                       transactionalData: updatedTransactionalData,
                     });
+                  }}
+                />
+              }
+            />
+          );
+        })
+      );
+    case Parameters.Location:
+      return (
+        persona.location &&
+        Object.keys(persona.location).map((key, index) => {
+          const item = key as keyof typeof persona.location;
+          return (
+            <AppChip
+              label={persona.location?.[item]?.toString() || ''}
+              key={`${item}-y-${index}`}
+              additionClasses="bg-gray-50 text-gray-800 font-light px-4  border border-gray-100 text-sm hover:border-gray-100"
+              icon={
+                <IoMdClose
+                  className="hover:bg-gray-100 rounded-full w-6 h-6 p-1 "
+                  onClick={() => {
+                    const updatedTransactionalData = {
+                      ...persona.location,
+                    };
+                    // delete updatedTransactionalData[item];
+                    // updatePersona({
+                    //   ...persona,
+                    //   transactionalData: updatedTransactionalData,
+                    // });
                   }}
                 />
               }
