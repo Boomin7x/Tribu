@@ -1,28 +1,39 @@
-import { PersonaDto } from '@tribu/targets';
 import { http } from '@tribu/utils';
 import { CreateAudience } from '../interfaces/create_audience';
 
 const getAudiences = async () => {
   return await http.run({
-    url: 'https://jsonplaceholder.typicode.com/post',
+    url: 'api/tribu/v1/audience',
     method: 'GET',
-    queryKey: [],
   });
 };
 const findAudienceGroupById = async (id: string) => {
   return await http.run({
-    url: '/',
+    url: `api/tribu/v1/audience/${id}`,
     method: 'GET',
-    queryKey: ['audience', id],
   });
 };
 
 const createAudience = async (audience: CreateAudience) => {
   return await http.run({
-    url: 'https://jsonplaceholder.typicode.com/posts',
+    url: 'api/tribu/v1/audience',
     method: 'POST',
     body: audience,
-    queryKey: ['audience'],
+  });
+};
+
+const updateAudience = async (id: string, audience: CreateAudience) => {
+  return await http.run({
+    url: `api/tribu/v1/audience/${id}`,
+    method: 'PUT',
+    body: audience,
+  });
+};
+
+const deleteAudience = async (id: string, audience: CreateAudience) => {
+  return await http.run({
+    url: `api/tribu/v1/audience/${id}`,
+    method: 'DELETE',
   });
 };
 
@@ -31,7 +42,6 @@ const addPost = async (data: any) => {
     url: 'https://jsonplaceholder.typicode.com/posts',
     method: 'POST',
     body: data,
-    queryKey: ['data'],
   });
 };
 const AudienceService = {
@@ -39,6 +49,8 @@ const AudienceService = {
   createAudience,
   addPost,
   getAudiences,
+  updateAudience,
+  deleteAudience,
 };
 
 export default AudienceService;

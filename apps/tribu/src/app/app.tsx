@@ -6,7 +6,10 @@ import FormBuilder from './form_builder_screen';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { AppConfig } from '@tribu/utils';
 export function App() {
+  console.log(AppConfig);
+
   const navigate = useNavigate();
   useEffect(() => {
     // navigate('/dashboard');

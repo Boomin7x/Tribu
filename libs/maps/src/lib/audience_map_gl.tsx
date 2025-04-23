@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { AppInput } from '@tribu/forms';
 import { useDebounce } from '@tribu/utils';
 import { AppLoader } from '@tribu/ui';
@@ -6,14 +6,13 @@ import Map, { MapProvider, useMap } from 'react-map-gl/mapbox';
 import useGeolocation from '../hooks/use_location';
 import useGeocode, { GeocodeResponse } from '../hooks/use_geocode';
 import { CiSearch } from 'react-icons/ci';
-import { IoSearch } from 'react-icons/io5';
-
+import { AppConfig } from '@tribu/utils';
 interface AudienceGLMapProps extends React.HTMLAttributes<HTMLDivElement> {
   onLocationUpdate: (location?: GeocodeResponse) => void;
 }
 
 export const AudienceGLMap: FC<AudienceGLMapProps> = (props) => {
-  const env = import.meta.env;
+  const env = AppConfig.VITE_MAP_BOX_KEY;
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const { location, setLocation } = useGeolocation(false);
   const [address, setAddress] = useState('');

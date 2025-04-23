@@ -1,10 +1,11 @@
-import { AppButton, AppLoader, AppUIInput } from '@tribu/ui';
+import { AppButton, AppUIInput } from '@tribu/ui';
 import { useApi } from '@tribu/utils';
 import { CiSearch } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import AudienceController from '../../controllers/audience_controller';
 import { CreateAudience } from '../../data/interfaces/create_audience';
+import { AppConfig } from '@tribu/utils';
 
 type Persona = {
   id: number;
@@ -63,7 +64,7 @@ export const AudienceHome = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, isError, error } = useApi.get<CreateAudience>({
-    queryKey: ['audience', ''],
+    queryKey: [],
     callBack: () => {
       return AudienceController.getAudience();
     },

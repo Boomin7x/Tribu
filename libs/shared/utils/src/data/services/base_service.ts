@@ -1,9 +1,8 @@
 import axios from 'axios';
-
+import { AppConfig } from '@tribu/utils';
 interface ApiProps {
   url: string;
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
-  queryKey: string[];
   body?: any;
   showLoader?: boolean;
   headers?: any;
@@ -11,7 +10,7 @@ interface ApiProps {
 }
 export const run = ({ url, method, headers, body, onProgress }: ApiProps) => {
   return axios({
-    url: url,
+    url: `${AppConfig.VITE_BASE_URL}/${url}`,
     method: method,
     headers: headers,
     data: body,
@@ -21,7 +20,7 @@ export const run = ({ url, method, headers, body, onProgress }: ApiProps) => {
       if (onProgress) {
         onProgress(progress);
       }
-      // console.log(event);
+      console.log(event);
     },
   });
 };
