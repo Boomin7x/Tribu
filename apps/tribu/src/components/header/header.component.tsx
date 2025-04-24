@@ -51,6 +51,7 @@ const Header = () => {
           <Tab
             label="Create"
             sx={{ border: 'none', textTransform: 'capitalize' }}
+            className="text-secondary-500"
           />
           <Tab label="Preview" sx={{ textTransform: 'capitalize' }} />
           <Tab label="Submission" sx={{ textTransform: 'capitalize' }} />

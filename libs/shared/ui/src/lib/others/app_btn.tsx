@@ -4,21 +4,19 @@ import AppLoader from './loader';
 export interface AppButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
-  additionalClassName?: string;
   icon?: ReactNode;
   isLoading?: boolean;
 }
 export const AppButton: React.FC<AppButtonProps> = ({
   label,
   icon,
-  additionalClassName,
   isLoading,
   ...props
 }) => {
   return (
     <button
       {...props}
-      className={`bg-secondary-500 text-sm text-white rounded-3xl px-5 flex items-center gap-2 ${additionalClassName}`}
+      className={` cursor-pointer bg-secondary-500 hover:bg-secondary-600 border-none text-sm text-white rounded-sm px-5 flex po items-center outline-none gap-2 ${props.className}`}
     >
       {isLoading ? (
         <AppLoader size={20} />

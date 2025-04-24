@@ -1,10 +1,12 @@
 import { TextField } from '@mui/material';
-import { FC, useEffect, useState } from 'react';
-import { styleFormFields } from '../../utils/formatters';
+import { useEffect, useState } from 'react';
+
 export type AppTextAreaType = {
   placeholder?: string | undefined;
   id?: string | undefined;
-  hasBorder?: boolean;
+  className?: string | undefined;
+  style?: React.CSSProperties | undefined;
+  hideBorders?: boolean;
   maxLength?: number;
   value?: string | number | readonly string[] | undefined;
   onChange:
@@ -31,6 +33,7 @@ export const AppTextArea = ({ ...props }) => {
       maxRows={7}
       inputProps={{
         maxLength: props.maxLength,
+        style: props.style,
       }}
       placeholder={props.placeholder}
       onChange={(e) => {
@@ -38,7 +41,32 @@ export const AppTextArea = ({ ...props }) => {
         setFieldValue(e.target.value);
       }}
       value={fieldValue}
-      sx={styleFormFields(props)}
+      // className={props.className}
+      // style={props.style}
+      sx={
+        props.hideBorders == false || props.hideBorders == undefined
+          ? {
+              '& .MuiFormLabel-root': {
+                fontSize: '0.875rem',
+              },
+              '& input::placeholder': {
+                fontSize: '0.875rem',
+              },
+            }
+          : {
+              border: 'none',
+              fontStyle: 'italic',
+              '& fieldset': { border: 'none' },
+              ':focus': {
+                border: '1px solid #FFFFFF',
+                '& fieldset': { border: 'none' },
+              },
+              ':hover': {
+                border: 'none',
+                '& fieldset': { border: 'none' },
+              },
+            }
+      }
     />
   );
 };

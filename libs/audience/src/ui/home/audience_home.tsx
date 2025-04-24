@@ -1,4 +1,4 @@
-import { AppButton, AppUIInput } from '@tribu/ui';
+import { AppButton, AppUIInput, ErrorCard } from '@tribu/ui';
 import { useApi } from '@tribu/utils';
 import { CiSearch } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
@@ -55,7 +55,7 @@ export const AudienceHome = () => {
           }}
           label="New Group"
           icon={<IoMdAdd />}
-          additionalClassName="rounded-sm"
+          className="rounded-sm"
         />
       </div>
 
@@ -78,10 +78,7 @@ export const AudienceHome = () => {
           })}
 
         {isError && (
-          <div className="item-center w-full flex flex-col gap-y-2 justify-center bg-purple-50 h-[50vh] items-center">
-            <p className="text-md">Failed to load audience!</p>
-            {<p>{error.message}</p>}
-          </div>
+          <ErrorCard title="Failed to load audience!" message={error.message} />
         )}
 
         {demographics && demographics.length === 0 && (
@@ -93,8 +90,7 @@ export const AudienceHome = () => {
               }}
               label="New Group"
               icon={<IoMdAdd />}
-              additionalClassName="rounded-sm"
-              className="mt-5"
+              className="!rounded-sm mt-5"
             />
           </div>
         )}
@@ -102,6 +98,7 @@ export const AudienceHome = () => {
         {demographics &&
           demographics.map((userDemographics, index) => {
             const age = getValue(userDemographics, 'age');
+            const title = getValue(userDemographics, 'title');
             const ethnicity = getValue(userDemographics, 'ethnicity');
             const children = getValue(userDemographics, 'children');
 
@@ -127,7 +124,7 @@ export const AudienceHome = () => {
                       <p className="text-xs mr-5">Interest</p>
                     </div>
                     <div className="">
-                      <p className="text-xs mr-5">{ethnicity}</p>
+                      <p className="text-xs mr-5">{title}</p>
                       <p className="text-xs mr-5">{age ?? 'No Age'} </p>
                       <p className="text-xs mr-5">
                         {children ?? 'No Children'}

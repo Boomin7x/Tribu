@@ -31,7 +31,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: #0caf60;
+  color: #8f5ff3;
 }
 
 body {
@@ -51,7 +51,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #0caf60;
+  background-color: #8f5ff3;
   border-radius: 3px;
 }
 

@@ -216,29 +216,15 @@ const FormPreview = () => {
           noValidate
           style={{ height: '100%' }}
         >
-          <Box
-            display={'flex'}
-            flexDirection={'column'}
-            justifyContent={'space-between'}
-            height={'100%'}
-          >
-            <Box
-              sx={{
-                padding: '4rem 3rem',
-                borderBottom: `2px solid ${colors.gray}`,
-                backgroundColor: colors.primary,
-                color: colors.white,
-                borderRadius: 1,
-                mt: 4,
-              }}
-            >
+          <div className="flex flex-col h-full justify-between">
+            <div className="bg-secondary-600 rounded-sm py-16 px-12 mt-8 text-white">
               <Typography fontSize={30}>
                 {formDetails.formTitle.label}
               </Typography>
               <Typography marginTop={2}>
                 {formDetails.formDescription.description}
               </Typography>
-            </Box>
+            </div>
 
             <Box
               sx={{
@@ -269,13 +255,7 @@ const FormPreview = () => {
                     .filter((_, index) => index == currentIndex)}
               </Stack>
             </Box>
-            <Stack
-              width="100%"
-              direction={'row'}
-              justifyContent={'space-between'}
-              alignItems={'center'}
-              mb={5}
-            >
+            <div className="flex flex-row w-full items-center justify-between mb-5">
               <FormProgressIndicators
                 currentIndex={currentIndex}
                 previewItems={previewItems}
@@ -286,8 +266,8 @@ const FormPreview = () => {
                 previewItems={previewItems}
                 reverseIndexes={reverseIndexes}
               />
-            </Stack>
-          </Box>
+            </div>
+          </div>
         </form>
       </FormProvider>
     </Box>

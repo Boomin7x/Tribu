@@ -1,12 +1,13 @@
 import { TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-export type AppInputType = {
+interface AppInputType {
   placeholder?: string | undefined;
   label?: string | undefined;
   type: string | undefined;
   id: string | undefined;
-  hasBorder?: boolean;
+  hideBorders?: boolean;
   readonly?: boolean;
+  style?: React.CSSProperties | undefined;
   value?: string | number | readonly string[] | undefined;
   onChange:
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
@@ -14,11 +15,12 @@ export type AppInputType = {
   maxLength?: number;
   minLength?: number;
   styles?: any | undefined;
+  className?: string | undefined;
   multiline?: boolean;
   isPreview?: boolean;
   minRows?: number;
   startAdornment?: JSX.Element;
-};
+}
 export const AppInput = ({ ...props }: AppInputType) => {
   // useEffect(() => {
   //   if (typeof props.value == 'string') {
@@ -51,16 +53,33 @@ export const AppInput = ({ ...props }: AppInputType) => {
           // maxLength: props.maxLength,
           // minLength: props.minLength,
           type: props.type,
-          style: { ...props.styles },
+          style: props.style,
         }}
-        sx={{
-          '& .MuiFormLabel-root': {
-            fontSize: '0.875rem',
-          },
-          '& input::placeholder': {
-            fontSize: '0.875rem',
-          },
-        }}
+        className={props.className}
+        sx={
+          props.hideBorders == false || props.hideBorders == undefined
+            ? {
+                '& .MuiFormLabel-root': {
+                  fontSize: '0.875rem',
+                },
+                '& input::placeholder': {
+                  fontSize: '0.875rem',
+                },
+              }
+            : {
+                border: 'none',
+                fontStyle: 'italic',
+                '& fieldset': { border: 'none' },
+                ':focus': {
+                  border: '1px solid #FFFFFF',
+                  '& fieldset': { border: 'none' },
+                },
+                ':hover': {
+                  border: 'none',
+                  '& fieldset': { border: 'none' },
+                },
+              }
+        }
       />
     </>
   );

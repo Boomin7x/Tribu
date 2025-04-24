@@ -12,7 +12,7 @@ import {
 import { GlobalTab } from '../../../../../libs/forms/src/enum';
 import FormPreview from '../preview/preview';
 import { useEffect, useRef } from 'react';
-import { AppInput } from '@tribu/forms';
+import { AppInput, AppTextArea } from '@tribu/forms';
 
 const SurveyComponent = () => {
   const dispatch = useDispatch();
@@ -82,20 +82,13 @@ const SurveyComponent = () => {
         }}
         // ref={dropItemRef}
       >
-        <Box
-          sx={{
-            width: '100%',
-            padding: '1rem 2rem 1.5rem 2rem',
-            backgroundColor: colors.primary,
-            // margin: "2rem 0 1rem 0",
-            color: colors.white,
-            borderRadius: 1,
-          }}
-        >
+        <div className="bg-secondary-600 w-full px-5 py-5">
           <AppInput
+            hideBorders={true}
             placeholder="Survey Name"
             id="form-title"
             maxLength={255}
+            style={{ color: colors.white, fontSize: 30 }}
             onChange={(e) => {
               const newFormItem = {
                 ...formTitle,
@@ -103,16 +96,22 @@ const SurveyComponent = () => {
               };
               dispatch(updateFormTitle(newFormItem));
             }}
-            hasBorder={false}
-            styles={{
-              backgroundColor: colors.primary,
-              fontSize: 30,
-              color: colors.white,
-            }}
             type="text"
           />
 
-          <TextField
+          <AppTextArea
+            placeholder="Survey description"
+            hideBorders={true}
+            style={{ color: colors.white }}
+            onChange={(e: any) => {
+              const newFormItem = {
+                ...formDescription,
+                description: e.target.value,
+              };
+              dispatch(updateFormDescription(newFormItem));
+            }}
+          />
+          {/* <TextField
             fullWidth
             variant="outlined"
             color="primary"
@@ -140,8 +139,8 @@ const SurveyComponent = () => {
                 '& fieldset': { border: 'none' },
               },
             }}
-          />
-        </Box>
+          /> */}
+        </div>
         {allSections &&
           allSections.map((item, index) => {
             const displayIndex = index + 1;

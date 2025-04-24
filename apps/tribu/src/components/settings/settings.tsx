@@ -7,12 +7,22 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { FiPlus } from 'react-icons/fi';
+
 import { Add, ColorLens, People, TuneRounded } from '@mui/icons-material';
 import colors from '../../utils/styles/colors.module.scss';
 import avatarImage from '../../assets/images/avatar.png';
 import { AppSelect, AppTextArea } from '@tribu/forms';
-import { AudienceController, Bloc, Parameters } from '@tribu/audience';
-import { useApi } from '@tribu/utils';
+import {
+  AudienceController,
+  Bloc,
+  Parameters,
+  Question,
+} from '@tribu/audience';
+import { RouteNames, useApi } from '@tribu/utils';
+import { useState } from 'react';
+import { AppButton, ErrorCard } from '@tribu/ui';
+import { useNavigate } from 'react-router-dom';
 const SettingsTab = () => {
   return (
     <Box paddingX={2} paddingY={2}>
@@ -138,7 +148,8 @@ const ThemeData = () => {
   );
 };
 const Audience = () => {
-  const { data, isLoading, isError, error } = useApi.get({
+  const navigate = useNavigate();
+  const { data, isLoading, isError, error, refetch } = useApi.get({
     queryKey: [],
     callBack: () => {
       return AudienceController.getAudience();
@@ -154,6 +165,8 @@ const Audience = () => {
     return value?.metaData.value;
   };
 
+  const [selectedBloc, setSelectedBloc] = useState<Bloc | undefined>();
+
   return (
     <Box
       border={'1px solid'}
@@ -163,25 +176,21 @@ const Audience = () => {
       mb={2}
     >
       <Stack justifyContent={'space-between'} direction={'row'} paddingX={2}>
-        <Button
-          variant="text"
-          sx={{
-            color: '#000',
-            textTransform: 'capitalize',
-            ml: 2,
-            fontSize: 16,
-          }}
-          startIcon={
-            <Avatar sx={{ bgcolor: colors.gray }} variant="square">
-              <People sx={{ color: '#000' }} />
-            </Avatar>
+        <div className="flex items-center gap-2">
+          <Avatar sx={{ bgcolor: colors.gray }} variant="square">
+            <People sx={{ color: '#000' }} />
+          </Avatar>
+          <h2>Audience</h2>
+        </div>
+
+        <AppButton
+          label="New"
+          className="py-2"
+          icon={<FiPlus />}
+          onClick={() =>
+            navigate(`/${RouteNames.dashboard}/${RouteNames.add_audience}`)
           }
-        >
-          Audience
-        </Button>
-        <Button variant="text" startIcon={<Add />}>
-          New
-        </Button>
+        />
       </Stack>
       <Divider sx={{ borderColor: colors.gray, marginY: 1, mb: 2 }} />
       <Box paddingX={2}>
@@ -189,34 +198,83 @@ const Audience = () => {
           hasBorder={true}
           id={'High school girls'}
           onChange={(event, child) => {
-            console.log(event, child);
+            const selected = demographics?.find((item) => {
+              const value = event.target.value;
+              return getValue(item, 'title') == value;
+            });
+
+            setSelectedBloc(selected);
           }}
           items={
             demographics?.map((item) => {
-              // return {
-              //   name: getValue(item, 'name'),
-              //   id: getValue(item, 'id'),
-              // };
-              return getValue(item, 'age');
+              return getValue(item, 'title');
             }) ?? []
           }
           value={'High school girls'}
           fullWidth={true}
           width="100%"
         />
+
+        {isLoading && (
+          <div className="w-full mt-2">
+            {[1].map((index) => {
+              return (
+                <div
+                  className="flex items-center w-full rounded-sm animate-pulse border border-gray-100 p-4"
+                  key={`sk-${index}-${index}`}
+                >
+                  <div className="w-20 h-20 object-cover rounded-full bg-gray-300"></div>
+                  <div className="ml-10 grow flex flex-col gap-2">
+                    <p className="w-full h-3 rounded-sm bg-gray-300"></p>
+                    <p className="w-full h-3 rounded-sm bg-gray-300"></p>
+                    <p className="w-full h-3 rounded-sm bg-gray-300"></p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {isError && (
+          <ErrorCard
+            title="Failed to load audience!"
+            message={error.message}
+            className="!h-auto py-5 mt-2"
+            callback={refetch}
+          />
+        )}
         <Box mt={2}>
-          <UserCard />
+          {selectedBloc && (
+            <UserCard
+              name={getValue(selectedBloc, 'title')}
+              age={getValue(selectedBloc, 'age')}
+              interest={getValue(selectedBloc, 'title')}
+              ethnicity={getValue(selectedBloc, 'ethnicity')}
+            />
+          )}
+          {!selectedBloc && (
+            <p className="py-10 bg-primary-50 text-center">
+              No demographic profile selected
+            </p>
+          )}
         </Box>
       </Box>
     </Box>
   );
 };
-const UserCard = () => {
+
+type UserCardProps = {
+  name: string;
+  age: string;
+  interest: string;
+  ethnicity: string;
+};
+const UserCard = ({ name, age, interest, ethnicity }: UserCardProps) => {
   const items: { title: string; desc: string }[] = [
-    { title: 'Name', desc: 'High schools Girl Campaign' },
-    { title: 'Age', desc: '18-25' },
-    { title: 'Location', desc: 'Douala, Cameroon' },
-    { title: 'Interest', desc: 'Sports' },
+    { title: 'Name', desc: name },
+    { title: 'Age', desc: age },
+    { title: 'Location', desc: interest },
+    { title: 'Interest', desc: ethnicity },
   ];
   return (
     <Box
@@ -224,7 +282,7 @@ const UserCard = () => {
       paddingY={1}
       border={'2px solid'}
       borderColor={colors.gray}
-      borderRadius={2}
+      borderRadius={1}
     >
       <Stack direction={'row'} justifyContent={'start'} alignItems={'center'}>
         <img src={avatarImage} width={80} />

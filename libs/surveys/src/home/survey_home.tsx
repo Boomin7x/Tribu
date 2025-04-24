@@ -72,7 +72,7 @@ export const SurveyHome = () => {
           }}
           label="New Survey"
           icon={<IoMdAdd />}
-          additionalClassName="rounded-sm"
+          className="rounded-sm"
         />
       </div>
       {/* <AppTable className="mt-10" /> */}

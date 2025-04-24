@@ -5,3 +5,4 @@ export * from './lib/header/header';
 export * from './lib/lib/ui';
 export * from './lib/others';
 export * from './lib/errors/dashboard_not_found';
+export * from './lib/errors/error_card';

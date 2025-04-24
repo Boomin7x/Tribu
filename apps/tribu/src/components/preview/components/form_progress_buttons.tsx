@@ -2,6 +2,7 @@ import { Box, Button } from '@mui/material';
 import { AllFormInterfacesType } from '../../../../../../libs/forms/src/types/all_form_types';
 import colors from '../../../utils/styles/colors.module.scss';
 import { FC } from 'react';
+import { AppButton } from '@tribu/ui';
 type PreviewButtonsType = {
   currentIndex: number;
   animateNext: (value: boolean) => void;
@@ -15,38 +16,20 @@ const PreviewButtons: FC<PreviewButtonsType> = ({
   reverseIndexes,
 }: PreviewButtonsType) => {
   return (
-    <Box>
-      <Button
+    <div className="flex gap-2">
+      <AppButton
         disabled={reverseIndexes.length == 1}
-        disableElevation
-        variant="contained"
         onClick={() => animateNext(false)}
-        sx={{
-          textTransform: 'capitalize',
-          px: 5,
-          py: 1.2,
-          color: colors.white,
-          mr: 2,
-        }}
-      >
-        Prev
-      </Button>
+        label="Prev"
+        className="px-5 bg-slate-200 hover:bg-slate-300 !text-gray-500"
+      />
 
-      <Button
-        type="submit"
-        variant="contained"
-        disableElevation
+      <AppButton
         onClick={() => animateNext(true)}
-        sx={{
-          color: colors.white,
-          textTransform: 'capitalize',
-          px: 5,
-          py: 1.2,
-        }}
-      >
-        {currentIndex == previewItems.length - 1 ? 'Submit' : 'Next'}
-      </Button>
-    </Box>
+        className="px-5"
+        label={currentIndex == previewItems.length - 1 ? 'Submit' : 'Next'}
+      />
+    </div>
   );
 };
 
