@@ -17,8 +17,7 @@ const createAudience = async (audience: CreateAudience) => {
 const addPost = async (audience: any) => {
   return AudienceRepository.addPost(audience);
 };
-
-const AudienceController = {
+export const AudienceController = {
   getAudience,
   createAudience,
   findAudienceGroupById,

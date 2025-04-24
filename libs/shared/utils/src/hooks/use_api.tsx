@@ -8,6 +8,7 @@ interface UseApiProps<T> {
   showLoader?: boolean;
   showErrorToast?: boolean;
   onProgress?: (progress: number) => void;
+  onSuccess?: (data: T) => void;
   callBack: (data?: any) => Promise<AxiosResponse<T, any>>;
 }
 export const get = <T,>({
@@ -19,7 +20,7 @@ export const get = <T,>({
 }: UseApiProps<T>) => {
   const { start, complete } = useLoadingBar({ color: 'green', height: 2 });
 
-  const req = useQuery({
+  const req = useQuery<T>({
     queryKey: queryKey,
     retry: false,
     queryFn: async () => {
@@ -29,8 +30,8 @@ export const get = <T,>({
       if (response.status === 200) {
         console.log('response', response);
       }
-
-      return response.data;
+      const dataObj = response.data;
+      return dataObj;
     },
   });
 
@@ -43,10 +44,11 @@ export const post = <T,>({
   showLoader = true,
   showErrorToast = true,
   callBack,
+  onSuccess,
 }: UseApiProps<T>) => {
   const { start, complete } = useLoadingBar({ color: 'green', height: 2 });
 
-  const req = useMutation({
+  const response = useMutation({
     mutationKey: queryKey,
     mutationFn: async (data: any) => {
       if (showLoader) start();
@@ -62,12 +64,13 @@ export const post = <T,>({
       console.log('error', error);
     },
     onSuccess: (data) => {
+      if (onSuccess) onSuccess(data);
       if (showLoader) complete();
       console.log('data', data);
     },
   });
 
-  return req;
+  return response;
 };
 export const useApi = {
   get,

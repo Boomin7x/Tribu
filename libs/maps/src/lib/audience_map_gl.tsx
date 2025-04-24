@@ -12,7 +12,7 @@ interface AudienceGLMapProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const AudienceGLMap: FC<AudienceGLMapProps> = (props) => {
-  const env = AppConfig.VITE_MAP_BOX_KEY;
+  const mapBoxKey = AppConfig.VITE_MAP_BOX_KEY;
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const { location, setLocation } = useGeolocation(false);
   const [address, setAddress] = useState('');
@@ -52,7 +52,7 @@ export const AudienceGLMap: FC<AudienceGLMapProps> = (props) => {
               e.type === 'load' && setIsLoaded(true);
               console.log(e);
             }}
-            mapboxAccessToken={env.VITE_MAP_BOX_KEY}
+            mapboxAccessToken={mapBoxKey}
             initialViewState={{
               longitude: geoData?.coordinates.longitude,
               latitude: geoData?.coordinates.latitude,

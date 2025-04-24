@@ -7,7 +7,19 @@ import {
   IncomeDefault,
   Language,
 } from '@tribu/targets';
+
 export const demographicFormData: AllFormInterfacesType[] = [
+  {
+    id: '',
+    index: 0,
+    activeSectionIndex: 0,
+    name: 'title',
+    icon: 'title',
+    label: 'title',
+    placeholder: 'Title',
+    type: FormFields.INPUT,
+    required: true,
+  },
   {
     id: '',
     index: 0,
@@ -20,11 +32,6 @@ export const demographicFormData: AllFormInterfacesType[] = [
     required: true,
     elements: Object.values(Age).map((item) => {
       return item;
-
-      // return {
-      //   value: item,
-      //   label: item,
-      // };
     }),
   },
   {

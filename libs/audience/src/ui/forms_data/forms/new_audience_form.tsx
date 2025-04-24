@@ -40,7 +40,7 @@ const GenerateForm = ({
           control={control}
           updateField={(index, value) => {
             currentBloc.fields[index].metaData.value = value;
-            currentBloc.fields[index].description = value;
+            // currentBloc.fields[index].description = value;
             updateBloc(currentBloc);
           }}
           updateAudienceGenericFormFIelds={(data) => {
@@ -60,7 +60,7 @@ const GenerateForm = ({
           }}
           updateField={(index, value) => {
             currentBloc.fields[index].metaData.value = value;
-            currentBloc.fields[index].description = value;
+            // currentBloc.fields[index].description = value;
             updateBloc(currentBloc);
           }}
         />
@@ -77,7 +77,7 @@ const GenerateForm = ({
           }}
           updateField={(index, value) => {
             currentBloc.fields[index].metaData.value = value;
-            currentBloc.fields[index].description = value;
+            // currentBloc.fields[index].description = value;
             updateBloc(currentBloc);
           }}
         />
@@ -94,7 +94,7 @@ const GenerateForm = ({
           }}
           updateField={(index, value) => {
             currentBloc.fields[index].metaData.value = value;
-            currentBloc.fields[index].description = value;
+            // currentBloc.fields[index].description = value;
             updateBloc(currentBloc);
           }}
         />
@@ -111,7 +111,7 @@ const GenerateForm = ({
           }}
           updateField={(index, value) => {
             currentBloc.fields[index].metaData.value = value;
-            currentBloc.fields[index].description = value;
+            // currentBloc.fields[index].description = value;
             updateBloc(currentBloc);
           }}
         />
@@ -123,7 +123,7 @@ const GenerateForm = ({
           <AudienceGLMap
             onLocationUpdate={(location) => {
               currentBloc.fields[0].metaData.value = location?.text;
-              currentBloc.fields[0].description = location?.place_name ?? '';
+              // currentBloc.fields[0].description = location?.place_name ?? '';
               updateBloc(currentBloc);
               setFormDataValue({
                 ...formDataValue,

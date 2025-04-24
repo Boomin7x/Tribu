@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import wallet from '../../../icons/wallet.svg';
-import bell from '../../../icons/bell.svg';
+import wallet from '../../../../icons/wallet.svg';
+import bell from '../../../../icons/bell.svg';
 import Chip from '../others/chip';
 import AppIcon from '../others/app_icon';
 import { useLocation } from 'react-router-dom';

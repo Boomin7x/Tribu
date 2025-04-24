@@ -8,8 +8,14 @@ interface ApiProps {
   headers?: any;
   onProgress?: (progress: number) => void;
 }
-export const run = ({ url, method, headers, body, onProgress }: ApiProps) => {
-  return axios({
+export const run = async ({
+  url,
+  method,
+  headers,
+  body,
+  onProgress,
+}: ApiProps) => {
+  const response = await axios({
     url: `${AppConfig.VITE_BASE_URL}/${url}`,
     method: method,
     headers: headers,
@@ -20,9 +26,15 @@ export const run = ({ url, method, headers, body, onProgress }: ApiProps) => {
       if (onProgress) {
         onProgress(progress);
       }
-      console.log(event);
     },
   });
+
+  var dataObj = response.data;
+
+  if (dataObj) {
+    dataObj = JSON.parse(dataObj);
+  }
+  return { ...response, ...{ data: dataObj } };
 };
 export const http = {
   run,

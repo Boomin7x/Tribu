@@ -15,9 +15,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import GenerateForm from '../../ui/forms_data/forms/new_audience_form';
 import AudienceController from '../../controllers/audience_controller';
-import { useApi } from '@tribu/utils';
+import { RouteNames, useApi } from '@tribu/utils';
 import { Parameters } from '../../data/enums/form_enums';
 import { Bloc, CreateAudience } from '../../data/interfaces/create_audience';
+import { useNavigate } from 'react-router-dom';
 
 export const NewAudienceGroup = () => {
   console.log('Rendering NewAudienceGroup ....');
@@ -28,7 +29,7 @@ export const NewAudienceGroup = () => {
           metaData: item,
           key: `${Parameters.Demographics}-${index}`,
           name: item.name,
-          description: '',
+          description: `${Parameters.Demographics}-${item.label}`,
           type: item.type,
         })),
       ],
@@ -41,7 +42,7 @@ export const NewAudienceGroup = () => {
           metaData: item,
           key: `${Parameters.Psychographics}-${index}`,
           name: item.name,
-          description: '',
+          description: `${Parameters.Psychographics}-${item.label}`,
           type: item.type,
         })),
       ],
@@ -54,7 +55,7 @@ export const NewAudienceGroup = () => {
           metaData: item,
           key: `${Parameters.WeatherAndClimate}-${index}`,
           name: item.name,
-          description: '',
+          description: `${Parameters.WeatherAndClimate}-${item.label}`,
           type: item.type,
         })),
       ],
@@ -66,35 +67,27 @@ export const NewAudienceGroup = () => {
           metaData: item,
           key: `${Parameters.TransactionalData}-${index}`,
           name: item.name,
-          description: '',
+          description: `${Parameters.TransactionalData}-${item.label}`,
           type: item.type,
         })),
       ],
       key: Parameters.TransactionalData,
     },
 
+    // {
+    //   fields: [
+    //     ...[].map((item, index) => ({
+    //       metaData: item,
+    //       key: `${Parameters.DeviceType}-${index}`,
+    //       name: '',
+    //       description: '',
+    //       type: '',
+    //     })),
+    //   ],
+    //   key: Parameters.DeviceType,
+    // },
     {
       fields: [
-        ...[].map((item, index) => ({
-          metaData: item,
-          key: `${Parameters.DeviceType}-${index}`,
-          name: '',
-          description: '',
-          type: '',
-        })),
-      ],
-      key: Parameters.DeviceType,
-    },
-    {
-      fields: [
-        // ...[].map((item, index) => ({
-        //   metaData: item,
-        //   key: `${Parameters.Location}-${index}`,
-        //   name: '',
-        //   description: '',
-        //   type: '',
-        // })),
-
         {
           metaData: {
             id: '',
@@ -108,9 +101,10 @@ export const NewAudienceGroup = () => {
             required: true,
           },
           key: `${Parameters.Location}-${0}`,
-          name: '',
-          description: '',
-          type: '',
+          name: Parameters.Location,
+          description: `${Parameters.Demographics}-location`,
+
+          type: FormFields.LOCATION,
         },
       ],
       key: Parameters.Location,
@@ -135,43 +129,36 @@ export const NewAudienceGroup = () => {
   useEffect(() => {
     setValidationSchema(schema);
   }, []);
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm({
-    // resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema),
   });
 
   const [currentBloc, setCurrentBloc] = useState<Bloc>(allBlocs[0]);
   const [formDataValue, setFormDataValue] = useState<PersonaDto>({});
 
-  const {
-    data: dd,
-    mutate: addAudience,
-    isPending,
-  } = useApi.post({
-    queryKey: ['audience', ''],
+  const { mutate: addAudience, isPending } = useApi.post({
+    queryKey: [],
     callBack: (data: CreateAudience) => {
       return AudienceController.createAudience(data);
     },
-  });
-
-  const { data: posts, mutate: addPost } = useApi.post({
-    queryKey: ['audience', ''],
-    callBack: (formDataValue: any) => {
-      return AudienceController.addPost(formDataValue);
+    onSuccess: (_) => {
+      navigate(`/${RouteNames.dashboard}/${RouteNames.audience_home}`);
     },
   });
 
   const onSubmit = (data: Record<string, any>) => {
     const finalData: CreateAudience = {
-      name: '',
+      name: 'Audience #101',
       description: '',
       isTemplate: true,
       metaData: {},
-      blocs: currentBloc,
+      blocs: blocs,
     };
 
     console.log('Final Data', finalData);

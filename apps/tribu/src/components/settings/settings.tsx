@@ -11,6 +11,8 @@ import { Add, ColorLens, People, TuneRounded } from '@mui/icons-material';
 import colors from '../../utils/styles/colors.module.scss';
 import avatarImage from '../../assets/images/avatar.png';
 import { AppSelect, AppTextArea } from '@tribu/forms';
+import { AudienceController, Bloc, Parameters } from '@tribu/audience';
+import { useApi } from '@tribu/utils';
 const SettingsTab = () => {
   return (
     <Box paddingX={2} paddingY={2}>
@@ -136,6 +138,22 @@ const ThemeData = () => {
   );
 };
 const Audience = () => {
+  const { data, isLoading, isError, error } = useApi.get({
+    queryKey: [],
+    callBack: () => {
+      return AudienceController.getAudience();
+    },
+  });
+
+  const demographics = data?.map((bloc) =>
+    bloc.blocs.find((item) => item.key == Parameters.Demographics)
+  );
+
+  const getValue: any = (bloc: Bloc | undefined, name: string) => {
+    const value = bloc?.fields.find((item) => item.name == name);
+    return value?.metaData.value;
+  };
+
   return (
     <Box
       border={'1px solid'}
@@ -173,7 +191,15 @@ const Audience = () => {
           onChange={(event, child) => {
             console.log(event, child);
           }}
-          items={['High school girls']}
+          items={
+            demographics?.map((item) => {
+              // return {
+              //   name: getValue(item, 'name'),
+              //   id: getValue(item, 'id'),
+              // };
+              return getValue(item, 'age');
+            }) ?? []
+          }
           value={'High school girls'}
           fullWidth={true}
           width="100%"

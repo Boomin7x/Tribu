@@ -5,7 +5,7 @@ export interface CreateAudience {
   description: string;
   isTemplate: boolean;
   metaData: CreateAudienceMetaData;
-  blocs: Bloc;
+  blocs: Bloc[];
 }
 
 export interface Bloc {

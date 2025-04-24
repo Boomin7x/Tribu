@@ -6,7 +6,7 @@ import FormBuilder from './form_builder_screen';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
-import { AppConfig } from '@tribu/utils';
+import { AppConfig, RouteNames } from '@tribu/utils';
 export function App() {
   console.log(AppConfig);
 
@@ -19,14 +19,22 @@ export function App() {
     <>
       <Routes>
         <Route path="/" element={<HomeInt />} />
-        <Route path="surveys/templates" element={<SurveyTemplates />} />
-        <Route path="dashboard" element={<Layout />}>
+        <Route
+          path={RouteNames.survey_templates}
+          element={<SurveyTemplates />}
+        />
+        <Route path={RouteNames.dashboard} element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="home" element={<Home />} />
-          <Route path="surveys" element={<SurveyHome />} />
-          <Route path="surveys/new" element={<FormBuilder />} />
-          <Route path="audience" element={<AudienceHome />} />
-          <Route path="audience/groups/new" element={<NewAudienceGroup />} />
+          <Route path={RouteNames.home} element={<Home />} />
+
+          <Route path={RouteNames.surveys_home} element={<SurveyHome />} />
+          <Route path={RouteNames.add_survey} element={<FormBuilder />} />
+
+          <Route path={RouteNames.audience_home} element={<AudienceHome />} />
+          <Route
+            path={RouteNames.add_audience}
+            element={<NewAudienceGroup />}
+          />
           <Route path="*" element={<DashboardNotFound />} />
         </Route>
         <Route path="*" element={<DashboardNotFound />} />

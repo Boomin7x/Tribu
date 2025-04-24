@@ -1,14 +1,13 @@
-import { HTMLAttributes } from 'react';
-import logo from '../../../images/survey_logo.svg';
-import audience from '../../../icons/audience.svg';
-import check_box from '../../../icons/check_box.svg';
-import store from '../../../icons/store.svg';
-import logout from '../../../icons/logout.svg';
+import logo from '../../../../images/survey_logo.svg';
+import audience from '../../../../icons/audience.svg';
+import check_box from '../../../../icons/check_box.svg';
+import store from '../../../../icons/store.svg';
+import logout from '../../../../icons/logout.svg';
 import AppIcon from '../others/app_icon';
 import { useNavigate } from 'react-router-dom';
 import SidebarItem, { SidebarItemProps } from './sidebar_item';
 
-interface SidebarProps extends HTMLAttributes<HTMLDivElement> {}
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const Sidebar = (props: SidebarProps) => {
   const sidebarItems: SidebarItemProps[] = [

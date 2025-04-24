@@ -4,8 +4,8 @@ import { CiSearch } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import AudienceController from '../../controllers/audience_controller';
-import { CreateAudience } from '../../data/interfaces/create_audience';
-import { AppConfig } from '@tribu/utils';
+import { Bloc } from '../../data/interfaces/create_audience';
+import { Parameters } from '../../data/enums/form_enums';
 
 type Persona = {
   id: number;
@@ -16,59 +16,26 @@ type Persona = {
   interest: string;
 };
 
-const personas: Persona[] = [
-  {
-    id: 1,
-    name: 'John Doe',
-    age: '30',
-    image:
-      'https://doodleipsum.com/700/avatar?bg=3D27F6&i=956bcdd5c02911034c0fb8acbb09a4b2',
-    location: 'New York',
-    interest: 'Music',
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    age: '25',
-    image: 'https://avatar.iran.liara.run/public',
-    location: 'Los Angeles',
-    interest: 'Art',
-  },
-  {
-    id: 3,
-    name: 'Alice Johnson',
-    age: '28',
-    image: 'https://example.com/alice-johnson.jpg',
-    location: 'Chicago',
-    interest: 'Technology',
-  },
-  {
-    id: 4,
-    name: 'Bob Williams',
-    age: '35',
-    image: 'https://example.com/bob-williams.jpg',
-    location: 'San Francisco',
-    interest: 'Sports',
-  },
-  {
-    id: 5,
-    name: 'Eva Davis',
-    age: '32',
-    image: 'https://example.com/eva-davis.jpg',
-    location: 'Miami',
-    interest: 'Travel',
-  },
-];
-
 export const AudienceHome = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, error } = useApi.get<CreateAudience>({
+  const { data, isLoading, isError, error } = useApi.get({
     queryKey: [],
     callBack: () => {
       return AudienceController.getAudience();
     },
   });
+
+  const demographics = data?.map((bloc) =>
+    bloc.blocs.find((item) => item.key == Parameters.Demographics)
+  );
+
+  const getValue: any = (bloc: Bloc | undefined, name: string) => {
+    const value = bloc?.fields.find((item) => item.name == name);
+    return value?.metaData.value;
+  };
+
+  // console.log('demographics', demographics);
   return (
     <div className="w-[85%] mx-auto mt-20">
       <div className="flex justify-between mt-10">
@@ -117,41 +84,61 @@ export const AudienceHome = () => {
           </div>
         )}
 
-        {data &&
-          personas.map((persona, index) => (
-            <div
-              className="w-full md:w-[48%] lg:w-[30%]"
-              key={`pk-${index}-${index}`}
-            >
-              <div className="border flex items-center border-gray-100 rounded-lg p-4">
-                <img
-                  src={`https://avatar.iran.liara.run/public/${index}`}
-                  alt={persona.name}
-                  className="w-20 h-20 object-cover rounded-full"
-                />
-                <div className="flex ml-10">
-                  <div className="">
-                    <p className="text-xs mr-5">Name</p>
+        {demographics && demographics.length === 0 && (
+          <div className="item-center w-full flex flex-col gap-y-2 justify-center bg-purple-50 h-[50vh] items-center">
+            <p className="text-md">No audience added!</p>
+            <AppButton
+              onClick={() => {
+                navigate('/dashboard/audience/groups/new');
+              }}
+              label="New Group"
+              icon={<IoMdAdd />}
+              additionalClassName="rounded-sm"
+              className="mt-5"
+            />
+          </div>
+        )}
 
-                    <p className="text-xs mr-5">Age</p>
+        {demographics &&
+          demographics.map((userDemographics, index) => {
+            const age = getValue(userDemographics, 'age');
+            const ethnicity = getValue(userDemographics, 'ethnicity');
+            const children = getValue(userDemographics, 'children');
 
-                    <p className="text-xs mr-5">Location</p>
+            return (
+              <div
+                className="w-full md:w-[48%] lg:w-[30%]"
+                key={`pk-${index}-${index}`}
+              >
+                <div className="border flex items-center border-gray-100 rounded-lg p-4">
+                  <img
+                    src={`https://avatar.iran.liara.run/public/${index}`}
+                    alt={'userDemographics'}
+                    className="w-20 h-20 object-cover rounded-full"
+                  />
+                  <div className="flex ml-10">
+                    <div className="">
+                      <p className="text-xs mr-5">Name</p>
 
-                    <p className="text-xs mr-5">Interest</p>
-                  </div>
-                  <div className="">
-                    <p className="text-xs mr-5">{persona.name}</p>
+                      <p className="text-xs mr-5">Age</p>
 
-                    <p className="text-xs mr-5">{persona.age}</p>
+                      <p className="text-xs mr-5">Location</p>
 
-                    <p className="text-xs mr-5">{persona.location}</p>
-
-                    <p className="text-xs mr-5">{persona.interest}</p>
+                      <p className="text-xs mr-5">Interest</p>
+                    </div>
+                    <div className="">
+                      <p className="text-xs mr-5">{ethnicity}</p>
+                      <p className="text-xs mr-5">{age ?? 'No Age'} </p>
+                      <p className="text-xs mr-5">
+                        {children ?? 'No Children'}
+                      </p>
+                      <p className="text-xs mr-5">{ethnicity}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
       </div>
     </div>
   );
