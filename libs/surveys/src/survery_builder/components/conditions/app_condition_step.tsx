@@ -13,12 +13,14 @@ import {
   convertConditionStringToEnum,
   updateFormFieldWithConditions,
 } from '@tribu/forms';
-const AppConditionStep: FC<AppConditionProps> = ({
+
+export const AppConditionStep: FC<AppConditionProps> = ({
   equality_options,
   formItem,
   condition_or_action,
 }) => {
   const dispatch = useDispatch();
+
   const updateConditionSelectField = (value: string) => {
     const actionEnum: conditionTypes | null =
       convertConditionStringToEnum(value);

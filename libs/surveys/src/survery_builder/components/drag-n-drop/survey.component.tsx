@@ -1,6 +1,6 @@
 import DropZone from './drop_zone.component';
 import colors from '../../utils/styles/colors.module.scss';
-import { Box, Chip, IconButton, Stack, TextField } from '@mui/material';
+import { Box, Chip, IconButton, Stack } from '@mui/material';
 import { RootState } from '../../data/store/app_store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,12 +9,11 @@ import {
   updateFormDescription,
   updateFormTitle,
 } from '../../data/logic/form.slice';
-import { GlobalTab } from '../../../../../libs/forms/src/enum';
 import FormPreview from '../preview/preview';
 import { useEffect, useRef } from 'react';
-import { AppInput, AppTextArea } from '@tribu/forms';
+import { AppInput, AppTextArea, GlobalTab } from '@tribu/forms';
 
-const SurveyComponent = () => {
+export const SurveyComponent = () => {
   const dispatch = useDispatch();
   const dropItemRef = useRef<HTMLDivElement>(null);
 

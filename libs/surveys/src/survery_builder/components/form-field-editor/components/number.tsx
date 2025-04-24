@@ -11,8 +11,7 @@ import {
   updateFormField,
 } from '../../../data/logic/form.slice';
 import { Stack } from '@mui/material';
-
-const FormInputNumberRenderer = (
+export const FormInputNumberRenderer = (
   formItem: NumberInputInterface | SliderInterface
 ) => {
   const dispatch = useDispatch();
@@ -28,7 +27,7 @@ const FormInputNumberRenderer = (
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hasBorder={true}
+        hideBorders={true}
         type="text"
       />
       <Box marginBottom={2} />
@@ -43,7 +42,7 @@ const FormInputNumberRenderer = (
             dispatch(updateFormField(updatedItem));
             dispatch(setSelectedField(updatedItem));
           }}
-          hasBorder={true}
+          // hideBorders={true}
         />
         <AppNumberInput
           placeholder="Max"
@@ -55,7 +54,7 @@ const FormInputNumberRenderer = (
             dispatch(updateFormField(updatedItem));
             dispatch(setSelectedField(updatedItem));
           }}
-          hasBorder={true}
+          // hideBorders={true}
         />
       </Stack>
     </Box>

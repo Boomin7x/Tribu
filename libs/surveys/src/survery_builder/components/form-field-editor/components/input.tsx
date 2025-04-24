@@ -2,8 +2,7 @@ import { Box } from '@mui/system';
 import { AppInput, TextInputInterface } from '@tribu/forms';
 import { useDispatch } from 'react-redux';
 import { updateFormField } from '../../../data/logic/form.slice';
-
-const FormInputRenderer = (formItem: TextInputInterface) => {
+export const FormInputRenderer = (formItem: TextInputInterface) => {
   const dispatch = useDispatch();
 
   return (
@@ -17,7 +16,7 @@ const FormInputRenderer = (formItem: TextInputInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hasBorder={true}
+        hideBorders={true}
         type={formItem.type}
       />
       <Box marginBottom={2} />
@@ -30,7 +29,7 @@ const FormInputRenderer = (formItem: TextInputInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hasBorder={true}
+        hideBorders={true}
         type={formItem.type}
       />
     </Box>

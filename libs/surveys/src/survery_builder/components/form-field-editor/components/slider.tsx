@@ -22,7 +22,7 @@ const FormSliderRenderer = (formItem: SliderInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hasBorder={true}
+        hideBorders={true}
         type="text"
       />
       <Box marginBottom={2} />

@@ -56,19 +56,19 @@ const FormRadioRenderer = (formItem: RadioInterface | CheckboxInterface) => {
                 />
               </Box>
               <AppInput
-                value={item.value}
-                placeholder={item.label}
+                value={item}
+                placeholder={`${item}`}
                 key={index}
                 type="text"
-                hasBorder={true}
-                id={item.value}
+                hideBorders={true}
+                id={`${item}`}
                 onChange={(e: any) => {
                   const newField = {
-                    label: item.label,
+                    label: item,
                     value: e.target.value,
                   };
                   const radioItems = [...formItem.elements];
-                  radioItems[index] = newField;
+                  radioItems[index] = e.target.value;
                   const newSelectedItem = {
                     ...formItem,
                     elements: radioItems,

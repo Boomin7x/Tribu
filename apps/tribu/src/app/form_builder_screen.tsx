@@ -1,13 +1,20 @@
 import { FC } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+
+import {
+  Header,
+  SurveyComponent,
+  DraggableContainerComponents,
+  FormFieldEditor,
+} from '@tribu/surveys';
 // import DraggableComponent from "../components/drag-n-drop/draggable.component";
 // import DropZone from "../components/drag-n-drop/drop_zone.component";
-import FormFieldEditor from '../components/form-field-editor/editor';
+// import FormFieldEditor from '@tribu/surveys';
 
-import SurveyComponent from '../components/drag-n-drop/survey.component';
-import Header from '../components/header/header.component';
-import DraggableContainerComponents from '../components/drag-n-drop/draggable_container.component';
+// import SurveyComponent from '../components/drag-n-drop/survey.component';
+// import Header from '../components/header/header.component';
+// import DraggableContainerComponents from '../components/drag-n-drop/draggable_container.component';
 import { Box, Stack } from '@mui/material';
 import colors from '../utils/styles/colors.module.scss';
 import { GlobalTab } from '../../../../libs/forms/src/enum';

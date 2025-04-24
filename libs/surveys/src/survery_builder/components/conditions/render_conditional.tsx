@@ -13,12 +13,11 @@ import {
   FormFields,
   RadioInterface,
 } from '@tribu/forms';
-
-type RenderConditionalFieldType = {
+export type RenderConditionalFieldType = {
   formItem: AllFormInterfacesType;
   condition_or_action?: ConditionInterface | ActionInterface;
 };
-const RenderConditionalField = ({
+export const RenderConditionalField = ({
   formItem,
   condition_or_action,
 }: RenderConditionalFieldType) => {
@@ -104,7 +103,7 @@ const RenderConditionalField = ({
           // }
           // updateCondition(allSelectedItems);
         }}
-        items={item.elements.map((element) => element.value)}
+        items={item.elements}
         value={condition_or_action?.value ?? ''}
       />
     );
@@ -119,7 +118,7 @@ const RenderConditionalField = ({
         onChange={(event) =>
           updateCondition((event.target.value as string) ?? '')
         }
-        items={item.elements.map((element) => element.value)}
+        items={item.elements}
         value={condition_or_action?.value ?? ''}
       />
     );

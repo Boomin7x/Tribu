@@ -1,15 +1,13 @@
-import { Box, Button } from '@mui/material';
-import { AllFormInterfacesType } from '../../../../../../libs/forms/src/types/all_form_types';
-import colors from '../../../utils/styles/colors.module.scss';
 import { FC } from 'react';
 import { AppButton } from '@tribu/ui';
-type PreviewButtonsType = {
+import { AllFormInterfacesType } from '@tribu/forms';
+export type PreviewButtonsType = {
   currentIndex: number;
   animateNext: (value: boolean) => void;
   previewItems: AllFormInterfacesType[];
   reverseIndexes: number[];
 };
-const PreviewButtons: FC<PreviewButtonsType> = ({
+export const PreviewButtons: FC<PreviewButtonsType> = ({
   currentIndex,
   animateNext,
   previewItems,

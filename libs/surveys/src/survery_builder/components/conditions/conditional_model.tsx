@@ -31,14 +31,16 @@ import {
   conditionSelectActions,
   FormFields,
 } from '@tribu/forms';
-
-type AppModalProps = {
+export type AppModalProps = {
   open: boolean;
   handleClose: () => void;
   selectedItem: AllFormInterfacesType | null;
 };
-
-const AppModal: FC<AppModalProps> = ({ open, handleClose, selectedItem }) => {
+export const AppModal: FC<AppModalProps> = ({
+  open,
+  handleClose,
+  selectedItem,
+}) => {
   const { sections } = useSelector((state: RootState) => state.form);
 
   const allBranchingFormItem = sections[

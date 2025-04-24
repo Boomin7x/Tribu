@@ -1,11 +1,10 @@
-import { Box, Tab, Tabs } from "@mui/material";
-import { draggableItems } from "../../data/services/draggables";
-import DraggableComponent from "./draggable.component";
-import colors from "../../utils/styles/colors.module.scss";
-import { useState } from "react";
-import SettingsTab from "../settings/settings";
-
-const DraggableContainerComponents = () => {
+import { Box, Tab, Tabs } from '@mui/material';
+import { draggableItems } from '../../data/services/draggables';
+import DraggableComponent from './draggable.component';
+import colors from '../../utils/styles/colors.module.scss';
+import { useState } from 'react';
+import SettingsTab from '../settings/settings';
+export const DraggableContainerComponents = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     console.log(event);
     setCurrentTab(newValue);
@@ -15,43 +14,43 @@ const DraggableContainerComponents = () => {
   return (
     <Box
       sx={{
-        borderRight: "1px solid",
+        borderRight: '1px solid',
         borderColor: colors.gray,
-        height: "90vh",
+        height: '90vh',
       }}
     >
       <Box
-        display={"flex"}
-        alignItems={"end"}
-        justifyContent={"space-around"}
-        borderBottom={"1px solid"}
+        display={'flex'}
+        alignItems={'end'}
+        justifyContent={'space-around'}
+        borderBottom={'1px solid'}
         borderColor={colors.gray}
-        height={"8%"}
+        height={'8%'}
       >
         <Tabs
           value={currentTab}
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Form Field" sx={{ textTransform: "capitalize" }} />
-          <Tab label="Settings" sx={{ textTransform: "capitalize" }} />
+          <Tab label="Form Field" sx={{ textTransform: 'capitalize' }} />
+          <Tab label="Settings" sx={{ textTransform: 'capitalize' }} />
         </Tabs>
       </Box>
 
       <Box
         sx={{
-          height: "92%",
-          overflowY: "scroll",
+          height: '92%',
+          overflowY: 'scroll',
         }}
       >
         {currentTab == 0 ? (
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              alignItems: "center",
-              width: "100%",
-              flexWrap: "wrap",
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
+              width: '100%',
+              flexWrap: 'wrap',
             }}
           >
             {items?.map((item, index: number) => {

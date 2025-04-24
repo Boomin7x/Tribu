@@ -10,8 +10,7 @@ import FieldIcon from '../../forms/base/field_icon';
 import colors from '../../../utils/styles/colors.module.scss';
 import trash from '../../../assets/icons/trash.svg';
 import { Add } from '@mui/icons-material';
-
-const FormMatrixRenderer = (formItem: MatrixInterface) => {
+export const FormMatrixRenderer = (formItem: MatrixInterface) => {
   const dispatch = useDispatch();
 
   return (
@@ -25,7 +24,7 @@ const FormMatrixRenderer = (formItem: MatrixInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hasBorder={true}
+        hideBorders={true}
         type={formItem.type}
       />
       <Box marginBottom={5} />

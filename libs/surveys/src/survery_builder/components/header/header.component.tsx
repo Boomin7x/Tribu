@@ -3,8 +3,8 @@ import colors from '../../utils/styles/colors.module.scss';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSelectedTab } from '../../data/logic/tab.slice';
-import { GlobalTab } from '../../../../../libs/forms/src/enum';
-const Header = () => {
+import { GlobalTab } from '@tribu/forms';
+export const Header = () => {
   const dispatch = useDispatch();
   const handleChange = (newValue: number) => {
     setCurrentTab(newValue);

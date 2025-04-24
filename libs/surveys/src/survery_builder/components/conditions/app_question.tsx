@@ -4,12 +4,16 @@ import colors from '../../utils/styles/colors.module.scss';
 import BaseContainer from './base_container';
 import { AppInput, FormFields } from '@tribu/forms';
 
-type AppQuestionProps = {
+export type AppQuestionProps = {
   label: string;
   selectedItem: string;
   index: string | number;
 };
-const AppQuestion: FC<AppQuestionProps> = ({ label, index, selectedItem }) => {
+export const AppQuestion: FC<AppQuestionProps> = ({
+  label,
+  index,
+  selectedItem,
+}) => {
   return (
     <Box paddingY={2}>
       <BaseContainer

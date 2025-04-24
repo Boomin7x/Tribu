@@ -1,8 +1,12 @@
 import { Box } from '@mui/system';
-import { TextAreaInterface, AppTextArea, AppInput } from '@tribu/forms';
+import {
+  TextAreaInterface,
+  AppTextArea,
+  AppInput,
+  FormFields,
+} from '@tribu/forms';
 import { useDispatch } from 'react-redux';
 import { updateFormField } from '../../../data/logic/form.slice';
-import { FormFields } from '../../../../../../libs/forms/src/enum';
 
 const FormTextAreaRenderer = (formItem: TextAreaInterface) => {
   const dispatch = useDispatch();
@@ -12,7 +16,7 @@ const FormTextAreaRenderer = (formItem: TextAreaInterface) => {
       <Box width={'100%'}>
         <AppTextArea
           {...formItem}
-          hasBorder={true}
+          hideBorders={true}
           onChange={(e: any) => {
             const updatedItem = { ...formItem, value: e.target.value };
             dispatch(updateFormField(updatedItem));
@@ -32,7 +36,7 @@ const FormTextAreaRenderer = (formItem: TextAreaInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hasBorder={true}
+        hideBorders={true}
         type="text"
       />
       <Box marginBottom={2} />
@@ -45,7 +49,7 @@ const FormTextAreaRenderer = (formItem: TextAreaInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hasBorder={true}
+        hideBorders={true}
         type="number"
       />
     </Box>

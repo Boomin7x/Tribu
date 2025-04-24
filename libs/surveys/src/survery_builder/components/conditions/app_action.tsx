@@ -13,7 +13,7 @@ import {
   AppSelect,
   convertActionStringToEnum,
 } from '@tribu/forms';
-const AppBranchActionComponent: FC<AppConditionProps> = ({
+export const AppBranchActionComponent: FC<AppConditionProps> = ({
   equality_options,
   formItem,
 }) => {

@@ -20,7 +20,7 @@ const FormRatingRenderer = (formItem: RatingInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hasBorder={true}
+        // hideBorders={true}
         type="text"
       />
       <Box marginBottom={2} />
@@ -32,7 +32,7 @@ const FormRatingRenderer = (formItem: RatingInterface) => {
           dispatch(updateFormField(updatedItem));
           dispatch(setSelectedField(updatedItem));
         }}
-        hasBorder={true}
+        // hideBorders={true}
       />
     </Box>
   );

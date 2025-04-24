@@ -1,11 +1,9 @@
 import { Stack, Box } from '@mui/system';
-
-type ComponentProps = {
+export type ComponentProps = {
   component1: JSX.Element;
   component2: JSX.Element;
 };
-
-const BaseContainer: React.FC<{ componentProps: ComponentProps }> = ({
+export const BaseContainer: React.FC<{ componentProps: ComponentProps }> = ({
   componentProps,
 }) => {
   return (

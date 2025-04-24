@@ -8,8 +8,7 @@ import { AllFormInterfacesType, FormFields } from '@tribu/forms';
 interface DraggableComponentProps {
   item: AllFormInterfacesType;
 }
-
-const DraggableComponent: FC<DraggableComponentProps> = ({ item }) => {
+export const DraggableComponent: FC<DraggableComponentProps> = ({ item }) => {
   const [{ isDragging }, drag] = useDrag({
     type:
       FormFields.INPUT ||

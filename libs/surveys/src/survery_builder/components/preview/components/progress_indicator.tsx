@@ -1,14 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import colors from '../../../utils/styles/colors.module.scss';
 import { FC } from 'react';
-import { AllFormInterfacesType } from '../../../../../../libs/forms/src/types/all_form_types';
-import { FormSection } from '@tribu/forms';
-type ProgressIndicatorsType = {
+import { FormSection, AllFormInterfacesType } from '@tribu/forms';
+
+export type ProgressIndicatorsType = {
   currentIndex: number;
   items: AllFormInterfacesType[] | FormSection[];
   title: string;
 };
-const PreviewProgressIndicator: FC<ProgressIndicatorsType> = ({
+export const PreviewProgressIndicator: FC<ProgressIndicatorsType> = ({
   items,
   currentIndex,
   title,

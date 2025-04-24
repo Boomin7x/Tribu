@@ -14,10 +14,9 @@ import {
 import { FC, ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../data/store/app_store';
-import { AllFormInterfacesType, FieldIcon } from '@tribu/forms';
+import { AllFormInterfacesType, FieldIcon, FormFields } from '@tribu/forms';
 import React from 'react';
 import AppModal from '../../conditions/conditional_model';
-import { FormFields } from '../../../../../../libs/forms/src/enum';
 import { faker } from '@faker-js/faker';
 
 interface ReusableContainerProps {

@@ -6,12 +6,11 @@ import colors from '../../utils/styles/colors.module.scss';
 import { Button, Typography } from '@mui/material';
 import { ConditionLinkEnum, conditionLinks } from '@tribu/forms';
 const options = conditionLinks;
-
-type SimpleListMenuType = {
+export type SimpleListMenuType = {
   initialOption: ConditionLinkEnum;
   onChangeOption: (option: ConditionLinkEnum) => void;
 };
-const SimpleListMenu = ({
+export const SimpleListMenu = ({
   initialOption,
   onChangeOption,
 }: SimpleListMenuType) => {

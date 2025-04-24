@@ -17,4 +17,6 @@ export interface BaseInterface {
   conditionLink?: ConditionLinkEnum.OR | ConditionLinkEnum.AND;
   previousItemId?: string;
   icon?: string | undefined;
+  min?: number;
+  max?: number;
 }

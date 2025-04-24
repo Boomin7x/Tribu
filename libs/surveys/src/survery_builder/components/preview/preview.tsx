@@ -25,11 +25,11 @@ import {
 } from '@tribu/forms';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-type AnimatingData = {
+export type AnimatingData = {
   isAnimating: boolean;
   isForward: boolean;
 };
-const FormPreview = () => {
+export const FormPreview = () => {
   const dispatch = useDispatch();
 
   const formDetails: AppFormState = useSelector(

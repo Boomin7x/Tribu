@@ -25,7 +25,7 @@ interface DropZoneProps {
   width?: string;
   activeSectionIndex: number;
 }
-const DropZone: FC<DropZoneProps> = ({ width, activeSectionIndex }) => {
+export const DropZone: FC<DropZoneProps> = ({ width, activeSectionIndex }) => {
   const dispatch = useDispatch();
   const formItems: AllFormInterfacesType[] = useSelector(
     (state: RootState) => state.form.sections[activeSectionIndex].formItems

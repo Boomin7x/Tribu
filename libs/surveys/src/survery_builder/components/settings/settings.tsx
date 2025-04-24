@@ -23,7 +23,8 @@ import { RouteNames, useApi } from '@tribu/utils';
 import { useState } from 'react';
 import { AppButton, ErrorCard } from '@tribu/ui';
 import { useNavigate } from 'react-router-dom';
-const SettingsTab = () => {
+
+export const SettingsTab = () => {
   return (
     <Box paddingX={2} paddingY={2}>
       <Audience />
@@ -32,8 +33,7 @@ const SettingsTab = () => {
     </Box>
   );
 };
-
-const TermsAndConditions = () => {
+export const TermsAndConditions = () => {
   return (
     <Box
       border={'1px solid'}
@@ -67,7 +67,7 @@ const TermsAndConditions = () => {
     </Box>
   );
 };
-const ThemeData = () => {
+export const ThemeData = () => {
   const themeColors: { name: string; code: string }[] = [
     {
       name: 'Main Color',
@@ -147,7 +147,7 @@ const ThemeData = () => {
     </Box>
   );
 };
-const Audience = () => {
+export const Audience = () => {
   const navigate = useNavigate();
   const { data, isLoading, isError, error, refetch } = useApi.get({
     queryKey: [],
@@ -262,14 +262,13 @@ const Audience = () => {
     </Box>
   );
 };
-
-type UserCardProps = {
+export type UserCardProps = {
   name: string;
   age: string;
   interest: string;
   ethnicity: string;
 };
-const UserCard = ({ name, age, interest, ethnicity }: UserCardProps) => {
+export const UserCard = ({ name, age, interest, ethnicity }: UserCardProps) => {
   const items: { title: string; desc: string }[] = [
     { title: 'Name', desc: name },
     { title: 'Age', desc: age },

@@ -1,13 +1,11 @@
 import { useSelector } from 'react-redux';
-import { TextInputInterface } from '@tribu/forms';
+import { GlobalTab, TextInputInterface } from '@tribu/forms';
 import { RootState } from '../../data/store/app_store';
 import { Box, Typography } from '@mui/material';
 import FormEditorRenderer from './renderer';
 import colors from '../../utils/styles/colors.module.scss';
-import { GlobalTab } from '../../../../../libs/forms/src/enum';
 import BaseFieldItem from '../forms/base/base_item';
-
-const FormFieldEditor = () => {
+export const FormFieldEditor = () => {
   const formItem: TextInputInterface | null = useSelector(
     (state: RootState) => state.form.selectedField
   );

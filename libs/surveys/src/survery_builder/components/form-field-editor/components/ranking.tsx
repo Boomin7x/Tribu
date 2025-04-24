@@ -34,7 +34,7 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
           dispatch(updateFormField(updatedItem));
           dispatch(setSelectedField(updatedItem));
         }}
-        hasBorder={true}
+        hideBorders={true}
         type={formItem.type}
       />
       <Stack direction={'row'} spacing={1} my={2}>
@@ -158,7 +158,7 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
                 onChange={(e) =>
                   setStepItem({ ...stepItem!, name: e.target.value as string })
                 }
-                hasBorder={true}
+                hideBorders={true}
                 type={formItem.type}
               />
             </Box>

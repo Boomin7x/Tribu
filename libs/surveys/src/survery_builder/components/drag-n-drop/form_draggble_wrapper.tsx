@@ -1,12 +1,11 @@
-import { FC, ReactNode } from "react";
-import { Box } from "@mui/material";
-import { Draggable } from "react-beautiful-dnd";
+import { FC, ReactNode } from 'react';
+import { Box } from '@mui/material';
+import { Draggable } from 'react-beautiful-dnd';
 interface FormDraggableWrapperProps {
   index: number;
   children: ReactNode;
 }
-
-const FormDraggableWrapper: FC<FormDraggableWrapperProps> = ({
+export const FormDraggableWrapper: FC<FormDraggableWrapperProps> = ({
   index,
   children,
 }) => {
@@ -19,7 +18,7 @@ const FormDraggableWrapper: FC<FormDraggableWrapperProps> = ({
           ref={provided.innerRef}
           sx={{
             mb: 3,
-            width: "100%",
+            width: '100%',
           }}
         >
           {children}

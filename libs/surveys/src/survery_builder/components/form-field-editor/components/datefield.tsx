@@ -10,8 +10,7 @@ import { ReactNode } from 'react';
 import CustomDateField from './custom_datefield';
 import { Dayjs } from 'dayjs';
 import { AppInput, AppSelect, TextDateInterface } from '@tribu/forms';
-
-const FormDateFieldRenderer = (formItem: TextDateInterface) => {
+export const FormDateFieldRenderer = (formItem: TextDateInterface) => {
   const dispatch = useDispatch();
 
   return (
@@ -24,7 +23,7 @@ const FormDateFieldRenderer = (formItem: TextDateInterface) => {
           const updatedItem = { ...formItem, label: e.target.value };
           dispatch(updateFormField(updatedItem));
         }}
-        hasBorder={true}
+        hideBorders={true}
         type="text"
       />
       <Box marginBottom={2} />

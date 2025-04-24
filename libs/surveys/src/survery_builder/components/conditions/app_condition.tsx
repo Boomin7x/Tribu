@@ -18,8 +18,7 @@ import {
   convertConditionStringToEnum,
   updateFormFieldWithConditions,
 } from '@tribu/forms';
-
-const AppBranchConditionComponent: FC<AppConditionProps> = ({
+export const AppBranchConditionComponent: FC<AppConditionProps> = ({
   equality_options,
   formItem,
   condition_or_action,
