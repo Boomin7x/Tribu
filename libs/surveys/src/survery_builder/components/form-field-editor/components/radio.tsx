@@ -2,7 +2,7 @@ import { CheckboxInterface, AppInput, RadioInterface } from '@tribu/forms';
 import { Box, IconButton, Stack } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import colors from '../../../utils/styles/colors.module.scss';
-import trash from '../../../assets/icons/trash.svg';
+import { GoTrash } from 'react-icons/go';
 import { useDispatch } from 'react-redux';
 import {
   setSelectedField,
@@ -25,23 +25,11 @@ const FormRadioRenderer = (formItem: RadioInterface | CheckboxInterface) => {
       {formItem.elements &&
         formItem.elements.map((item, index) => {
           return (
-            <Stack marginTop={2} direction={'row'}>
-              <Box
-                sx={{
-                  borderTop: '1px solid',
-                  borderLeft: '1px solid',
-                  borderBottom: '1px solid',
-                  borderColor: colors.gray,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: 50,
-                  display: 'flex',
-                  borderTopLeftRadius: 5,
-                  borderBottomLeftRadius: 5,
-                }}
-              >
-                <FieldIcon
-                  icon={trash}
+            <div className="mt-2 px-2 flex border items-center" key={index}>
+              <div>
+                <GoTrash
+                  className="p-2 bg-gray-200 cursor-pointer hover:bg-gray-300 rounded-sm"
+                  size={30}
                   onClick={() => {
                     const newValues = formItem.elements.filter(
                       (_, i) => i != index
@@ -54,7 +42,8 @@ const FormRadioRenderer = (formItem: RadioInterface | CheckboxInterface) => {
                     dispatch(updateFormField(newSelectedItem));
                   }}
                 />
-              </Box>
+              </div>
+
               <AppInput
                 value={item}
                 placeholder={`${item}`}
@@ -63,10 +52,6 @@ const FormRadioRenderer = (formItem: RadioInterface | CheckboxInterface) => {
                 hideBorders={true}
                 id={`${item}`}
                 onChange={(e: any) => {
-                  const newField = {
-                    label: item,
-                    value: e.target.value,
-                  };
                   const radioItems = [...formItem.elements];
                   radioItems[index] = e.target.value;
                   const newSelectedItem = {
@@ -77,7 +62,7 @@ const FormRadioRenderer = (formItem: RadioInterface | CheckboxInterface) => {
                   dispatch(updateFormField(newSelectedItem));
                 }}
               />
-            </Stack>
+            </div>
           );
         })}
       <Box

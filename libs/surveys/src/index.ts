@@ -6,3 +6,5 @@ export * from './survery_builder/components';
 export * from './survery_builder/data';
 
 export * from './templates/controller/survey_template_controller';
+
+export * from './survery_builder/pages/add_survey';

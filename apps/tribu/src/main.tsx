@@ -2,12 +2,12 @@ import { StrictMode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import * as ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { store } from './data/store/app_store';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import colors from './utils/styles/colors.module.scss';
+import colors from './styles/colors.module.scss';
 import App from './app/app';
 import { LoadingBarContainer } from 'react-top-loading-bar';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { store } from '@tribu/surveys';
 
 const theme = createTheme({
   typography: {

@@ -8,19 +8,13 @@ import {
   DraggableContainerComponents,
   FormFieldEditor,
 } from '@tribu/surveys';
-// import DraggableComponent from "../components/drag-n-drop/draggable.component";
-// import DropZone from "../components/drag-n-drop/drop_zone.component";
-// import FormFieldEditor from '@tribu/surveys';
-
-// import SurveyComponent from '../components/drag-n-drop/survey.component';
-// import Header from '../components/header/header.component';
-// import DraggableContainerComponents from '../components/drag-n-drop/draggable_container.component';
 import { Box, Stack } from '@mui/material';
 import colors from '../utils/styles/colors.module.scss';
-import { GlobalTab } from '../../../../libs/forms/src/enum';
 import { RootState } from '../data/store/app_store';
 import { useSelector } from 'react-redux';
-const FormBuilder: FC = () => {
+import { GlobalTab } from '@tribu/forms';
+
+export const AddSurvey: FC = () => {
   const currentTab:
     | GlobalTab.CREATE
     | GlobalTab.PREVIEW
@@ -83,4 +77,4 @@ const FormBuilder: FC = () => {
   );
 };
 
-export default FormBuilder;
+export default AddSurvey;

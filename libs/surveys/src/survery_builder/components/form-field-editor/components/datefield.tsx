@@ -23,7 +23,6 @@ export const FormDateFieldRenderer = (formItem: TextDateInterface) => {
           const updatedItem = { ...formItem, label: e.target.value };
           dispatch(updateFormField(updatedItem));
         }}
-        hideBorders={true}
         type="text"
       />
       <Box marginBottom={2} />

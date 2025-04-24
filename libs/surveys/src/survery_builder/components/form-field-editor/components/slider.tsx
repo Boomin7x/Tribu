@@ -22,11 +22,10 @@ const FormSliderRenderer = (formItem: SliderInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hideBorders={true}
         type="text"
       />
-      <Box marginBottom={2} />
-      <Stack direction={'row'} spacing={2}>
+
+      <div className="flex justify-between my-2">
         <AppNumberInput
           placeholder="Min"
           id={formItem.id}
@@ -38,6 +37,7 @@ const FormSliderRenderer = (formItem: SliderInterface) => {
           }}
           hasBorder={true}
         />
+        <div className="mx-2"></div>
         <AppNumberInput
           placeholder="Max"
           id={formItem.id}
@@ -49,8 +49,7 @@ const FormSliderRenderer = (formItem: SliderInterface) => {
           }}
           hasBorder={true}
         />
-      </Stack>
-      <Box marginBottom={2} />
+      </div>
 
       <AppNumberInput
         placeholder="Steps"

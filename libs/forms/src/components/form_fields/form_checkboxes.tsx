@@ -19,9 +19,7 @@ export const FormCheckBox = (item: FormCheckBoxInterface) => {
     // setSelectedItems(item.selectedElements ?? []);
   }, []);
 
-  const [selectedItems, setSelectedItems] = useState<
-    FormItemElementInterface[]
-  >([]);
+  const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
 
   const name = item.name ?? generateFormName(item.label, item.id);
   return (
@@ -50,7 +48,7 @@ export const FormCheckBox = (item: FormCheckBoxInterface) => {
                             <Checkbox
                               onChange={(e) => {
                                 const otherItems = selectedItems.filter(
-                                  (item) => item.value !== element.value
+                                  (item) => item !== element
                                 );
 
                                 !selectedItems.includes(element)
@@ -64,7 +62,7 @@ export const FormCheckBox = (item: FormCheckBoxInterface) => {
                               checked={selectedItems?.includes(element)}
                             />
                           }
-                          label={element.value}
+                          label={element}
                         />
                       );
                     })}

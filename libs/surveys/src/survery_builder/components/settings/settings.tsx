@@ -9,16 +9,11 @@ import {
 } from '@mui/material';
 import { FiPlus } from 'react-icons/fi';
 
-import { Add, ColorLens, People, TuneRounded } from '@mui/icons-material';
+import { ColorLens, People, TuneRounded } from '@mui/icons-material';
 import colors from '../../utils/styles/colors.module.scss';
 import avatarImage from '../../assets/images/avatar.png';
 import { AppSelect, AppTextArea } from '@tribu/forms';
-import {
-  AudienceController,
-  Bloc,
-  Parameters,
-  Question,
-} from '@tribu/audience';
+import { AudienceController, Bloc, Parameters } from '@tribu/audience';
 import { RouteNames, useApi } from '@tribu/utils';
 import { useState } from 'react';
 import { AppButton, ErrorCard } from '@tribu/ui';

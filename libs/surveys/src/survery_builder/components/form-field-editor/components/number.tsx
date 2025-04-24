@@ -27,11 +27,10 @@ export const FormInputNumberRenderer = (
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hideBorders={true}
         type="text"
       />
-      <Box marginBottom={2} />
-      <Stack direction={'row'} spacing={2}>
+
+      <div className="flex my-2">
         <AppNumberInput
           placeholder="Min"
           id={formItem.id}
@@ -44,6 +43,8 @@ export const FormInputNumberRenderer = (
           }}
           // hideBorders={true}
         />
+
+        <div className="mx-2"></div>
         <AppNumberInput
           placeholder="Max"
           id={formItem.id}
@@ -56,7 +57,7 @@ export const FormInputNumberRenderer = (
           }}
           // hideBorders={true}
         />
-      </Stack>
+      </div>
     </Box>
   );
 };

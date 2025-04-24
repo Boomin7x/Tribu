@@ -110,35 +110,6 @@ export const SurveyComponent = () => {
               dispatch(updateFormDescription(newFormItem));
             }}
           />
-          {/* <TextField
-            fullWidth
-            variant="outlined"
-            color="primary"
-            multiline
-            minRows={2}
-            value={formDescription.description}
-            InputProps={{ style: { color: colors.white } }}
-            onChange={(e) => {
-              const newFormItem = {
-                ...formDescription,
-                description: e.target.value,
-              };
-              dispatch(updateFormDescription(newFormItem));
-            }}
-            sx={{
-              border: 'none',
-              fontStyle: 'italic',
-              '& fieldset': { border: 'none' },
-              ':focus': {
-                border: '1px solid #FFFFFF',
-                '& fieldset': { border: 'none' },
-              },
-              ':hover': {
-                border: 'none',
-                '& fieldset': { border: 'none' },
-              },
-            }}
-          /> */}
         </div>
         {allSections &&
           allSections.map((item, index) => {

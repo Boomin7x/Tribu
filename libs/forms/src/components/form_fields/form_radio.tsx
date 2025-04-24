@@ -40,17 +40,17 @@ export const FormRadioSelect = (props: FormRadioSelectInterface) => {
                     props.elements.map((props, index) => {
                       return (
                         <FormControlLabel
-                          value={props.value}
+                          value={props}
                           control={
                             <Radio
                               onChange={(e) => {
-                                if (e.target.value == props.value)
-                                  field.onChange(props.value);
+                                if (e.target.value == props)
+                                  field.onChange(props);
                               }}
-                              checked={field.value == props.value}
+                              checked={field.value == props}
                             />
                           }
-                          label={props.value}
+                          label={props}
                           key={index}
                         />
                       );

@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../data/store/app_store';
 import { Box, Stack, Typography } from '@mui/material';
-import colors from '../../utils/styles/colors.module.scss';
 import { FC, useEffect, useState } from 'react';
 import FormRenderer from '../forms/components/form_field_renderer';
 import { useDispatch } from 'react-redux';

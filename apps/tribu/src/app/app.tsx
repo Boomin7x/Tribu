@@ -1,8 +1,7 @@
-import { DashboardNotFound, Layout, PageTransition } from '@tribu/ui';
+import { DashboardNotFound, Layout } from '@tribu/ui';
 import { Home } from '@tribu/home';
-import { SurveyHome, SurveyTemplates } from '@tribu/surveys';
+import { AddSurvey, SurveyHome, SurveyTemplates } from '@tribu/surveys';
 import { AudienceHome, NewAudienceGroup } from '@tribu/audience';
-import FormBuilder from './form_builder_screen';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -28,7 +27,7 @@ export function App() {
           <Route path={RouteNames.home} element={<Home />} />
 
           <Route path={RouteNames.surveys_home} element={<SurveyHome />} />
-          <Route path={RouteNames.add_survey} element={<FormBuilder />} />
+          <Route path={RouteNames.add_survey} element={<AddSurvey />} />
 
           <Route path={RouteNames.audience_home} element={<AudienceHome />} />
           <Route
