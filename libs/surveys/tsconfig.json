@@ -5,9 +5,7 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "paths": {
-      "@tribu/ui": ["libs/shared/ui/src/index.ts"]
-    }
+    "types": ["vite/client"]
   },
   "files": [],
   "include": [],

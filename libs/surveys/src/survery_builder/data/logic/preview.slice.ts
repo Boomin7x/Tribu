@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AllFormInterfacesType } from '@tribu/forms';
+
 type PreviewSlice = {
   previewItems: AllFormInterfacesType[];
   currentIndex: number;

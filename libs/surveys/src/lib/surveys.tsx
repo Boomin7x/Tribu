@@ -1,6 +1,6 @@
 export function Surveys() {
   return (
-    <div>
+    <div className={styles['container']}>
       <h1>Welcome to Surveys!</h1>
     </div>
   );

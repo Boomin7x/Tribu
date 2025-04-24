@@ -8,16 +8,17 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../data/store/app_store';
 import { Box, Typography } from '@mui/material';
-import {
-  AllFormInterfacesType,
-  FormFields,
-  TextInputInterface,
-} from '@tribu/forms';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { StrictModeDroppable } from './strick_mode_droppable';
 import { FormProvider, useForm } from 'react-hook-form';
 import colors from '../../utils/styles/colors.module.scss';
 import FormDraggableWrapper from './form_draggble_wrapper';
+import {
+  AllFormInterfacesType,
+  FormFields,
+  TextInputInterface,
+} from '@tribu/forms';
+
 import FormFieldRenderer from '../forms/components/form_field_renderer';
 import BaseFieldItem from '../forms/base/base_item';
 interface DropZoneProps {

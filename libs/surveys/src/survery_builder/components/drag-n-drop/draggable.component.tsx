@@ -4,6 +4,7 @@ import { Avatar, Box } from '@mui/material';
 
 import colors from '../../utils/styles/colors.module.scss';
 import { AllFormInterfacesType, FormFields } from '@tribu/forms';
+
 interface DraggableComponentProps {
   item: AllFormInterfacesType;
 }
