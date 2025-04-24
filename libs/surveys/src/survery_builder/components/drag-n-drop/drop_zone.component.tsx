@@ -150,7 +150,11 @@ export const DropZone: FC<DropZoneProps> = ({ width, activeSectionIndex }) => {
                         return (
                           <FormDraggableWrapper key={index} index={index}>
                             <BaseFieldItem item={element}>
-                              <FormFieldRenderer key={index} {...element} />
+                              <FormFieldRenderer
+                                key={index}
+                                {...element}
+                                label=""
+                              />
                             </BaseFieldItem>
                           </FormDraggableWrapper>
                         );

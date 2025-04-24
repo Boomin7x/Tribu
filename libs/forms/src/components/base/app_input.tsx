@@ -30,7 +30,7 @@ export const AppInput = ({ ...props }: AppInputType) => {
   // const [fieldValue, setFieldValue] = useState<string | null>(null);
   return (
     <>
-      {props.label && (
+      {props.label && props.label.length > 2 && (
         <label className="block text-sm/6 font-medium text-gray-900">
           {props.label}
         </label>

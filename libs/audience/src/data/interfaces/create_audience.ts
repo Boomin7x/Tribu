@@ -1,6 +1,7 @@
 import { AllFormInterfacesType } from '@tribu/forms';
 
 export interface CreateAudience {
+  _id?: string;
   name: string;
   description: string;
   isTemplate: boolean;
@@ -16,11 +17,6 @@ export interface Bloc {
 export interface BlocMetaData {
   title: string;
 }
-
-// export interface FormStructure {
-//   key: string;
-//   questions: Question[];
-// }
 
 export interface Question {
   metaData: AllFormInterfacesType;

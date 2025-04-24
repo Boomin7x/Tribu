@@ -6,7 +6,7 @@ export type AppNumberInputType = {
   placeholder?: string | undefined;
   label?: string | undefined;
   id: string | undefined;
-  hasBorder?: boolean;
+  hideBorders?: boolean;
   value?: number | undefined;
   max?: number;
   min?: number;
@@ -54,14 +54,30 @@ export const AppNumberInput = ({ ...props }: AppNumberInputType) => {
           type: FormFields.NUMBER_INPUT,
           style: { ...props.styles },
         }}
-        sx={{
-          '& .MuiFormLabel-root': {
-            fontSize: '0.875rem',
-          },
-          '& input::placeholder': {
-            fontSize: '0.875rem',
-          },
-        }}
+        sx={
+          props.hideBorders == false || props.hideBorders == undefined
+            ? {
+                '& .MuiFormLabel-root': {
+                  fontSize: '0.875rem',
+                },
+                '& input::placeholder': {
+                  fontSize: '0.875rem',
+                },
+              }
+            : {
+                border: 'none',
+                fontStyle: 'italic',
+                '& fieldset': { border: 'none' },
+                ':focus': {
+                  border: '1px solid #FFFFFF',
+                  '& fieldset': { border: 'none' },
+                },
+                ':hover': {
+                  border: 'none',
+                  '& fieldset': { border: 'none' },
+                },
+              }
+        }
       />
     </>
   );

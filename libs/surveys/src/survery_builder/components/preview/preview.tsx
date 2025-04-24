@@ -23,12 +23,17 @@ import {
   FormFields,
 } from '@tribu/forms';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { CreateSurvey } from '../../data/interfaces/survey';
+import { RouteNames, useApi } from '@tribu/utils';
+import { useNavigate } from 'react-router-dom';
+import { SurveyTemplateController } from '@tribu/surveys';
 
 export type AnimatingData = {
   isAnimating: boolean;
   isForward: boolean;
 };
 export const FormPreview = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const formDetails: AppFormState = useSelector(
@@ -79,8 +84,61 @@ export const FormPreview = () => {
     };
   }, [formDetails.sections]);
 
+  const { mutate: addSurvey, isPending } = useApi.post({
+    queryKey: [],
+    callBack: (data: CreateSurvey) => {
+      return SurveyTemplateController.createTemplate(data);
+    },
+    onSuccess: (_) => {
+      navigate(`/${RouteNames.dashboard}/${RouteNames.surveys_home}`);
+    },
+  });
+
   const onSubmit = (data: any) => {
-    console.log('onSubmit', data);
+    console.log('onSubmit', formDetails.sections);
+
+    const survey: CreateSurvey = {
+      name: formDetails.formTitle.label,
+      description: formDetails.formDescription.description,
+      status: 'draft',
+      audienceIds: formDetails.audienceIds,
+      form: {
+        name: formDetails.formTitle.label,
+        description: formDetails.formDescription.description,
+        isTemplate: false,
+        metaData: {
+          key: formDetails.formTitle.label,
+          index: 0,
+        },
+        blocs: formDetails.sections.map((section, index) => ({
+          key: section.id,
+          metaData: {
+            key: section.id,
+            index: index,
+          },
+          questions: section.formItems.map((item, index) => ({
+            key: item.id,
+            name: item.label,
+            description: item.label,
+            type: item.type,
+            metaData: {
+              key: item.id,
+              index: index,
+            },
+            branch: {
+              key: section.id,
+              index: section.index,
+            },
+          })),
+        })),
+      },
+    };
+
+    if (currentIndex == previewItems.length - 1) {
+      console.log('Submitting ...');
+      console.log('survey', survey);
+      addSurvey(survey);
+    }
   };
   const [animationState, setAnimationState] = useState<AnimatingData>({
     isAnimating: false,
@@ -261,6 +319,7 @@ export const FormPreview = () => {
               />
               <PreviewButtons
                 currentIndex={currentIndex}
+                loading={isPending}
                 animateNext={animateNext}
                 previewItems={previewItems}
                 reverseIndexes={reverseIndexes}

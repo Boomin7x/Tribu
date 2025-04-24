@@ -17,6 +17,7 @@ const initialState: AppFormState = {
     id: 'form-description',
   },
   selectedField: null,
+  audienceIds: [],
 };
 
 export const FormSlice = createSlice({
@@ -98,6 +99,9 @@ export const FormSlice = createSlice({
       // if (newItems.length == 0) state.selectedField = null;
       state.selectedField = null;
     },
+    updateFormAudienceId: (state, action) => {
+      state.audienceIds = action.payload;
+    },
   },
 });
 
@@ -112,5 +116,6 @@ export const {
   updateFormField,
   updateFormTitle,
   updateFormDescription,
+  updateFormAudienceId,
 } = FormSlice.actions;
 export default FormSlice.reducer;

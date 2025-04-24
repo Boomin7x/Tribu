@@ -19,7 +19,6 @@ export const FormInputField = (props: FormInputFieldInterface) => {
           <>
             <AppInput
               {...props}
-              hasBorder={props.isPreview}
               onChange={(e) => {
                 onChange(e);
                 if (props.onChange) props?.onChange(e);

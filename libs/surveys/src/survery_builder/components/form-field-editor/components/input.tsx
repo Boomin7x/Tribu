@@ -16,7 +16,6 @@ export const FormInputRenderer = (formItem: TextInputInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hideBorders={true}
         type={formItem.type}
       />
       <Box marginBottom={2} />
@@ -29,7 +28,6 @@ export const FormInputRenderer = (formItem: TextInputInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hideBorders={true}
         type={formItem.type}
       />
     </Box>

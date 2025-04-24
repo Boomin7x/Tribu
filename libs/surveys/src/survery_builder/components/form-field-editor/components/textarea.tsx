@@ -36,10 +36,10 @@ const FormTextAreaRenderer = (formItem: TextAreaInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hideBorders={true}
         type="text"
       />
-      <Box marginBottom={2} />
+
+      <div className="my-2"></div>
       <AppInput
         placeholder="Max length"
         id={formItem.id}
@@ -49,7 +49,6 @@ const FormTextAreaRenderer = (formItem: TextAreaInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hideBorders={true}
         type="number"
       />
     </Box>

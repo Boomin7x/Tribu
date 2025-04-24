@@ -15,9 +15,11 @@ import avatarImage from '../../assets/images/avatar.png';
 import { AppSelect, AppTextArea } from '@tribu/forms';
 import { AudienceController, Bloc, Parameters } from '@tribu/audience';
 import { RouteNames, useApi } from '@tribu/utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AppButton, ErrorCard } from '@tribu/ui';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, updateFormAudienceId } from '../../data';
 
 export const SettingsTab = () => {
   return (
@@ -144,23 +146,36 @@ export const ThemeData = () => {
 };
 export const Audience = () => {
   const navigate = useNavigate();
-  const { data, isLoading, isError, error, refetch } = useApi.get({
+  const dispatch = useDispatch();
+
+  const { data, isLoading, isError, error, isSuccess, refetch } = useApi.get({
     queryKey: [],
     callBack: () => {
       return AudienceController.getAudience();
     },
   });
 
-  const demographics = data?.map((bloc) =>
-    bloc.blocs.find((item) => item.key == Parameters.Demographics)
-  );
+  const demographics = data?.map((bloc) => {
+    return {
+      audienceId: bloc['_id'],
+      bloc: bloc.blocs.find((item) => item.key == Parameters.Demographics),
+    };
+  });
 
   const getValue: any = (bloc: Bloc | undefined, name: string) => {
     const value = bloc?.fields.find((item) => item.name == name);
     return value?.metaData.value;
   };
 
+  const formItem = useSelector((state: RootState) => state.form.audienceIds);
+
   const [selectedBloc, setSelectedBloc] = useState<Bloc | undefined>();
+
+  useEffect(() => {
+    console.log('demographics', demographics);
+    if (demographics) {
+    }
+  }, [isSuccess]);
 
   return (
     <Box
@@ -195,17 +210,18 @@ export const Audience = () => {
           onChange={(event, child) => {
             const selected = demographics?.find((item) => {
               const value = event.target.value;
-              return getValue(item, 'title') == value;
+              return getValue(item.bloc, 'title') == value;
             });
 
-            setSelectedBloc(selected);
+            setSelectedBloc(selected?.bloc);
+            dispatch(updateFormAudienceId([selected?.audienceId]));
           }}
           items={
             demographics?.map((item) => {
-              return getValue(item, 'title');
+              return getValue(item.bloc, 'title');
             }) ?? []
           }
-          value={'High school girls'}
+          value={getValue(selectedBloc, 'title')}
           fullWidth={true}
           width="100%"
         />

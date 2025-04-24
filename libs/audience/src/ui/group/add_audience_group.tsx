@@ -19,6 +19,7 @@ import { RouteNames, useApi } from '@tribu/utils';
 import { Parameters } from '../../data/enums/form_enums';
 import { Bloc, CreateAudience } from '../../data/interfaces/create_audience';
 import { useNavigate } from 'react-router-dom';
+import { behavioralFormData } from '../forms_data/data/behavior_form_data';
 
 export const NewAudienceGroup = () => {
   console.log('Rendering NewAudienceGroup ....');
@@ -47,6 +48,18 @@ export const NewAudienceGroup = () => {
         })),
       ],
       key: Parameters.Psychographics,
+    },
+    {
+      fields: [
+        ...behavioralFormData.map((item, index) => ({
+          metaData: item,
+          key: `${Parameters.Behavior}-${index}`,
+          name: item.name,
+          description: `${Parameters.Behavior}-${item.label}`,
+          type: item.type,
+        })),
+      ],
+      key: Parameters.Behavior,
     },
 
     {
@@ -251,7 +264,7 @@ export const NewAudienceGroup = () => {
               isLoading={isPending}
               label="Save"
               type="submit"
-              additionalClassName="rounded-none w-32 justify-center item-center"
+              className="rounded-none w-32 justify-center item-center"
             />
           </div>
         </div>

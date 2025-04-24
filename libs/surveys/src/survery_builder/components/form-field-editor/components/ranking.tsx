@@ -49,7 +49,7 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
             dispatch(updateFormField(updatedItem));
             dispatch(setSelectedField(updatedItem));
           }}
-          hasBorder={true}
+          hideBorders={true}
         />
         <AppNumberInput
           placeholder="Max"
@@ -62,7 +62,7 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
             dispatch(updateFormField(updatedItem));
             dispatch(setSelectedField(updatedItem));
           }}
-          hasBorder={true}
+          hideBorders={true}
         />
       </Stack>
       <AppNumberInput
@@ -81,7 +81,7 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
           dispatch(updateFormField(updatedItem));
           dispatch(setSelectedField(updatedItem));
         }}
-        hasBorder={true}
+        hideBorders={true}
       />
 
       <Box mt={3}>
@@ -158,7 +158,6 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
                 onChange={(e) =>
                   setStepItem({ ...stepItem!, name: e.target.value as string })
                 }
-                hideBorders={true}
                 type={formItem.type}
               />
             </Box>
@@ -176,7 +175,6 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
                       Number(e.target.value) == 0 ? 1 : Number(e.target.value),
                   })
                 }
-                hasBorder={true}
               />
               <AppNumberInput
                 placeholder="To"
@@ -191,7 +189,6 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
                       Number(e.target.value) == 0 ? 1 : Number(e.target.value),
                   })
                 }
-                hasBorder={true}
               />
             </Stack>
           </Stack>

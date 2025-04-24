@@ -18,4 +18,5 @@ export interface AppFormState {
   isPreview?: boolean;
   activeSection: number;
   sections: FormSection[];
+  audienceIds: string[];
 }
