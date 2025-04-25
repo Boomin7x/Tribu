@@ -1,7 +1,11 @@
 import { DashboardNotFound, Layout } from '@tribu/ui';
 import { Home } from '@tribu/home';
 import { AddSurvey, SurveyHome, SurveyTemplates } from '@tribu/surveys';
-import { AudienceHome, NewAudienceGroup } from '@tribu/audience';
+import {
+  AudienceHome,
+  NewAudienceGroup,
+  EditAudienceGroup,
+} from '@tribu/audience';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -33,6 +37,10 @@ export function App() {
           <Route
             path={RouteNames.add_audience}
             element={<NewAudienceGroup />}
+          />
+          <Route
+            path={`${RouteNames.edit_audience}/:id`}
+            element={<EditAudienceGroup />}
           />
           <Route path="*" element={<DashboardNotFound />} />
         </Route>

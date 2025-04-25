@@ -4,6 +4,7 @@ export const RouteNames = {
 
   audience_home: 'audience',
   add_audience: 'audience/groups/new',
+  edit_audience: 'audience/groups/edit',
 
   surveys_home: 'surveys',
   add_survey: 'surveys/new',

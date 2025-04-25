@@ -11,7 +11,12 @@ const getAudiences = async () => {
   return dataResponse;
 };
 const findAudienceGroupById = async (id: string) => {
-  return AudienceService.findAudienceGroupById(id);
+  const response = await AudienceService.findAudienceGroupById(id);
+  const dataResponse: AxiosResponse<CreateAudience, any> = {
+    ...response,
+    ...{ data: response.data['data'] },
+  };
+  return dataResponse;
 };
 
 const createAudience = async (

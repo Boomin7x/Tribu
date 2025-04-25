@@ -1,19 +1,19 @@
 import { AppButton, AppChip } from '@tribu/ui';
 import { useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
-import { demographicFormData } from '../../ui/forms_data/data/demographic_form_data';
+import { demographicFormData } from '../../page/forms_data/data/demographic_form_data';
 import {
   FormFields,
   generateFormName,
   generateValidationSchema,
 } from '@tribu/forms';
 import { PersonaDto } from '@tribu/targets';
-import { psychographicFormData } from '../../ui/forms_data/data/psychographic_form_data';
-import { weatherAndClimateFormData } from '../../ui/forms_data/data/weather_and_climate_form_data';
-import { transactionFormData } from '../../ui/forms_data/data/transaction_form_data';
+import { psychographicFormData } from '../../page/forms_data/data/psychographic_form_data';
+import { weatherAndClimateFormData } from '../../page/forms_data/data/weather_and_climate_form_data';
+import { transactionFormData } from '../../page/forms_data/data/transaction_form_data';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import GenerateForm from '../../ui/forms_data/forms/new_audience_form';
+import GenerateForm from '../../page/forms_data/forms/new_audience_form';
 import AudienceController from '../../controllers/audience_controller';
 import { RouteNames, useApi } from '@tribu/utils';
 import { Parameters } from '../../data/enums/form_enums';

@@ -1,5 +1,5 @@
 import { AppButton, AppUIInput, ErrorCard } from '@tribu/ui';
-import { useApi } from '@tribu/utils';
+import { RouteNames, useApi } from '@tribu/utils';
 import { CiSearch } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
@@ -26,9 +26,12 @@ export const AudienceHome = () => {
     },
   });
 
-  const demographics = data?.map((bloc) =>
-    bloc.blocs.find((item) => item.key == Parameters.Demographics)
-  );
+  const demographics = data?.map((bloc) => {
+    return {
+      id: bloc['_id'],
+      bloc: bloc.blocs.find((item) => item.key == Parameters.Demographics),
+    };
+  });
 
   const getValue: any = (bloc: Bloc | undefined, name: string) => {
     const value = bloc?.fields.find((item) => item.name == name);
@@ -96,15 +99,20 @@ export const AudienceHome = () => {
         )}
 
         {demographics &&
-          demographics.map((userDemographics, index) => {
-            const age = getValue(userDemographics, 'age');
-            const title = getValue(userDemographics, 'title');
-            const ethnicity = getValue(userDemographics, 'ethnicity');
-            const children = getValue(userDemographics, 'children');
+          demographics.map(({ bloc, id }, index) => {
+            const age = getValue(bloc, 'age');
+            const title = getValue(bloc, 'title');
+            const ethnicity = getValue(bloc, 'ethnicity');
+            const children = getValue(bloc, 'children');
 
             return (
               <div
-                className="w-full md:w-[48%] lg:w-[30%]"
+                onClick={() => {
+                  navigate(
+                    `/${RouteNames.dashboard}/${RouteNames.edit_audience}/${id}`
+                  );
+                }}
+                className="w-full md:w-[48%] lg:w-[30%] cursor-pointer hover:bg-secondary-50 rounded-lg"
                 key={`pk-${index}-${index}`}
               >
                 <div className="border flex items-center border-gray-100 rounded-lg p-4">
