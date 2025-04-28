@@ -8,5 +8,6 @@ export const RouteNames = {
 
   surveys_home: 'surveys',
   add_survey: 'surveys/new',
+  edit_survey: 'surveys/edit',
   survey_templates: 'surveys/templates',
 };

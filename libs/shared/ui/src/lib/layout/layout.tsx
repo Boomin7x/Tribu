@@ -5,7 +5,9 @@ import { Outlet, useLocation } from 'react-router';
 
 export const Layout: FC<React.HTMLAttributes<HTMLDivElement>> = () => {
   const location = useLocation();
-  const isNewSurvey = location.pathname.includes('surveys/new');
+  const isNewSurvey =
+    location.pathname.includes('surveys/new') ||
+    location.pathname.includes('surveys/edit');
   return (
     <div className="flex flex-row h-screen w-screen justify-between items-center">
       <Sidebar className="w-[5%] bg-primary-50" />

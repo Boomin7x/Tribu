@@ -32,6 +32,10 @@ export function App() {
 
           <Route path={RouteNames.surveys_home} element={<SurveyHome />} />
           <Route path={RouteNames.add_survey} element={<AddSurvey />} />
+          <Route
+            path={`${RouteNames.edit_survey}/:id`}
+            element={<AddSurvey />}
+          />
 
           <Route path={RouteNames.audience_home} element={<AudienceHome />} />
           <Route

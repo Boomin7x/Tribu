@@ -1,9 +1,12 @@
-import { useState, useEffect, FC } from 'react';
+import { useState, useEffect } from 'react';
 import DataTable, {
   TableColumn,
   TableStyles,
 } from 'react-data-table-component';
 import TableLoader from './table_loader';
+import { GoTrash } from 'react-icons/go';
+import { VscEye } from 'react-icons/vsc';
+import { BiSolidEdit } from 'react-icons/bi';
 
 const customStyles: TableStyles = {
   table: {
@@ -23,7 +26,7 @@ const customStyles: TableStyles = {
   headCells: {
     style: {
       padding: '0 30px',
-      backgroundColor: '#effef5',
+      backgroundColor: '#FAF5FF',
     },
   },
   cells: {
@@ -38,6 +41,10 @@ export interface AppTableProps<T> extends React.HTMLAttributes<HTMLDivElement> {
   loading: boolean;
   totalRows: number;
   perPage: number;
+  onRowClicked?: (row: T) => void;
+  onEdit?: (row: T) => void;
+  onDelete?: (row: T) => void;
+  onView?: (row: T) => void;
   fetchData?: (page: number) => void;
 }
 export const AppTable = <T,>({
@@ -45,9 +52,12 @@ export const AppTable = <T,>({
   fetchData,
   columns,
   loading,
+  onView,
+  onEdit,
+  onDelete,
+  onRowClicked,
   ...props
 }: AppTableProps<T>) => {
-  const [data, setData] = useState(tableData);
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(3);
 
@@ -67,16 +77,51 @@ export const AppTable = <T,>({
     <div {...props}>
       <DataTable
         title=""
-        columns={columns}
-        data={data ?? []}
+        columns={[
+          {
+            name: 'Index',
+            selector: (_, index) => `${index ?? 0 + 1}`,
+          },
+          ...columns,
+          {
+            name: 'Actions',
+            cell: (row) => (
+              <div className="flex gap-1 ">
+                <VscEye
+                  onClick={() => onView && onView(row)}
+                  size={35}
+                  className="hover:text-secondary-500 hover:bg-secondary-50 rounded-full p-2 cursor-pointer"
+                />
+                <BiSolidEdit
+                  onClick={() => onEdit && onEdit(row)}
+                  size={35}
+                  className="hover:text-red-500 hover:bg-red-50 rounded-full p-2 cursor-pointer"
+                />
+                <GoTrash
+                  onClick={() => onDelete && onDelete(row)}
+                  size={35}
+                  className="hover:text-red-500 hover:bg-red-50 rounded-full p-2 cursor-pointer"
+                />
+              </div>
+            ),
+          },
+        ]}
+        data={tableData ?? []}
         progressPending={loading}
         pagination
+        onRowClicked={onRowClicked}
         paginationServer
         paginationTotalRows={totalRows}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         progressComponent={<TableLoader />}
         customStyles={customStyles}
+        paginationComponentOptions={{
+          rowsPerPageText: 'Rows per page',
+          rangeSeparatorText: 'of',
+          selectAllRowsItem: true,
+          selectAllRowsItemText: 'All',
+        }}
         noDataComponent={
           <div className="flex justify-center items-center h-[40vh] w-full bg-secondary-50 rounded-sm">
             <p>No content to display</p>

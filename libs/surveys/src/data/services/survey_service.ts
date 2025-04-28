@@ -1,5 +1,6 @@
 import { http } from '@tribu/utils';
-import { CreateSurvey } from '../../survery_builder/data/interfaces/survey';
+import { CreateSurvey } from '../../survery_builder/data/interfaces/create_survey';
+import { UpdateSurvey } from '../../survery_builder/data/interfaces/update_survey';
 
 const getSurveys = async () => {
   return await http.run({
@@ -7,7 +8,14 @@ const getSurveys = async () => {
     method: 'GET',
   });
 };
-const findSurveyGroupById = async (id: string) => {
+
+const getSurveysTemplates = async () => {
+  return await http.run({
+    url: 'api/tribu/v1/form/template',
+    method: 'GET',
+  });
+};
+const findSurveyById = async (id: string) => {
   return await http.run({
     url: `api/tribu/v1/survey/${id}`,
     method: 'GET',
@@ -15,6 +23,9 @@ const findSurveyGroupById = async (id: string) => {
 };
 
 const createSurvey = async (survey: CreateSurvey) => {
+  if (survey.form.isTemplate) {
+    return await saveSurveyTemplate(survey);
+  }
   return await http.run({
     url: 'api/tribu/v1/survey',
     method: 'POST',
@@ -22,7 +33,15 @@ const createSurvey = async (survey: CreateSurvey) => {
   });
 };
 
-const updateSurvey = async (id: string, survey: CreateSurvey) => {
+const saveSurveyTemplate = async (survey: CreateSurvey) => {
+  return await http.run({
+    url: 'api/tribu/v1/form/template',
+    method: 'POST',
+    body: survey,
+  });
+};
+
+const updateSurvey = async (id: string, survey: UpdateSurvey) => {
   return await http.run({
     url: `api/tribu/v1/survey/${id}`,
     method: 'PUT',
@@ -30,7 +49,7 @@ const updateSurvey = async (id: string, survey: CreateSurvey) => {
   });
 };
 
-const deleteSurvey = async (id: string, survey: CreateSurvey) => {
+const deleteSurvey = async (id: string) => {
   return await http.run({
     url: `api/tribu/v1/survey/${id}`,
     method: 'DELETE',
@@ -38,11 +57,13 @@ const deleteSurvey = async (id: string, survey: CreateSurvey) => {
 };
 
 const SurveyService = {
-  findSurveyGroupById,
+  findSurveyById,
   createSurvey,
   getSurveys,
   updateSurvey,
   deleteSurvey,
+  saveSurveyTemplate,
+  getSurveysTemplates,
 };
 
 export default SurveyService;

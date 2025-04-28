@@ -1,5 +1,8 @@
+import { AllFormInterfacesType } from '@tribu/forms';
+
 export interface CreateSurvey {
   name: string;
+  _id?: string;
   description: string;
   status: string;
   audienceIds: string[];
@@ -9,6 +12,7 @@ export interface CreateSurvey {
 export interface Form {
   name: string;
   description: string;
+  _id?: string;
   isTemplate: boolean;
   metaData: MetaData;
   blocs: FormBloc[];
@@ -30,6 +34,6 @@ export interface FormQuestion {
   name: string;
   description: string;
   type: string;
-  metaData: MetaData;
+  metaData: AllFormInterfacesType;
   branch: MetaData;
 }

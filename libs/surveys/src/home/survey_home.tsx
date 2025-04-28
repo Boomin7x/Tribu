@@ -1,11 +1,16 @@
-import { AppButton, AppUIInput } from '@tribu/ui';
+import { AppButton, AppModalDialog, AppUIInput, ErrorCard } from '@tribu/ui';
 import { IoMdAdd } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { CiSearch } from 'react-icons/ci';
 import { AppTable, TableColumn } from '@tribu/tables';
-import { useApi } from '@tribu/utils';
-import SurveyController from '../controllers/survery_controller';
-import { Form, FormBloc } from '../survery_builder/data/interfaces/survey';
+import { RouteNames, useApi } from '@tribu/utils';
+import SurveyController from '../controllers/survey_controller';
+import {
+  CreateSurvey,
+  Form,
+} from '../survery_builder/data/interfaces/create_survey';
+import { useEffect, useState } from 'react';
+
 type counterItem = {
   id: number;
   title: string;
@@ -43,12 +48,39 @@ const counterItems: counterItem[] = [
 export const SurveyHome = () => {
   let navigate = useNavigate();
 
-  const { data, isLoading, isError, error } = useApi.get({
+  const [action, setAction] = useState<{ status: boolean; id?: string }>({
+    status: false,
+  });
+
+  const { data, refetch, isLoading, isError, error } = useApi.get({
     queryKey: ['surveys'],
     callBack: () => {
       return SurveyController.getSurvey();
     },
+    onSuccess: (data) => {},
   });
+
+  const {
+    mutate: deleteSurvey,
+    isPending,
+    isError: isErrorDeleting,
+    error: deleteError,
+  } = useApi.post({
+    queryKey: ['delete-survey'],
+    callBack: (id: string) => {
+      return SurveyController.deleteSurvey(id);
+    },
+    onSuccess: (data) => {
+      refetch();
+      setAction({ status: false });
+    },
+  });
+  const [tableData, setTableData] = useState<CreateSurvey[]>([]);
+
+  useEffect(() => {
+    const tableD = data?.map((item) => item.form);
+    if (data) setTableData(data);
+  }, [data]);
 
   return (
     <div className="mt-20 w-[85%] mx-auto">
@@ -84,10 +116,25 @@ export const SurveyHome = () => {
           className="rounded-sm"
         />
       </div>
-      <AppTable<Form>
+
+      {isError && (
+        <ErrorCard title="Fetching Surveys Failed!" message={error.message} />
+      )}
+      <AppTable<CreateSurvey>
         loading={isLoading}
-        tableData={data?.map((item) => item.form)}
+        tableData={tableData}
         className="mt-10"
+        onRowClicked={(row) => {
+          console.log(row);
+        }}
+        onEdit={(row) => {
+          navigate(
+            `/${RouteNames.dashboard}/${RouteNames.edit_survey}/${row._id}`
+          );
+        }}
+        onDelete={(row) => {
+          setAction({ status: true, id: row._id });
+        }}
         columns={
           [
             {
@@ -100,18 +147,43 @@ export const SurveyHome = () => {
             },
             {
               name: 'Is Template',
-              selector: (row) => (row.isTemplate ? 'true' : 'false'),
+              selector: (row) => (row.form.isTemplate ? 'true' : 'false'),
             },
             {
               name: 'Questions Count',
-              selector: (row) => row.blocs.length,
+              selector: (row) => row.form.blocs.length,
             },
-          ] as TableColumn<Form>[]
+          ] as TableColumn<CreateSurvey>[]
         }
         totalRows={0}
         perPage={0}
         fetchData={(page) => {}}
       />
+      <AppModalDialog
+        isOpen={action.status}
+        onClose={() => {
+          setAction({ status: !action.status });
+        }}
+        title="Delete Survey"
+      >
+        <h2>Are you sure you want to delete this survey?</h2>
+        <div className="flex justify-end mt-4">
+          <AppButton
+            label="Cancel"
+            onClick={() => {
+              setAction({ status: false });
+            }}
+            className="mr-2"
+          />
+          <AppButton
+            label="Delete"
+            isLoading={isPending}
+            onClick={() => {
+              deleteSurvey(action.id);
+            }}
+          />
+        </div>
+      </AppModalDialog>
     </div>
   );
 };

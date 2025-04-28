@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -7,14 +7,56 @@ import {
   SurveyComponent,
   DraggableContainerComponents,
   FormFieldEditor,
+  updateFormTitle,
+  updateFormDescription,
+  setSortedItems,
+  setFormData,
+  setSelectedTab,
 } from '@tribu/surveys';
 import { Box, Stack } from '@mui/material';
 import colors from '../utils/styles/colors.module.scss';
 import { RootState } from '../data/store/app_store';
-import { useSelector } from 'react-redux';
-import { GlobalTab } from '@tribu/forms';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppFormState, FormFields, GlobalTab } from '@tribu/forms';
+import { useParams } from 'react-router-dom';
+import { useApi } from '@tribu/utils';
+import { CreateSurvey } from '../data/interfaces/create_survey';
+import SurveyController from '../../controllers/survey_controller';
 
 export const AddSurvey: FC = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  if (id) {
+    const { data } = useApi.get<CreateSurvey>({
+      queryKey: [id!],
+      callBack: () => SurveyController.findSurveyById(id),
+    });
+
+    useEffect(() => {
+      console.log('data', data);
+
+      if (data) {
+        dispatch(setSelectedTab(GlobalTab.CREATE));
+        const formData: AppFormState = {
+          sections: data.form.blocs.map((item) => {
+            return {
+              id: item.metaData.key,
+              index: item.metaData.index,
+              formItems: item.questions.map((q) => q.metaData),
+            };
+          }),
+          activeSection: 0,
+          formTitle: data.name,
+          formDescription: data.description,
+          selectedField: null,
+          audienceIds: data.audienceIds,
+        };
+        dispatch(setFormData(formData));
+      }
+    }, [data]);
+  }
+
   const currentTab:
     | GlobalTab.CREATE
     | GlobalTab.PREVIEW

@@ -23,16 +23,18 @@ import {
   FormFields,
 } from '@tribu/forms';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { CreateSurvey } from '../../data/interfaces/survey';
+import { CreateSurvey } from '../../data/interfaces/create_survey';
 import { RouteNames, useApi } from '@tribu/utils';
-import { useNavigate } from 'react-router-dom';
-import { SurveyTemplateController } from '@tribu/surveys';
+import { useNavigate, useParams } from 'react-router-dom';
+import { SurveyTemplateController, SurveyController } from '@tribu/surveys';
 
 export type AnimatingData = {
   isAnimating: boolean;
   isForward: boolean;
 };
 export const FormPreview = () => {
+  const { id } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -89,7 +91,9 @@ export const FormPreview = () => {
   const { mutate: addSurvey, isPending } = useApi.post({
     queryKey: [],
     callBack: (data: CreateSurvey) => {
-      return SurveyTemplateController.createTemplate(data);
+      return id
+        ? SurveyController.updateSurvey(id, data)
+        : SurveyController.createSurvey(data);
     },
     onSuccess: (_) => {
       navigate(`/${RouteNames.dashboard}/${RouteNames.surveys_home}`);
@@ -97,19 +101,18 @@ export const FormPreview = () => {
   });
 
   const onSubmit = (_: any) => {
-    console.log('onSubmit', formDetails.sections);
-
     const survey: CreateSurvey = {
-      name: formDetails.formTitle.label,
-      description: formDetails.formDescription.description,
+      _id: id,
+      name: formDetails.formTitle,
+      description: formDetails.formDescription,
       status: 'draft',
       audienceIds: formDetails.audienceIds,
       form: {
-        name: formDetails.formTitle.label,
-        description: formDetails.formDescription.description,
         isTemplate: isTemplate,
+        name: formDetails.formTitle,
+        description: formDetails.formDescription,
         metaData: {
-          key: formDetails.formTitle.label,
+          key: formDetails.formTitle,
           index: 0,
         },
         blocs: formDetails.sections.map((section, index) => ({
@@ -123,10 +126,7 @@ export const FormPreview = () => {
             name: item.label,
             description: item.label,
             type: item.type,
-            metaData: {
-              key: item.id,
-              index: index,
-            },
+            metaData: item,
             branch: {
               key: section.id,
               index: section.index,
@@ -277,11 +277,9 @@ export const FormPreview = () => {
         >
           <div className="flex flex-col h-full justify-between">
             <div className="bg-secondary-600 rounded-sm py-16 px-12 mt-8 text-white">
-              <Typography fontSize={30}>
-                {formDetails.formTitle.label}
-              </Typography>
+              <Typography fontSize={30}>{formDetails.formTitle}</Typography>
               <Typography marginTop={2}>
-                {formDetails.formDescription.description}
+                {formDetails.formDescription}
               </Typography>
             </div>
 

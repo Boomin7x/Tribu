@@ -1,5 +1,5 @@
 import { AppButton, AppUIInput, ErrorCard } from '@tribu/ui';
-import { useApi } from '@tribu/utils';
+import { RouteNames, useApi } from '@tribu/utils';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SurveyTemplateController from '../controller/survey_template_controller';
@@ -58,29 +58,39 @@ export const SurveyTemplates = () => {
                   />
                 )}
 
+                {data && data.length == 0 && (
+                  <ErrorCard
+                    message=""
+                    title="No templates found"
+                    className="h-full py-20 text-center px-5"
+                    btnText="Create Template"
+                    callback={() => {
+                      navigate(
+                        `/${RouteNames.dashboard}/${RouteNames.add_survey}`
+                      );
+                    }}
+                  />
+                )}
+
                 {data &&
-                  [
-                    'General',
-                    'Market surveys',
-                    'Community',
-                    'School surveys',
-                    'Product reviews',
-                    'Price schedules',
-                  ].map((item) => {
-                    return (
-                      <div
-                        onClick={() => setActiveItem(item)}
-                        className={`
+                  data
+                    .map((item) => item.form)
+                    .map((item) => {
+                      return (
+                        <div
+                          onClick={() => setActiveItem(item.name)}
+                          className={`
                         cursor-pointer font-normal ${
-                          activeItem === item && 'border-r-2 border-primary-500'
+                          activeItem === item.name &&
+                          'border-r-2 border-primary-500'
                         }
                         `}
-                        key={`template-${item}`}
-                      >
-                        {item}
-                      </div>
-                    );
-                  })}
+                          key={`template-${item.name}`}
+                        >
+                          {item.name}
+                        </div>
+                      );
+                    })}
               </div>
               <div className="w-[70%] h-[60vh]"></div>
             </div>

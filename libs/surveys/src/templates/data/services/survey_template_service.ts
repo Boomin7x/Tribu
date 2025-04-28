@@ -3,20 +3,20 @@ import { CreateSurveyTemplate } from '../interfaces/survey_template';
 
 const getTemplates = async () => {
   return await http.run({
-    url: 'api/tribu/v1/survey',
+    url: 'api/tribu/v1/form/template',
     method: 'GET',
   });
 };
 const findTemplateById = async (id: string) => {
   return await http.run({
-    url: `api/tribu/v1/survey/${id}`,
+    url: `api/tribu/v1/form/template/${id}`,
     method: 'GET',
   });
 };
 
 const createTemplate = async (survey: CreateSurveyTemplate) => {
   return await http.run({
-    url: 'api/tribu/v1/survey',
+    url: 'api/tribu/v1/form/template',
     method: 'POST',
     body: survey,
   });
@@ -24,7 +24,7 @@ const createTemplate = async (survey: CreateSurveyTemplate) => {
 
 const updateTemplate = async (id: string, survey: CreateSurveyTemplate) => {
   return await http.run({
-    url: `api/tribu/v1/survey/${id}`,
+    url: `api/tribu/v1/form/template/${id}`,
     method: 'PUT',
     body: survey,
   });
@@ -32,7 +32,7 @@ const updateTemplate = async (id: string, survey: CreateSurveyTemplate) => {
 
 const deleteTemplate = async (id: string, survey: CreateSurveyTemplate) => {
   return await http.run({
-    url: `api/tribu/v1/survey/${id}`,
+    url: `api/tribu/v1/form/template/${id}`,
     method: 'DELETE',
   });
 };

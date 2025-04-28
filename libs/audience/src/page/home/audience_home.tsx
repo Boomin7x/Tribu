@@ -19,14 +19,14 @@ export const AudienceHome = () => {
     },
   });
 
-  const initialData = data?.map((bloc) => {
+  const initialData = (data || []).map((bloc) => {
     return {
       id: bloc['_id'],
       bloc: bloc.blocs.find((item) => item.key == Parameters.Demographics),
     };
   });
 
-  const [demographics, setDemographics] = useState(initialData);
+  const [demographics, setDemographics] = useState(initialData || []);
 
   const getValue: any = (bloc: Bloc | undefined, name: string) => {
     const value = bloc?.fields.find((item) => item.name == name);
@@ -39,15 +39,16 @@ export const AudienceHome = () => {
       const title = getValue(item.bloc, 'title');
       return title?.includes(debounce);
     });
-
-    setDemographics(filtered);
   }, [debounce]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDebouncedValue(e.target.value);
   };
 
-  // console.log('demographics', demographics);
+  useEffect(() => {
+    setDemographics(initialData);
+  }, [data]);
+
   return (
     <div className="w-[85%] mx-auto mt-20">
       <div className="flex justify-between mt-10">
@@ -94,7 +95,7 @@ export const AudienceHome = () => {
           <ErrorCard title="Failed to load audience!" message={error.message} />
         )}
 
-        {demographics && demographics.length === 0 && (
+        {!isLoading && demographics && demographics.length === 0 && (
           <div className="item-center w-full flex flex-col gap-y-2 justify-center bg-purple-50 h-[50vh] items-center">
             <p className="text-md">No audience added!</p>
             <AppButton
@@ -108,7 +109,8 @@ export const AudienceHome = () => {
           </div>
         )}
 
-        {demographics &&
+        {!isLoading &&
+          demographics &&
           demographics.map(({ bloc, id }, index) => {
             const age = getValue(bloc, 'age');
             const title = getValue(bloc, 'title');

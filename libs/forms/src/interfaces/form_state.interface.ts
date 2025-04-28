@@ -1,8 +1,4 @@
 import { AllFormInterfacesType } from '../types/all_form_types';
-import {
-  FormDescriptionInterface,
-  FormTitleInterface,
-} from './form_title.interface';
 import { TextInputInterface } from './input.interface';
 
 export interface FormSection {
@@ -13,8 +9,8 @@ export interface FormSection {
 
 export interface AppFormState {
   selectedField: TextInputInterface | null;
-  formTitle: FormTitleInterface;
-  formDescription: FormDescriptionInterface;
+  formTitle: string;
+  formDescription: string;
   isPreview?: boolean;
   activeSection: number;
   sections: FormSection[];

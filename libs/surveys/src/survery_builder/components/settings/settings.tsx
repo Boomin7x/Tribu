@@ -158,7 +158,7 @@ export const Audience = () => {
   const demographics = data?.map((bloc) => {
     return {
       audienceId: bloc['_id'],
-      bloc: bloc.blocs.find((item) => item.key == Parameters.Demographics),
+      bloc: bloc?.blocs?.find((item) => item.key == Parameters.Demographics),
     };
   });
 

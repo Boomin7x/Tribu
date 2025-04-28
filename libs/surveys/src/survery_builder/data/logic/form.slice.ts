@@ -1,21 +1,11 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
-import { AllFormInterfacesType, AppFormState, FormFields } from '@tribu/forms';
+import { AllFormInterfacesType, AppFormState } from '@tribu/forms';
 
 const initialState: AppFormState = {
   sections: [{ formItems: [], id: '928JHAIDKWHAA-992JIH', index: 0 }],
   activeSection: 0,
-  formTitle: {
-    type: FormFields.FORM_TITLE,
-    label: 'Survey Form',
-    description: 'description',
-    id: 'form-title',
-  },
-  formDescription: {
-    type: FormFields.FORM_DESCRIPTION,
-    label: 'Survey Description',
-    description: 'description',
-    id: 'form-description',
-  },
+  formTitle: '',
+  formDescription: '',
   selectedField: null,
   audienceIds: [],
 };
@@ -24,6 +14,16 @@ export const FormSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
+    setFormData: (state, action) => {
+      const { formTitle, formDescription, sections, audienceIds } =
+        action.payload;
+      state.formTitle = formTitle;
+      state.formDescription = formDescription;
+      state.sections = sections;
+      state.activeSection = 0;
+      state.audienceIds = audienceIds;
+    },
+
     addFormField: (state, action) => {
       const field = {
         ...action.payload,
@@ -34,10 +34,6 @@ export const FormSlice = createSlice({
       state.selectedField = field;
     },
     updateFormField: (state, action) => {
-      // state.sections[state.activeSection].formItems[action.payload.index] =
-      //   action.payload;
-      // state.selectedField = action.payload;
-
       const item: AllFormInterfacesType = action.payload;
       state.sections[item.activeSectionIndex].formItems[item.index] =
         action.payload;
@@ -45,20 +41,7 @@ export const FormSlice = createSlice({
       console.log(item);
     },
     setSortedItems: (state, action) => {
-      // state.sections[state.activeSection].formItems.splice(
-      //   0,
-      //   state.sections.length
-      // );
-      // const newArray = [...action.payload];
-      // // state.sections.concat(newArray);
-      // console.log("State sections", state.sections[state.activeSection]);
-      // newArray.forEach((item, index) => {
-      //   const newItem = { ...item, index: index };
-      //   state.sections[state.activeSection].formItems.push(newItem);
-      // });
       state.sections[state.activeSection].formItems = action.payload;
-
-      // console.log("newArray", newArray);
     },
     removeFormField: (state, action) => {
       const newItems = state.sections[state.activeSection].formItems.filter(
@@ -106,6 +89,7 @@ export const FormSlice = createSlice({
 });
 
 export const {
+  setFormData,
   addFormField,
   addFormSection,
   removeFormSection,

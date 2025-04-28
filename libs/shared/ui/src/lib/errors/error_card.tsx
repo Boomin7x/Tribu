@@ -4,6 +4,7 @@ import { AppButton } from '../others';
 interface ErrorCardProps extends HTMLAttributes<HTMLDivElement> {
   message: string;
   title: string;
+  btnText?: string;
   callback?: () => void;
 }
 export const ErrorCard = ({ title, message, ...props }: ErrorCardProps) => {
@@ -20,7 +21,7 @@ export const ErrorCard = ({ title, message, ...props }: ErrorCardProps) => {
         <AppButton
           className="mt-2 px-4 py-2"
           onClick={props.callback}
-          label="Retry"
+          label={props.btnText ?? 'Retry'}
         />
       )}
     </div>

@@ -86,14 +86,15 @@ export const SurveyComponent = () => {
             hideBorders={true}
             placeholder="Survey Name"
             id="form-title"
+            value={formTitle}
             maxLength={255}
             style={{ color: colors.white, fontSize: 30 }}
             onChange={(e) => {
-              const newFormItem = {
-                ...formTitle,
-                label: e.target.value,
-              };
-              dispatch(updateFormTitle(newFormItem));
+              // const newFormItem = {
+              //   ...formTitle,
+              //   label: e.target.value,
+              // };
+              dispatch(updateFormTitle(e.target.value));
             }}
             type="text"
           />
@@ -103,11 +104,11 @@ export const SurveyComponent = () => {
             hideBorders={true}
             style={{ color: colors.white }}
             onChange={(e: any) => {
-              const newFormItem = {
-                ...formDescription,
-                description: e.target.value,
-              };
-              dispatch(updateFormDescription(newFormItem));
+              // const newFormItem = {
+              //   ...formDescription,
+              //   description: e.target.value,
+              // };
+              dispatch(updateFormDescription(e.target.value));
             }}
           />
         </div>
