@@ -23,7 +23,10 @@ export type AppMultiSelectType = {
   label?: string;
 };
 export const AppMultiSelect = ({ ...props }: AppMultiSelectType) => {
-  const [fieldValue, setFieldValue] = useState<string[]>([]);
+  // console.log('props.value', props.value);
+  const [fieldValue, setFieldValue] = useState<string[]>(
+    Array.isArray(props.value) ? Array.from(props.value) : []
+  );
 
   const handleChange = (event: SelectChangeEvent<typeof fieldValue>) => {
     const {

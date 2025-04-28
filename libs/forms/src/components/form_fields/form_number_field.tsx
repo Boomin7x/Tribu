@@ -13,6 +13,7 @@ export const FormNumberField = (props: NumberInputInterfaceInterface) => {
 
   return (
     <Controller
+      defaultValue={props.value}
       name={name}
       control={props.control}
       render={({ field: { onChange, value }, fieldState: { error } }) => {
@@ -20,7 +21,6 @@ export const FormNumberField = (props: NumberInputInterfaceInterface) => {
           <>
             <AppNumberInput
               {...props}
-              hasBorder={props.isPreview}
               onChange={(e) => {
                 onChange(e);
                 if (props.onChange) props?.onChange(e);

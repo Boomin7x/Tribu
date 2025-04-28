@@ -39,6 +39,7 @@ export const get = <T,>({
 
   return req;
 };
+
 export const post = <T,>({
   queryKey,
   showLoader = true,
@@ -46,11 +47,12 @@ export const post = <T,>({
   callBack,
   onSuccess,
 }: UseApiProps<T>) => {
+  console.log('response', queryKey);
   const { start, complete } = useLoadingBar({ color: 'green', height: 2 });
 
   const response = useMutation({
     mutationKey: queryKey,
-    mutationFn: async (data: any) => {
+    mutationFn: async (data?: any) => {
       if (showLoader) start();
       const response = await callBack(data);
       if (showLoader) complete();

@@ -11,6 +11,7 @@ export const FormDateField = (props: FormDateFieldInterface) => {
 
   return (
     <Controller
+      defaultValue={props.value}
       name={name}
       control={props.control}
       render={({ field: { onChange, value }, fieldState: { error } }) => {

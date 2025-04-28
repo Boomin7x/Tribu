@@ -2,8 +2,10 @@ import { AppButton, AppUIInput } from '@tribu/ui';
 import { IoMdAdd } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { CiSearch } from 'react-icons/ci';
-// import { AppTable } from '@tribu/table';
-
+import { AppTable, TableColumn } from '@tribu/tables';
+import { useApi } from '@tribu/utils';
+import SurveyController from '../controllers/survery_controller';
+import { Form, FormBloc } from '../survery_builder/data/interfaces/survey';
 type counterItem = {
   id: number;
   title: string;
@@ -41,6 +43,13 @@ const counterItems: counterItem[] = [
 export const SurveyHome = () => {
   let navigate = useNavigate();
 
+  const { data, isLoading, isError, error } = useApi.get({
+    queryKey: ['surveys'],
+    callBack: () => {
+      return SurveyController.getSurvey();
+    },
+  });
+
   return (
     <div className="mt-20 w-[85%] mx-auto">
       <div className="flex">
@@ -75,7 +84,34 @@ export const SurveyHome = () => {
           className="rounded-sm"
         />
       </div>
-      {/* <AppTable className="mt-10" /> */}
+      <AppTable<Form>
+        loading={isLoading}
+        tableData={data?.map((item) => item.form)}
+        className="mt-10"
+        columns={
+          [
+            {
+              name: 'Name',
+              selector: (row) => row.name,
+            },
+            {
+              name: 'Description',
+              selector: (row) => row.description,
+            },
+            {
+              name: 'Is Template',
+              selector: (row) => (row.isTemplate ? 'true' : 'false'),
+            },
+            {
+              name: 'Questions Count',
+              selector: (row) => row.blocs.length,
+            },
+          ] as TableColumn<Form>[]
+        }
+        totalRows={0}
+        perPage={0}
+        fetchData={(page) => {}}
+      />
     </div>
   );
 };

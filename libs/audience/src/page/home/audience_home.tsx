@@ -1,41 +1,50 @@
 import { AppButton, AppUIInput, ErrorCard } from '@tribu/ui';
-import { RouteNames, useApi } from '@tribu/utils';
+import { RouteNames, useApi, useDebounce } from '@tribu/utils';
 import { CiSearch } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import AudienceController from '../../controllers/audience_controller';
 import { Bloc } from '../../data/interfaces/create_audience';
 import { Parameters } from '../../data/enums/form_enums';
-
-type Persona = {
-  id: number;
-  name: string;
-  age: string;
-  image: string;
-  location: string;
-  interest: string;
-};
+import { useEffect, useState } from 'react';
 
 export const AudienceHome = () => {
   const navigate = useNavigate();
+  const [debounce, setDebouncedValue] = useDebounce('', 500);
 
   const { data, isLoading, isError, error } = useApi.get({
-    queryKey: [],
+    queryKey: ['audience'],
     callBack: () => {
       return AudienceController.getAudience();
     },
   });
 
-  const demographics = data?.map((bloc) => {
+  const initialData = data?.map((bloc) => {
     return {
       id: bloc['_id'],
       bloc: bloc.blocs.find((item) => item.key == Parameters.Demographics),
     };
   });
 
+  const [demographics, setDemographics] = useState(initialData);
+
   const getValue: any = (bloc: Bloc | undefined, name: string) => {
     const value = bloc?.fields.find((item) => item.name == name);
     return value?.metaData.value;
+  };
+
+  useEffect(() => {
+    console.log('debounce', debounce);
+    const filtered = initialData?.filter((item) => {
+      const title = getValue(item.bloc, 'title');
+      return title?.includes(debounce);
+    });
+
+    setDemographics(filtered);
+  }, [debounce]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDebouncedValue(e.target.value);
   };
 
   // console.log('demographics', demographics);
@@ -50,6 +59,7 @@ export const AudienceHome = () => {
             inputClasses="w-full pl-10"
             additionalClasses="w-[40%]"
             placeholder="Search personas"
+            onChange={handleSearch}
           />
         </div>
         <AppButton
@@ -148,5 +158,4 @@ export const AudienceHome = () => {
     </div>
   );
 };
-
 export default AudienceHome;

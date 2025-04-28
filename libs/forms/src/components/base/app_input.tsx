@@ -22,12 +22,6 @@ interface AppInputType {
   startAdornment?: JSX.Element;
 }
 export const AppInput = ({ ...props }: AppInputType) => {
-  // useEffect(() => {
-  //   if (typeof props.value == 'string') {
-  //     setFieldValue(props.value);
-  //   }
-  // }, [props.value]);
-  // const [fieldValue, setFieldValue] = useState<string | null>(null);
   return (
     <>
       {props.label && props.label.length > 2 && (
@@ -41,12 +35,10 @@ export const AppInput = ({ ...props }: AppInputType) => {
         variant="outlined"
         size="small"
         id={props.id}
-        // label={props.label}
-        // value={fieldValue}
+        value={props.value}
         placeholder={props.placeholder}
         onChange={(e) => {
           props.onChange && props.onChange(e);
-          // setFieldValue(e.target.value);
         }}
         InputProps={{
           startAdornment: props.startAdornment,

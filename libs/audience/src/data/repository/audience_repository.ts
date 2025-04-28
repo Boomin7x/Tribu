@@ -31,13 +31,23 @@ const createAudience = async (
   return dataResponse;
 };
 
-const addPost = async (audience: any) => {
-  return AudienceService.addPost(audience);
+const updateAudience = async (
+  id: string,
+  audience: CreateAudience
+): Promise<AxiosResponse<CreateAudience, any>> => {
+  const response = await AudienceService.updateAudience(id, audience);
+  const dataResponse: AxiosResponse<CreateAudience, any> = {
+    ...response,
+    ...{ data: response.data['data'] },
+  };
+
+  return dataResponse;
 };
+
 const AudienceRepository = {
   findAudienceGroupById,
   createAudience,
-  addPost,
+  updateAudience,
   getAudiences,
 };
 

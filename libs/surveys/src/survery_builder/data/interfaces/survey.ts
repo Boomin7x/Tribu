@@ -11,13 +11,13 @@ export interface Form {
   description: string;
   isTemplate: boolean;
   metaData: MetaData;
-  blocs: Bloc[];
+  blocs: FormBloc[];
 }
 
-export interface Bloc {
+export interface FormBloc {
   key: string;
   metaData: MetaData;
-  questions: Question[];
+  questions: FormQuestion[];
 }
 
 export interface MetaData {
@@ -25,7 +25,7 @@ export interface MetaData {
   index: number;
 }
 
-export interface Question {
+export interface FormQuestion {
   key: string;
   name: string;
   description: string;

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { AppButton } from '@tribu/ui';
 import { AllFormInterfacesType } from '@tribu/forms';
+
 export type PreviewButtonsType = {
   currentIndex: number;
   animateNext: (value: boolean) => void;

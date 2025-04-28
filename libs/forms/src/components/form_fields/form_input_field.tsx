@@ -12,6 +12,7 @@ export const FormInputField = (props: FormInputFieldInterface) => {
 
   return (
     <Controller
+      defaultValue={props.value}
       name={name}
       control={props.control}
       render={({ field: { onChange, value }, fieldState: { error } }) => {

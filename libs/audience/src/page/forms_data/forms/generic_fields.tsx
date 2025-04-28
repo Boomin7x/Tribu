@@ -27,8 +27,6 @@ export const AudienceGenericFormFIelds = <T extends FieldValues>({
   updateField,
 }: AudienceGenericFormFIeldsProps<T>) => {
   const generateField = (field: AllFormInterfacesType, index: number) => {
-    // const value = data ? (data[field.name as keyof T] as string) : '';
-    // const value = data ? (data[field.name as keyof T])
     const value = data;
     const handleChange = (fieldName: string, updatedValue: any) => {
       updateAudienceGenericFormFIelds({
@@ -40,6 +38,9 @@ export const AudienceGenericFormFIelds = <T extends FieldValues>({
     };
 
     const name = generateFormName(formTitle, field.label);
+
+    // console.log('field.value', field.value);
+
     const newField = { ...field, name };
 
     switch (newField.type) {
@@ -78,7 +79,7 @@ export const AudienceGenericFormFIelds = <T extends FieldValues>({
         return (
           <FormSelect
             {...newField}
-            value={value}
+            // value={value}
             control={control}
             onChange={(e) => handleChange(newField.name, e.target.value)}
           />
@@ -89,7 +90,7 @@ export const AudienceGenericFormFIelds = <T extends FieldValues>({
           <FormMultiSelect
             {...newField}
             control={control}
-            value={value}
+            // value={value}
             onChange={(e) => handleChange(newField.name, e.target.value)}
             // value={Array.isArray(value) ? value : [value]}
             // onChange={(e) => handleChange(newField.name, e.target.value)}

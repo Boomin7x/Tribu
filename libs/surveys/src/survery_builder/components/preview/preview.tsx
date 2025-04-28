@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../data/store/app_store';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Checkbox, Stack, Switch, Typography } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import FormRenderer from '../forms/components/form_field_renderer';
 import { useDispatch } from 'react-redux';
@@ -46,6 +46,8 @@ export const FormPreview = () => {
   const [reverseIndexes, setReverseIndexes] = useState<number[]>([0]);
 
   const [validationSchema, setValidationSchema] = useState<any>();
+
+  const [isTemplate, setIsTemplate] = useState<boolean>(false);
 
   const form = useForm({
     resolver: yupResolver(validationSchema),
@@ -94,7 +96,7 @@ export const FormPreview = () => {
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (_: any) => {
     console.log('onSubmit', formDetails.sections);
 
     const survey: CreateSurvey = {
@@ -105,7 +107,7 @@ export const FormPreview = () => {
       form: {
         name: formDetails.formTitle.label,
         description: formDetails.formDescription.description,
-        isTemplate: false,
+        isTemplate: isTemplate,
         metaData: {
           key: formDetails.formTitle.label,
           index: 0,
@@ -317,13 +319,24 @@ export const FormPreview = () => {
                 currentIndex={currentIndex}
                 previewItems={previewItems}
               />
-              <PreviewButtons
-                currentIndex={currentIndex}
-                loading={isPending}
-                animateNext={animateNext}
-                previewItems={previewItems}
-                reverseIndexes={reverseIndexes}
-              />
+              <div className="flex flex-col">
+                <div className="flex flex-row items-center justify-between">
+                  <p>Use as template?</p>
+                  <Checkbox
+                    onChange={(e) => {
+                      setIsTemplate(e.target.checked);
+                    }}
+                    checked={isTemplate}
+                  />
+                </div>
+                <PreviewButtons
+                  currentIndex={currentIndex}
+                  loading={isPending}
+                  animateNext={animateNext}
+                  previewItems={previewItems}
+                  reverseIndexes={reverseIndexes}
+                />
+              </div>
             </div>
           </div>
         </form>

@@ -16,6 +16,7 @@ import FormDraggableWrapper from './form_draggble_wrapper';
 import {
   AllFormInterfacesType,
   FormFields,
+  generateFormName,
   TextInputInterface,
 } from '@tribu/forms';
 
@@ -141,10 +142,13 @@ export const DropZone: FC<DropZoneProps> = ({ width, activeSectionIndex }) => {
                   >
                     <Box>
                       {formItems.map((item, index) => {
+                        const name = generateFormName(item.label, `${index}`);
                         const element = {
                           ...item,
                           activeSectionIndex: activeSectionIndex,
                           index: index,
+                          id: `${index}`,
+                          name: name,
                         };
 
                         return (

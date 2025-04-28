@@ -9,8 +9,11 @@ interface FormSelectInterface extends RadioInterface {
 export const FormSelect = (props: FormSelectInterface) => {
   const name = props.name ?? generateFormName(props.label, props.id);
 
+  // console.log('FormSelect props', props.value);
+  // console.log('FormSelect props', name);
   return (
     <Controller
+      defaultValue={props.value}
       name={name}
       control={props.control}
       render={({ field: { onChange, value }, fieldState: { error } }) => {
@@ -18,7 +21,6 @@ export const FormSelect = (props: FormSelectInterface) => {
           <>
             <AppSelect
               {...props}
-              // items={props.elements.map((i) => i.value)}
               items={props.elements}
               hasBorder={props.isPreview}
               fullWidth
@@ -27,6 +29,7 @@ export const FormSelect = (props: FormSelectInterface) => {
                 if (props.onChange) props.onChange(e, child as boolean);
               }}
               value={value}
+              // value={props.value}
             />
             <AppErrorMessage message={error?.message} />
           </>

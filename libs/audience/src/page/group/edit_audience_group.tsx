@@ -1,59 +1,67 @@
-import { AppButton, AppChip } from '@tribu/ui';
+import { AppButton, AppChip, AppLoader, ErrorCard } from '@tribu/ui';
 import { useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { generateFormName, generateValidationSchema } from '@tribu/forms';
-import { PersonaDto } from '@tribu/targets';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import GenerateForm from '../../page/forms_data/forms/new_audience_form';
 import AudienceController from '../../controllers/audience_controller';
 import { RouteNames, useApi } from '@tribu/utils';
-import { Parameters } from '../../data/enums/form_enums';
-import {
-  Bloc,
-  CreateAudience,
-  Question,
-} from '../../data/interfaces/create_audience';
+import { Bloc, CreateAudience } from '../../data/interfaces/create_audience';
 import { useNavigate, useParams } from 'react-router-dom';
 import GenerateEditForm from '../forms_data/forms/edit_audience_form';
+import { UseQueryResult } from '@tanstack/react-query';
 
 export const EditAudienceGroup = () => {
   const { id } = useParams();
-  const { data, isLoading, isError, isSuccess, error } =
-    useApi.get<CreateAudience>({
-      queryKey: [id!],
-      callBack: () => AudienceController.findAudienceGroupById(id!),
-    });
+  const response = useApi.get<CreateAudience>({
+    queryKey: [id!],
+    callBack: () => AudienceController.findAudienceGroupById(id!),
+  });
+
+  return <EditAudienceFormGroup response={response} id={id!} />;
+};
+
+interface EditAudienceFormGroupProps {
+  id: string;
+  response: UseQueryResult<CreateAudience, Error>;
+}
+
+export const EditAudienceFormGroup = ({
+  id,
+  response,
+}: EditAudienceFormGroupProps) => {
+  const { data, isLoading: isFetching, isError, error } = response;
 
   const [validationSchema, setValidationSchema] = useState<any>();
   const [blocs, setBlocs] = useState<Bloc[]>([]);
+  const [currentBloc, setCurrentBloc] = useState<Bloc | undefined>(
+    blocs.length > 0 ? blocs[0] : undefined
+  );
 
   useEffect(() => {
     if (data?.blocs) {
       setBlocs(data.blocs);
-      if (data.blocs.length > 0) {
-        setCurrentBloc(data.blocs[0]);
-      }
+      setCurrentBloc(data.blocs[0]);
+
+      const schema = generateValidationSchema(
+        blocs
+          .map((item) =>
+            item.fields.map((field) => {
+              return {
+                ...field.metaData,
+                // name: generateFormName(item.key, field.metaData.label),
+              };
+            })
+          )
+          .flat()
+      );
+      setValidationSchema(schema);
     }
-    console.log('blocs', data?.blocs);
-  }, [isSuccess]);
+  }, [data]);
 
-  const schema = generateValidationSchema(
-    blocs
-      .map((item) =>
-        item.fields.map((field) => {
-          return {
-            ...field.metaData,
-            name: generateFormName(item.key, field.metaData.label),
-          };
-        })
-      )
-      .flat()
-  );
+  // console.log('data', data);
+  // console.log('allBlocs', allBlocs);
 
-  useEffect(() => {
-    setValidationSchema(schema);
-  }, []);
   const navigate = useNavigate();
 
   const {
@@ -64,37 +72,52 @@ export const EditAudienceGroup = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const [currentBloc, setCurrentBloc] = useState<Bloc | undefined>(
-    blocs.length > 0 ? blocs[0] : undefined
-  );
-  // const [formDataValue, setFormDataValue] = useState<PersonaDto>({});
+  console.log('errors', errors);
 
-  const { mutate: addAudience, isPending } = useApi.post({
-    queryKey: [],
+  const { mutate: updateAudience, isPending } = useApi.post({
+    queryKey: ['audience'],
     callBack: (data: CreateAudience) => {
-      return AudienceController.createAudience(data);
+      return AudienceController.updateAudience(id, data);
     },
     onSuccess: (_) => {
       navigate(`/${RouteNames.dashboard}/${RouteNames.audience_home}`);
     },
   });
 
-  const onSubmit = (data: Record<string, any>) => {
+  const onSubmit = (records: Record<string, any>) => {
     const finalData: CreateAudience = {
-      name: 'Audience #101',
-      description: '',
-      isTemplate: true,
-      metaData: {},
+      name: data?.name ?? '',
+      description: data?.description ?? '',
+      isTemplate: data?.isTemplate ?? false,
+      metaData: data?.metaData ?? {},
       blocs: blocs,
     };
 
     console.log('Final Data', finalData);
-    addAudience(finalData);
+    updateAudience(finalData);
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!data) return <div>No data found</div>;
-  if (isError) return <div>No data found</div>;
+  if (isFetching)
+    return (
+      <div className="h-full w-full flex items-center justify-center">
+        <AppLoader />
+      </div>
+    );
+  if (isError)
+    return (
+      <div className="flex h-full w-4/5 mx-auto items-center justify-center">
+        <ErrorCard title="Error Finding Audience" message={error?.message} />
+      </div>
+    );
+  if (!data)
+    return (
+      <div className="flex h-full w-4/5 mx-auto items-center justify-center">
+        <ErrorCard
+          title="No Audience"
+          message={`Audience with ID ${id} not found`}
+        />
+      </div>
+    );
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div>
@@ -136,19 +159,19 @@ export const EditAudienceGroup = () => {
             </div>
             <div className="flex w-1/2 h-[80vh] overflow-y-auto">
               <div className="flex flex-col w-full">
-                {blocs.map((parameter, index) => (
+                {blocs.map((blocItem, index) => (
                   <div
                     className="flex w-full border-b  border-gray-100 grow"
-                    key={`{${parameter}-${index}`}
+                    key={`{${blocItem}-${index}-y-${index}`}
                   >
                     <div
                       className={`flex w-1/4 cursor-pointer text-sm items-center bg-gray-50 px-5`}
                     >
-                      {parameter.key}
+                      {blocItem.key}
                     </div>
                     <div className="flex w-full flex-wrap   py-4 items-center px-5 gap-x-2 gap-y-2">
                       <GenerateChipPreview
-                        bloc={parameter}
+                        bloc={blocItem}
                         emptyField={(data) => {
                           const updatedBloc = blocs.map((item) =>
                             item.key === data.key ? data : item
@@ -167,7 +190,7 @@ export const EditAudienceGroup = () => {
           <div className="flex justify-end w-[90%] mx-auto mt-5">
             <AppButton
               isLoading={isPending}
-              label="Save"
+              label="Update"
               type="submit"
               className="rounded-none w-32 justify-center item-center"
             />
@@ -184,24 +207,26 @@ const GenerateChipPreview = ({
   bloc: Bloc;
   emptyField: (data: Bloc) => undefined;
 }) => {
-  return bloc.fields.map((question, index) => {
-    return (
-      <AppChip
-        label={question.metaData.value}
-        key={`${question.key}-y-${index}`}
-        additionClasses="bg-gray-50 text-gray-800 font-light px-4  border border-gray-100 text-sm hover:border-gray-100"
-        icon={
-          <IoMdClose
-            className="hover:bg-gray-100 rounded-full w-6 h-6 p-1 "
-            onClick={() => {
-              question.metaData.value = undefined;
-              emptyField(bloc);
-            }}
-          />
-        }
-      />
-    );
-  });
+  return bloc.fields
+    .filter((item) => item.metaData.value != undefined)
+    .map((question, index) => {
+      return (
+        <AppChip
+          label={question.metaData.value}
+          key={`${question.key}-y-${index}`}
+          additionClasses="bg-gray-50 text-gray-800 font-light px-4  border border-gray-100 text-sm hover:border-gray-100"
+          icon={
+            <IoMdClose
+              className="hover:bg-gray-100 rounded-full w-6 h-6 p-1 "
+              onClick={() => {
+                question.metaData.value = undefined;
+                emptyField(bloc);
+              }}
+            />
+          }
+        />
+      );
+    });
 };
 
 export default EditAudienceGroup;

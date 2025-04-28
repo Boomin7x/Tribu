@@ -11,6 +11,7 @@ export const FormMultiSelect = (props: FormMultiSelectInterface) => {
 
   return (
     <Controller
+      defaultValue={props.value}
       name={name}
       control={props.control}
       render={({ field: { onChange, value }, fieldState: { error } }) => {
@@ -19,7 +20,6 @@ export const FormMultiSelect = (props: FormMultiSelectInterface) => {
             <AppMultiSelect
               {...props}
               items={props.elements}
-              // items={props.elements.map((i) => i.value)}
               hasBorder={props.isPreview}
               fullWidth
               onChange={(e) => {

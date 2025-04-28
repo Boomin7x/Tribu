@@ -21,14 +21,21 @@ export type AppSelectType = {
   label?: string;
 };
 export const AppSelect = ({ ...props }: AppSelectType) => {
-  useEffect(() => {
-    if (typeof props.value == 'string') {
-      setFieldValue(props.value);
-    }
-  }, [props.value]);
   const [fieldValue, setFieldValue] = useState<
-    string | number | readonly string[]
-  >('');
+    string | number | readonly string[] | undefined
+  >(props.value);
+
+  // useEffect(() => {
+  //   if (typeof props.value == 'string') {
+  //     setFieldValue(props.value);
+  //   }
+
+  //   if (Array.isArray(props.value)) {
+  //     setFieldValue(props.value[0]);
+  //   }
+  // }, [props.value]);
+
+  // console.log('AppSelect', props?.label, props.value);
 
   return (
     <FormControl
@@ -43,6 +50,7 @@ export const AppSelect = ({ ...props }: AppSelectType) => {
         {props.label}
       </label>
       <Select
+        defaultValue={fieldValue}
         displayEmpty
         placeholder={props.label}
         size="small"

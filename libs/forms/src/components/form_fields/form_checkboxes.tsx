@@ -15,11 +15,11 @@ interface FormCheckBoxInterface extends CheckboxInterface {
   control?: Control<FieldValues>;
 }
 export const FormCheckBox = (item: FormCheckBoxInterface) => {
-  useEffect(() => {
-    // setSelectedItems(item.selectedElements ?? []);
-  }, []);
+  const [selectedItems, setSelectedItems] = useState<(string | number)[]>(
+    item.value as any
+  );
 
-  const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
+  console.log('selectedItems', selectedItems);
 
   const name = item.name ?? generateFormName(item.label, item.id);
   return (
@@ -30,6 +30,7 @@ export const FormCheckBox = (item: FormCheckBoxInterface) => {
           defaultValue="female"
         >
           <Controller
+            defaultValue={item.value}
             name={name}
             render={({ fieldState: { error }, field }) => {
               if (selectedItems?.length > 0) {

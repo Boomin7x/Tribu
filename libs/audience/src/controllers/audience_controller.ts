@@ -14,14 +14,15 @@ const createAudience = async (audience: CreateAudience) => {
   return AudienceRepository.createAudience(audience);
 };
 
-const addPost = async (audience: any) => {
-  return AudienceRepository.addPost(audience);
+const updateAudience = async (id: string, audience: CreateAudience) => {
+  return AudienceRepository.updateAudience(id, audience);
 };
+
 export const AudienceController = {
   getAudience,
   createAudience,
   findAudienceGroupById,
-  addPost,
+  updateAudience,
 };
 
 export default AudienceController;
