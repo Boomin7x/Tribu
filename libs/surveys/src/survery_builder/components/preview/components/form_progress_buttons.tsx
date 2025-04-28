@@ -8,6 +8,7 @@ export type PreviewButtonsType = {
   previewItems: AllFormInterfacesType[];
   reverseIndexes: number[];
   loading?: boolean;
+  id?: string;
 };
 export const PreviewButtons: FC<PreviewButtonsType> = ({
   currentIndex,
@@ -15,6 +16,7 @@ export const PreviewButtons: FC<PreviewButtonsType> = ({
   previewItems,
   reverseIndexes,
   loading,
+  id,
 }: PreviewButtonsType) => {
   return (
     <div className="flex gap-2">
@@ -30,7 +32,13 @@ export const PreviewButtons: FC<PreviewButtonsType> = ({
         isLoading={loading}
         onClick={() => animateNext(true)}
         className="px-5"
-        label={currentIndex == previewItems.length - 1 ? 'Submit' : 'Next'}
+        label={
+          currentIndex == previewItems.length - 1
+            ? id
+              ? 'Update'
+              : 'Submit'
+            : 'Next'
+        }
       />
     </div>
   );

@@ -26,7 +26,6 @@ export const get = <T,>({
     queryFn: async () => {
       if (showLoader) start();
       const response = await callBack();
-
       if (response.status === 200) {
         console.log('response', response);
       }

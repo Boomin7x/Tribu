@@ -328,6 +328,7 @@ export const FormPreview = () => {
                   />
                 </div>
                 <PreviewButtons
+                  id={id}
                   currentIndex={currentIndex}
                   loading={isPending}
                   animateNext={animateNext}

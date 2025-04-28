@@ -1,34 +1,24 @@
 import { Box, Tab, Tabs } from '@mui/material';
 import colors from '../../utils/styles/colors.module.scss';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedTab } from '../../data/logic/tab.slice';
 import { GlobalTab } from '@tribu/forms';
+import { RootState } from '../../data';
 export const Header = () => {
   const dispatch = useDispatch();
-  const handleChange = (newValue: number) => {
-    setCurrentTab(newValue);
-    switch (newValue) {
-      case 0:
-        dispatch(setSelectedTab(GlobalTab.CREATE));
-        break;
-      case 1:
-        dispatch(setSelectedTab(GlobalTab.PREVIEW));
-        break;
-      case 2:
-        dispatch(setSelectedTab(GlobalTab.SUBMISSION));
-        break;
-      default:
-        break;
-    }
+  const selectedTab = useSelector(
+    (state: RootState) => state.tabs.currentGlobalTab
+  );
+
+  const handleChange = (newValue: string) => {
+    dispatch(setSelectedTab(newValue));
   };
-  const [currentTab, setCurrentTab] = useState<number>(0);
   return (
     <Box
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        // width: "100%",
         borderBottom: `1px solid ${colors.gray}`,
         height: '100%',
         alignItems: 'end',
@@ -43,18 +33,27 @@ export const Header = () => {
         borderColor={colors.gray}
       >
         <Tabs
-          value={currentTab}
+          value={selectedTab}
           onChange={(_, val) => handleChange(val)}
           aria-label="basic tabs example"
           sx={{ textTransform: 'capitalize' }}
         >
           <Tab
+            value={GlobalTab.CREATE}
             label="Create"
             sx={{ border: 'none', textTransform: 'capitalize' }}
             className="text-secondary-500"
           />
-          <Tab label="Preview" sx={{ textTransform: 'capitalize' }} />
-          <Tab label="Submission" sx={{ textTransform: 'capitalize' }} />
+          <Tab
+            label="Preview"
+            sx={{ textTransform: 'capitalize' }}
+            value={GlobalTab.PREVIEW}
+          />
+          <Tab
+            label="Submission"
+            sx={{ textTransform: 'capitalize' }}
+            value={GlobalTab.SUBMISSION}
+          />
         </Tabs>
       </Box>
       <Box></Box>

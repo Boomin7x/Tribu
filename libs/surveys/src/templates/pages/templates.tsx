@@ -35,6 +35,7 @@ export const SurveyTemplates = () => {
                   isError ? '' : 'pl-10 lg:pl-20 pt-10'
                 }`}
               >
+                activeItem
                 {isLoading &&
                   Array.from({ length: 10 }, (_, index) => index + 1).map(
                     (index) => {
@@ -48,7 +49,6 @@ export const SurveyTemplates = () => {
                       );
                     }
                   )}
-
                 {isError && (
                   <ErrorCard
                     title="Could not fetch templates"
@@ -57,7 +57,6 @@ export const SurveyTemplates = () => {
                     callback={() => refetch()}
                   />
                 )}
-
                 {data && data.length == 0 && (
                   <ErrorCard
                     message=""
@@ -71,7 +70,6 @@ export const SurveyTemplates = () => {
                     }}
                   />
                 )}
-
                 {data &&
                   data
                     .map((item) => item.form)

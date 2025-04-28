@@ -7,9 +7,6 @@ import {
   SurveyComponent,
   DraggableContainerComponents,
   FormFieldEditor,
-  updateFormTitle,
-  updateFormDescription,
-  setSortedItems,
   setFormData,
   setSelectedTab,
 } from '@tribu/surveys';
@@ -22,22 +19,22 @@ import { useParams } from 'react-router-dom';
 import { useApi } from '@tribu/utils';
 import { CreateSurvey } from '../data/interfaces/create_survey';
 import SurveyController from '../../controllers/survey_controller';
+import { SurveyInfo } from '../data/interfaces/survey';
 
 export const AddSurvey: FC = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
   if (id) {
-    const { data } = useApi.get<CreateSurvey>({
+    const { data } = useApi.get<SurveyInfo>({
       queryKey: [id!],
       callBack: () => SurveyController.findSurveyById(id),
     });
 
     useEffect(() => {
-      console.log('data', data);
+      console.log('datass', data);
 
       if (data) {
-        dispatch(setSelectedTab(GlobalTab.CREATE));
         const formData: AppFormState = {
           sections: data.form.blocs.map((item) => {
             return {
@@ -50,7 +47,7 @@ export const AddSurvey: FC = () => {
           formTitle: data.name,
           formDescription: data.description,
           selectedField: null,
-          audienceIds: data.audienceIds,
+          audienceIds: data.audiences.map((a) => a._id),
         };
         dispatch(setFormData(formData));
       }

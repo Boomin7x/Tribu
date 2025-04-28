@@ -10,6 +10,10 @@ import {
   Form,
 } from '../survery_builder/data/interfaces/create_survey';
 import { useEffect, useState } from 'react';
+import { SurveyInfo } from '../survery_builder/data/interfaces/survey';
+import { useDispatch } from 'react-redux';
+import { GlobalTab } from '@tribu/forms';
+import { setSelectedTab } from '../survery_builder/data';
 
 type counterItem = {
   id: number;
@@ -47,6 +51,7 @@ const counterItems: counterItem[] = [
 
 export const SurveyHome = () => {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [action, setAction] = useState<{ status: boolean; id?: string }>({
     status: false,
@@ -75,7 +80,7 @@ export const SurveyHome = () => {
       setAction({ status: false });
     },
   });
-  const [tableData, setTableData] = useState<CreateSurvey[]>([]);
+  const [tableData, setTableData] = useState<SurveyInfo[]>([]);
 
   useEffect(() => {
     const tableD = data?.map((item) => item.form);
@@ -120,7 +125,7 @@ export const SurveyHome = () => {
       {isError && (
         <ErrorCard title="Fetching Surveys Failed!" message={error.message} />
       )}
-      <AppTable<CreateSurvey>
+      <AppTable<SurveyInfo>
         loading={isLoading}
         tableData={tableData}
         className="mt-10"
@@ -128,6 +133,13 @@ export const SurveyHome = () => {
           console.log(row);
         }}
         onEdit={(row) => {
+          dispatch(setSelectedTab(GlobalTab.CREATE));
+          navigate(
+            `/${RouteNames.dashboard}/${RouteNames.edit_survey}/${row._id}`
+          );
+        }}
+        onView={(row) => {
+          dispatch(setSelectedTab(GlobalTab.PREVIEW));
           navigate(
             `/${RouteNames.dashboard}/${RouteNames.edit_survey}/${row._id}`
           );
@@ -153,7 +165,7 @@ export const SurveyHome = () => {
               name: 'Questions Count',
               selector: (row) => row.form.blocs.length,
             },
-          ] as TableColumn<CreateSurvey>[]
+          ] as TableColumn<SurveyInfo>[]
         }
         totalRows={0}
         perPage={0}

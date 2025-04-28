@@ -2,10 +2,11 @@ import { AxiosResponse } from 'axios';
 import { CreateSurvey } from '../../survery_builder/data/interfaces/create_survey';
 import SurveyService from '../services/survey_service';
 import { UpdateSurvey } from '../../survery_builder/data/interfaces/update_survey';
+import { SurveyInfo } from '../../survery_builder/data/interfaces/survey';
 
 const getSurveys = async () => {
   const response = await SurveyService.getSurveys();
-  const dataResponse: AxiosResponse<CreateSurvey[], any> = {
+  const dataResponse: AxiosResponse<SurveyInfo[], any> = {
     ...response,
     ...{ data: response.data['data'] },
   };
@@ -14,7 +15,7 @@ const getSurveys = async () => {
 
 const findSurveyById = async (id: string) => {
   const response = await SurveyService.findSurveyById(id);
-  const dataResponse: AxiosResponse<CreateSurvey, any> = {
+  const dataResponse: AxiosResponse<SurveyInfo, any> = {
     ...response,
     ...{ data: response.data['data'] },
   };

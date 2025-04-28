@@ -147,6 +147,7 @@ export const ThemeData = () => {
 export const Audience = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { audienceIds } = useSelector((state: RootState) => state.form);
 
   const { data, isLoading, isError, error, isSuccess, refetch } = useApi.get({
     queryKey: [],
@@ -172,8 +173,12 @@ export const Audience = () => {
   const [selectedBloc, setSelectedBloc] = useState<Bloc | undefined>();
 
   useEffect(() => {
-    console.log('demographics', demographics);
-    if (demographics) {
+    if (demographics && audienceIds.length > 0) {
+      const selected = demographics?.find((item) => {
+        return item.audienceId == audienceIds[0];
+      });
+      setSelectedBloc(selected?.bloc);
+      dispatch(updateFormAudienceId([selected?.audienceId]));
     }
   }, [isSuccess]);
 
