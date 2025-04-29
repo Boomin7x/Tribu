@@ -23,7 +23,7 @@ interface AppInputType {
 }
 export const AppInput = ({ ...props }: AppInputType) => {
   return (
-    <>
+    <div className="flex flex-col">
       {props.label && props.label.length > 2 && (
         <label className="block text-sm/6 font-medium text-gray-900">
           {props.label}
@@ -73,7 +73,7 @@ export const AppInput = ({ ...props }: AppInputType) => {
               }
         }
       />
-    </>
+    </div>
   );
 };
 

@@ -1,12 +1,10 @@
 import { Box } from '@mui/system';
-
 import { SliderInterface, AppInput, AppNumberInput } from '@tribu/forms';
 import { useDispatch } from 'react-redux';
 import {
   setSelectedField,
   updateFormField,
 } from '../../../data/logic/form.slice';
-import { Stack } from '@mui/material';
 
 const FormSliderRenderer = (formItem: SliderInterface) => {
   const dispatch = useDispatch();
@@ -14,12 +12,12 @@ const FormSliderRenderer = (formItem: SliderInterface) => {
   return (
     <Box width={'100%'}>
       <AppInput
-        placeholder="Label"
+        label="Label"
+        placeholder="Enter Label"
         id={formItem.id}
         // value={formItem.value}
         onChange={(e) => {
           const updatedItem = { ...formItem, label: e.target.value };
-          console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
         type="text"
@@ -27,40 +25,40 @@ const FormSliderRenderer = (formItem: SliderInterface) => {
 
       <div className="flex justify-between my-2">
         <AppNumberInput
-          placeholder="Min"
+          label="Min"
+          placeholder="Enter Min"
           id={formItem.id}
-          value={formItem.value}
+          // value={formItem.value}
           onChange={(e) => {
             const updatedItem = { ...formItem, min: Number(e.target.value) };
             dispatch(updateFormField(updatedItem));
             dispatch(setSelectedField(updatedItem));
           }}
-          hasBorder={true}
         />
         <div className="mx-2"></div>
         <AppNumberInput
-          placeholder="Max"
+          label="Max"
+          placeholder="Enter Max"
           id={formItem.id}
-          value={formItem.value}
+          // value={formItem.value}
           onChange={(e) => {
             const updatedItem = { ...formItem, max: Number(e.target.value) };
             dispatch(updateFormField(updatedItem));
             dispatch(setSelectedField(updatedItem));
           }}
-          hasBorder={true}
         />
       </div>
 
       <AppNumberInput
-        placeholder="Steps"
+        label="Steps"
+        placeholder="Enter Steps"
         id={formItem.id}
-        value={formItem.value}
+        // value={formItem.value}
         onChange={(e) => {
           const updatedItem = { ...formItem, steps: Number(e.target.value) };
           dispatch(updateFormField(updatedItem));
           dispatch(setSelectedField(updatedItem));
         }}
-        hasBorder={true}
       />
     </Box>
   );

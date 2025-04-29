@@ -13,26 +13,25 @@ const FormRatingRenderer = (formItem: RatingInterface) => {
   return (
     <Box width={'100%'}>
       <AppInput
-        placeholder="Label"
+        placeholder="Enter Label"
+        label="Label"
         id={formItem.id}
         onChange={(e) => {
           const updatedItem = { ...formItem, label: e.target.value };
-          console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        // hideBorders={true}
         type="text"
       />
       <Box marginBottom={2} />
       <AppNumberInput
-        placeholder="Max"
+        placeholder="Enter Max"
+        label="Max"
         id={formItem.id}
         onChange={(e) => {
           const updatedItem = { ...formItem, max: Number(e.target.value) };
           dispatch(updateFormField(updatedItem));
           dispatch(setSelectedField(updatedItem));
         }}
-        // hideBorders={true}
       />
     </Box>
   );

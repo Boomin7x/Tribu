@@ -28,7 +28,7 @@ export const AppNumberInput = ({ ...props }: AppNumberInputType) => {
   const [fieldValue, setFieldValue] = useState<number | null>(null);
 
   return (
-    <>
+    <div className="flex flex-col w-full">
       <label
         htmlFor="email"
         className="block text-sm/6 font-medium text-gray-900"
@@ -79,7 +79,7 @@ export const AppNumberInput = ({ ...props }: AppNumberInputType) => {
               }
         }
       />
-    </>
+    </div>
   );
 };
 

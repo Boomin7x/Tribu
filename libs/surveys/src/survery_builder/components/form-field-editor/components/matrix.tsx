@@ -10,6 +10,7 @@ import FieldIcon from '../../forms/base/field_icon';
 import colors from '../../../utils/styles/colors.module.scss';
 import trash from '../../../assets/icons/trash.svg';
 import { Add } from '@mui/icons-material';
+import { GoTrash } from 'react-icons/go';
 export const FormMatrixRenderer = (formItem: MatrixInterface) => {
   const dispatch = useDispatch();
 
@@ -17,6 +18,7 @@ export const FormMatrixRenderer = (formItem: MatrixInterface) => {
     <Box width={'100%'}>
       <AppInput
         placeholder="Label"
+        label="Label"
         id={formItem.id}
         value={formItem.value}
         onChange={(e) => {
@@ -24,17 +26,16 @@ export const FormMatrixRenderer = (formItem: MatrixInterface) => {
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
-        hideBorders={true}
         type={formItem.type}
       />
-      <Box marginBottom={5} />
+      <Box marginBottom={2} />
 
       <Box>
         <Typography>Rows</Typography>
         <Box
           width={'100%'}
           sx={{
-            marginTop: 2,
+            marginTop: 1,
             display: formItem.rows?.length > 0 ? 'block' : 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -43,59 +44,54 @@ export const FormMatrixRenderer = (formItem: MatrixInterface) => {
           {formItem.rows &&
             formItem.rows.map((item, index) => {
               return (
-                <Stack marginTop={2} direction={'row'}>
-                  <Box
-                    sx={{
-                      borderTop: '1px solid',
-                      borderLeft: '1px solid',
-                      borderBottom: '1px solid',
-                      borderColor: colors.gray,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: 50,
-                      display: 'flex',
-                      borderTopLeftRadius: 5,
-                      borderBottomLeftRadius: 5,
-                    }}
+                <div>
+                  <div
+                    className="mt-2 px-2 flex border items-center"
+                    key={index}
                   >
-                    <FieldIcon
-                      icon={trash}
-                      onClick={() => {
-                        const newValues = formItem.rows.filter(
-                          (_, i) => i != index
-                        );
+                    <div>
+                      <GoTrash
+                        className="p-2 bg-gray-200 cursor-pointer hover:bg-gray-300 rounded-sm"
+                        size={30}
+                        onClick={() => {
+                          const newValues = formItem.rows.filter(
+                            (_, i) => i != index
+                          );
+                          const newSelectedItem = {
+                            ...formItem,
+                            rows: newValues,
+                          };
+                          dispatch(setSelectedField(newSelectedItem));
+                          dispatch(updateFormField(newSelectedItem));
+                        }}
+                      />
+                    </div>
+
+                    <AppInput
+                      // value={item}
+                      placeholder="Enter Item"
+                      key={index}
+                      type="text"
+                      hideBorders={true}
+                      id={`${item}`}
+                      onChange={(e: any) => {
+                        const newField = {
+                          ...item,
+                          label: item.label,
+                          value: e.target.value,
+                        };
+                        const radioItems = [...formItem.rows];
+                        radioItems[index] = newField;
                         const newSelectedItem = {
                           ...formItem,
-                          rows: newValues,
+                          rows: radioItems,
                         };
                         dispatch(setSelectedField(newSelectedItem));
                         dispatch(updateFormField(newSelectedItem));
                       }}
                     />
-                  </Box>
-                  <AppInput
-                    value={item.value}
-                    placeholder={item.label}
-                    key={index}
-                    type="text"
-                    id={item.id}
-                    onChange={(e) => {
-                      const newField = {
-                        ...item,
-                        label: item.label,
-                        value: e.target.value,
-                      };
-                      const radioItems = [...formItem.rows];
-                      radioItems[index] = newField;
-                      const newSelectedItem = {
-                        ...formItem,
-                        rows: radioItems,
-                      };
-                      dispatch(setSelectedField(newSelectedItem));
-                      dispatch(updateFormField(newSelectedItem));
-                    }}
-                  />
-                </Stack>
+                  </div>
+                </div>
               );
             })}
 
@@ -140,23 +136,11 @@ export const FormMatrixRenderer = (formItem: MatrixInterface) => {
           {formItem.columns &&
             formItem.columns.map((item, index) => {
               return (
-                <Stack marginTop={2} direction={'row'}>
-                  <Box
-                    sx={{
-                      borderTop: '1px solid',
-                      borderLeft: '1px solid',
-                      borderBottom: '1px solid',
-                      borderColor: colors.gray,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: 50,
-                      display: 'flex',
-                      borderTopLeftRadius: 5,
-                      borderBottomLeftRadius: 5,
-                    }}
-                  >
-                    <FieldIcon
-                      icon={trash}
+                <div className="mt-2 px-2 flex border items-center" key={index}>
+                  <div>
+                    <GoTrash
+                      className="p-2 bg-gray-200 cursor-pointer hover:bg-gray-300 rounded-sm"
+                      size={30}
                       onClick={() => {
                         const newValues = formItem.columns.filter(
                           (_, i) => i != index
@@ -169,14 +153,16 @@ export const FormMatrixRenderer = (formItem: MatrixInterface) => {
                         dispatch(updateFormField(newSelectedItem));
                       }}
                     />
-                  </Box>
+                  </div>
+
                   <AppInput
-                    value={item.value}
-                    placeholder={item.label}
+                    // value={item}
+                    placeholder="Enter Item"
                     key={index}
                     type="text"
-                    id={item.id}
-                    onChange={(e) => {
+                    hideBorders={true}
+                    id={`${item}`}
+                    onChange={(e: any) => {
                       const newField = {
                         ...item,
                         label: item.label,
@@ -192,7 +178,7 @@ export const FormMatrixRenderer = (formItem: MatrixInterface) => {
                       dispatch(updateFormField(newSelectedItem));
                     }}
                   />
-                </Stack>
+                </div>
               );
             })}
 

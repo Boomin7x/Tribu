@@ -26,20 +26,22 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
   return (
     <Box width={'100%'} mb={2}>
       <AppInput
-        placeholder="Label"
+        placeholder="Enter label"
+        label="Label"
         id={formItem.id}
-        value={formItem.label == 'Label' ? '' : formItem.label}
+        // value={formItem.label == 'Label' ? '' : formItem.label}
         onChange={(e) => {
           const updatedItem = { ...formItem, label: e.target.value };
           dispatch(updateFormField(updatedItem));
           dispatch(setSelectedField(updatedItem));
         }}
-        hideBorders={true}
         type={formItem.type}
       />
-      <Stack direction={'row'} spacing={1} my={2}>
+      <div className="mx-2 my-3"></div>
+      <div className="flex justify-between">
         <AppNumberInput
-          placeholder="Min"
+          placeholder="Enter Min"
+          label="Min"
           id={formItem.id}
           value={formItem?.min}
           min={0}
@@ -49,10 +51,11 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
             dispatch(updateFormField(updatedItem));
             dispatch(setSelectedField(updatedItem));
           }}
-          hideBorders={true}
         />
+        <div className="mx-2 my-3"></div>
         <AppNumberInput
-          placeholder="Max"
+          label="Max"
+          placeholder="Enter Max"
           id={formItem.id}
           value={formItem?.max}
           min={0}
@@ -62,11 +65,12 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
             dispatch(updateFormField(updatedItem));
             dispatch(setSelectedField(updatedItem));
           }}
-          hideBorders={true}
         />
-      </Stack>
+      </div>
+      <div className="mx-2 my-3"></div>
       <AppNumberInput
-        placeholder="Step"
+        label="Step"
+        placeholder="Enter Step Number"
         id={formItem.id}
         value={formItem.steps.length == 0 ? undefined : formItem.steps.length}
         max={10}
@@ -81,9 +85,7 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
           dispatch(updateFormField(updatedItem));
           dispatch(setSelectedField(updatedItem));
         }}
-        hideBorders={true}
       />
-
       <Box mt={3}>
         <Typography mb={1}>Range Labels</Typography>
         <Box mt={1}>
@@ -146,7 +148,6 @@ const FormRankingRenderer = (formItem: RankingInterface) => {
           )}
         </Box>
       </Box>
-
       {formItem.stepLabels.length < 3 && (
         <>
           <Stack direction={'row'} spacing={1} my={2}>

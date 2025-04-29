@@ -19,12 +19,12 @@ export const FormInputNumberRenderer = (
   return (
     <Box width={'100%'}>
       <AppInput
-        placeholder="Label"
+        placeholder="Enter label"
+        label="Label"
         id={formItem.id}
-        value={formItem.label == 'Label' ? '' : formItem.label}
+        // value={formItem.label == 'Label' ? '' : formItem.label}
         onChange={(e) => {
           const updatedItem = { ...formItem, label: e.target.value };
-          console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}
         type="text"
@@ -32,7 +32,8 @@ export const FormInputNumberRenderer = (
 
       <div className="flex my-2">
         <AppNumberInput
-          placeholder="Min"
+          placeholder="Enter Min"
+          label="Min"
           id={formItem.id}
           value={formItem.min}
           min={0}
@@ -41,12 +42,12 @@ export const FormInputNumberRenderer = (
             dispatch(updateFormField(updatedItem));
             dispatch(setSelectedField(updatedItem));
           }}
-          // hideBorders={true}
         />
 
         <div className="mx-2"></div>
         <AppNumberInput
-          placeholder="Max"
+          placeholder="Enter Max"
+          label="Max"
           id={formItem.id}
           value={formItem.min}
           min={0}
@@ -55,7 +56,6 @@ export const FormInputNumberRenderer = (
             dispatch(updateFormField(updatedItem));
             dispatch(setSelectedField(updatedItem));
           }}
-          // hideBorders={true}
         />
       </div>
     </Box>

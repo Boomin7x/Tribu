@@ -16,9 +16,10 @@ export const FormDateFieldRenderer = (formItem: TextDateInterface) => {
   return (
     <Box width={'100%'}>
       <AppInput
-        placeholder="Label"
+        label="Label"
+        placeholder="Enter label"
         id={formItem.id}
-        value={formItem.value ? formItem.value.toISOString() : ''}
+        // value={formItem.value ? formItem.value.toISOString() : ''}
         onChange={(e) => {
           const updatedItem = { ...formItem, label: e.target.value };
           dispatch(updateFormField(updatedItem));

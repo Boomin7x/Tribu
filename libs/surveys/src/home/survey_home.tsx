@@ -8,7 +8,7 @@ import SurveyController from '../controllers/survey_controller';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { GlobalTab } from '@tribu/forms';
-import { setSelectedTab } from '../survery_builder/data';
+import { resetState, setSelectedTab } from '../survery_builder/data';
 import { Survey } from '../data/interfaces/create_survey';
 
 type counterItem = {
@@ -104,12 +104,12 @@ export const SurveyHome = () => {
               <CiSearch className="absolute left-2 text-gray-400 scale-150" />
             }
             inputClasses="w-full pl-10"
-            additionalClasses="w-[40%]"
             placeholder="Search"
           />
         </div>
         <AppButton
           onClick={() => {
+            dispatch(resetState({}));
             navigate('/surveys/templates');
           }}
           label="New Survey"

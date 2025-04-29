@@ -8,7 +8,6 @@ import {
   setSelectedField,
   updateFormField,
 } from '../../../data/logic/form.slice';
-import FieldIcon from '../../forms/base/field_icon';
 
 const FormRadioRenderer = (formItem: RadioInterface | CheckboxInterface) => {
   const dispatch = useDispatch();
@@ -22,46 +21,51 @@ const FormRadioRenderer = (formItem: RadioInterface | CheckboxInterface) => {
         alignItems: 'center',
       }}
     >
+      <label className="block text-sm/6 font-medium text-gray-900">
+        All Items
+      </label>
       {formItem.elements &&
         formItem.elements.map((item, index) => {
           return (
-            <div className="mt-2 px-2 flex border items-center" key={index}>
-              <div>
-                <GoTrash
-                  className="p-2 bg-gray-200 cursor-pointer hover:bg-gray-300 rounded-sm"
-                  size={30}
-                  onClick={() => {
-                    const newValues = formItem.elements.filter(
-                      (_, i) => i != index
-                    );
+            <div>
+              <div className="mt-2 px-2 flex border items-center" key={index}>
+                <div>
+                  <GoTrash
+                    className="p-2 bg-gray-200 cursor-pointer hover:bg-gray-300 rounded-sm"
+                    size={30}
+                    onClick={() => {
+                      const newValues = formItem.elements.filter(
+                        (_, i) => i != index
+                      );
+                      const newSelectedItem = {
+                        ...formItem,
+                        elements: newValues,
+                      };
+                      dispatch(setSelectedField(newSelectedItem));
+                      dispatch(updateFormField(newSelectedItem));
+                    }}
+                  />
+                </div>
+
+                <AppInput
+                  // value={item}
+                  placeholder="Enter Item"
+                  key={index}
+                  type="text"
+                  hideBorders={true}
+                  id={`${item}`}
+                  onChange={(e: any) => {
+                    const radioItems = [...formItem.elements];
+                    radioItems[index] = e.target.value;
                     const newSelectedItem = {
                       ...formItem,
-                      elements: newValues,
+                      elements: radioItems,
                     };
                     dispatch(setSelectedField(newSelectedItem));
                     dispatch(updateFormField(newSelectedItem));
                   }}
                 />
               </div>
-
-              <AppInput
-                value={item}
-                placeholder={`${item}`}
-                key={index}
-                type="text"
-                hideBorders={true}
-                id={`${item}`}
-                onChange={(e: any) => {
-                  const radioItems = [...formItem.elements];
-                  radioItems[index] = e.target.value;
-                  const newSelectedItem = {
-                    ...formItem,
-                    elements: radioItems,
-                  };
-                  dispatch(setSelectedField(newSelectedItem));
-                  dispatch(updateFormField(newSelectedItem));
-                }}
-              />
             </div>
           );
         })}

@@ -24,7 +24,7 @@ const FieldIcon = ({
         cursor: 'pointer',
       }}
     >
-      <img src={icon} alt="" width={20} height={20} />
+      <img src={icon} alt="" className="scale-125" />
     </Box>
   );
 };

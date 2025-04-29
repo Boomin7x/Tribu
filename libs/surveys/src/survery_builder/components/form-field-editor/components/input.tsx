@@ -8,23 +8,22 @@ export const FormInputRenderer = (formItem: TextInputInterface) => {
   return (
     <Box width={'100%'}>
       <AppInput
-        placeholder="Placeholder"
+        placeholder="Enter label"
+        label="Label"
         id={formItem.id}
-        value={formItem.placeholder}
         onChange={(e) => {
-          const updatedItem = { ...formItem, placeholder: e.target.value };
-          console.log(updatedItem);
+          const updatedItem = { ...formItem, label: e.target.value };
           dispatch(updateFormField(updatedItem));
         }}
         type={formItem.type}
       />
       <Box marginBottom={2} />
       <AppInput
-        placeholder="Label"
+        placeholder="Enter placeholder"
+        label="Placeholder"
         id={formItem.id}
-        value={formItem.label}
         onChange={(e) => {
-          const updatedItem = { ...formItem, label: e.target.value };
+          const updatedItem = { ...formItem, placeholder: e.target.value };
           console.log(updatedItem);
           dispatch(updateFormField(updatedItem));
         }}

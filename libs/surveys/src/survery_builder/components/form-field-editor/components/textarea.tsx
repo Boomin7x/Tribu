@@ -16,7 +16,7 @@ const FormTextAreaRenderer = (formItem: TextAreaInterface) => {
       <Box width={'100%'}>
         <AppTextArea
           {...formItem}
-          hideBorders={true}
+          label={formItem.label}
           onChange={(e: any) => {
             const updatedItem = { ...formItem, value: e.target.value };
             dispatch(updateFormField(updatedItem));
