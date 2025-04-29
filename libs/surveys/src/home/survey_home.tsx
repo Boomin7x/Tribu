@@ -53,7 +53,7 @@ export const SurveyHome = () => {
     status: false,
   });
 
-  const { data, refetch, isLoading, isError, error } = useApi.get({
+  const { data, refetch, isLoading, isError, error } = useApi.query({
     queryKey: ['surveys'],
     callBack: () => {
       return SurveyController.getSurvey();
@@ -66,7 +66,7 @@ export const SurveyHome = () => {
     isPending,
     isError: isErrorDeleting,
     error: deleteError,
-  } = useApi.post({
+  } = useApi.mutate({
     queryKey: ['delete-survey'],
     callBack: (id: string) => {
       return SurveyController.deleteSurvey(id);

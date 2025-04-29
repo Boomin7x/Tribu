@@ -16,7 +16,14 @@ export const AppButton: React.FC<AppButtonProps> = ({
   return (
     <button
       {...props}
-      className={` cursor-pointer bg-secondary-500 hover:bg-secondary-600 border-none text-sm text-white rounded-sm px-5 flex po items-center outline-none gap-2 ${props.className}`}
+      className={`cursor-pointer transition-colors duration-500 ${
+        props.disabled
+          ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
+          : 'bg-secondary-500 hover:bg-secondary-600 text-white'
+      } border-none text-sm rounded-sm px-5 flex po items-center outline-none gap-2 ${
+        props.className
+      }`}
+      disabled={props.disabled}
     >
       {isLoading ? (
         <AppLoader size={20} />

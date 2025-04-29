@@ -11,7 +11,7 @@ interface UseApiProps<T> {
   onSuccess?: (data: T) => void;
   callBack: (data?: any) => Promise<AxiosResponse<T, any>>;
 }
-export const get = <T,>({
+export const query = <T,>({
   queryKey,
   onProgress,
   showLoader = true,
@@ -39,7 +39,7 @@ export const get = <T,>({
   return req;
 };
 
-export const post = <T,>({
+export const mutate = <T,>({
   queryKey,
   showLoader = true,
   showErrorToast = true,
@@ -74,8 +74,8 @@ export const post = <T,>({
   return response;
 };
 export const useApi = {
-  get,
-  post,
+  query,
+  mutate,
 };
 export default useApi;
 

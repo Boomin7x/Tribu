@@ -24,18 +24,15 @@ import { Survey } from '../../data/interfaces/create_survey';
 export const AddSurvey: FC = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const formDetails: AppFormState = useSelector(
-    (state: RootState) => state.form
-  );
 
   useEffect(() => {
     if (!id) {
-      dispatch(resetState({}));
+      // dispatch(resetState({}));
     }
   }, []);
 
   if (id) {
-    const { data } = useApi.get<Survey>({
+    const { data } = useApi.query<Survey>({
       queryKey: [id!],
       callBack: () => SurveyController.findSurveyById(id),
     });
@@ -51,6 +48,7 @@ export const AddSurvey: FC = () => {
               formItems: item.questions.map((q) => q.metaData),
             };
           }),
+          isTemplate: data.form.isTemplate,
           activeSection: 0,
           formTitle: data.name,
           formDescription: data.description,

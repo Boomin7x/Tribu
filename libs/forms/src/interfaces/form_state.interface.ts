@@ -12,6 +12,7 @@ export interface AppFormState {
   formTitle: string;
   formDescription: string;
   isPreview?: boolean;
+  isTemplate?: boolean;
   activeSection: number;
   sections: FormSection[];
   audienceIds: string[];

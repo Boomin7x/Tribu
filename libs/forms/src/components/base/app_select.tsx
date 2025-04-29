@@ -25,18 +25,6 @@ export const AppSelect = ({ ...props }: AppSelectType) => {
     string | number | readonly string[] | undefined
   >(props.value);
 
-  // useEffect(() => {
-  //   if (typeof props.value == 'string') {
-  //     setFieldValue(props.value);
-  //   }
-
-  //   if (Array.isArray(props.value)) {
-  //     setFieldValue(props.value[0]);
-  //   }
-  // }, [props.value]);
-
-  // console.log('AppSelect', props?.label, props.value);
-
   return (
     <FormControl
       fullWidth={props.fullWidth}
@@ -60,7 +48,7 @@ export const AppSelect = ({ ...props }: AppSelectType) => {
           setFieldValue(e.target.value);
         }}
         inputProps={{ 'aria-label': 'Without label' }}
-        className="border-1 border-gray-50 "
+        className="border-1 border-gray-50 w-full"
       >
         {props.label && (
           <MenuItem disabled value="">

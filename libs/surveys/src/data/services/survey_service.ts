@@ -1,6 +1,5 @@
 import { http } from '@tribu/utils';
-import { Survey } from '../../survery_builder/data/interfaces/create_survey';
-import { UpdateSurvey } from '../../survery_builder/data/interfaces/update_survey';
+import { Survey } from '../interfaces/create_survey';
 
 const getSurveys = async () => {
   return await http.run({
@@ -41,7 +40,7 @@ const saveSurveyTemplate = async (survey: Survey) => {
   });
 };
 
-const updateSurvey = async (id: string, survey: UpdateSurvey) => {
+const updateSurvey = async (id: string, survey: Survey) => {
   return await http.run({
     url: `api/tribu/v1/survey/${id}`,
     method: 'PUT',

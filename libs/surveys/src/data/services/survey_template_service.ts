@@ -14,9 +14,9 @@ const findTemplateById = async (id: string) => {
   });
 };
 
-const createTemplate = async (survey: SurveyTemplate) => {
+const createTemplate = async (survey: SurveyTemplate, categoryId: string) => {
   return await http.run({
-    url: 'api/tribu/v1/form/template',
+    url: `api/tribu/v1/form/template/category/${categoryId}`,
     method: 'POST',
     body: survey,
   });

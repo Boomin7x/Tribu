@@ -5,3 +5,4 @@ export * from './app_ui_input';
 export * from './page_transition';
 export * from './loader';
 export * from './app_modal';
+export * from './skeleton_bar';

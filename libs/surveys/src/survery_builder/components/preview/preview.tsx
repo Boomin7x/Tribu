@@ -21,13 +21,20 @@ import {
   AllFormInterfacesType,
   generateFormName,
   FormFields,
+  AppSelect,
 } from '@tribu/forms';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RouteNames, useApi } from '@tribu/utils';
 import { useNavigate, useParams } from 'react-router-dom';
-import { SurveyTemplateController, SurveyController } from '@tribu/surveys';
-import { SurveyTemplate } from 'libs/surveys/src/data/interfaces/survey_template';
-import { Survey } from 'libs/surveys/src/data/interfaces/create_survey';
+import {
+  SurveyTemplateController,
+  SurveyController,
+  SurveyTemplate,
+  Survey,
+  TemplateCategoryController,
+  TemplateCategory,
+} from '@tribu/surveys';
+import { ErrorCard, SkeletonBar } from '@tribu/ui';
 
 export type AnimatingData = {
   isAnimating: boolean;
@@ -35,9 +42,19 @@ export type AnimatingData = {
 };
 export const FormPreview = () => {
   const { id } = useParams();
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const {
+    data: templateCategories,
+    isLoading: isCategoryLoading,
+    isError: isTemplateCategoryError,
+    error: templateCategoryError,
+    refetch: refetchTemplates,
+  } = useApi.query<TemplateCategory[]>({
+    queryKey: ['template'],
+    callBack: () => TemplateCategoryController.getCategories(),
+  });
 
   const formDetails: AppFormState = useSelector(
     (state: RootState) => state.form
@@ -47,9 +64,9 @@ export const FormPreview = () => {
   );
 
   const [reverseIndexes, setReverseIndexes] = useState<number[]>([0]);
-
   const [validationSchema, setValidationSchema] = useState<any>();
-
+  const [selectedTemplateCategory, setSelectedTemplateCategory] =
+    useState<TemplateCategory>();
   const [isTemplate, setIsTemplate] = useState<boolean>(false);
 
   const form = useForm({
@@ -57,7 +74,6 @@ export const FormPreview = () => {
   });
 
   const { handleSubmit, control, formState, reset, watch } = form;
-
   const { errors } = formState;
 
   useEffect(() => {
@@ -89,25 +105,31 @@ export const FormPreview = () => {
     };
   }, [formDetails.sections]);
 
-  const { mutate: addSurvey, isPending } = useApi.post<Survey | SurveyTemplate>(
-    {
-      queryKey: ['Survey', 'UpdateSurvey'],
-      callBack: (data: Survey | SurveyTemplate) => {
-        if (isTemplate) {
-          return id
-            ? SurveyTemplateController.createTemplate(data as SurveyTemplate)
-            : SurveyTemplateController.createTemplate(data as SurveyTemplate);
-        } else {
-          return id
-            ? SurveyController.updateSurvey(id, data as Survey)
-            : SurveyController.createSurvey(data as Survey);
-        }
-      },
-      onSuccess: (_) => {
-        navigate(`/${RouteNames.dashboard}/${RouteNames.surveys_home}`);
-      },
-    }
-  );
+  const { mutate: addSurvey, isPending } = useApi.mutate<
+    Survey | SurveyTemplate
+  >({
+    queryKey: ['Survey', 'UpdateSurvey'],
+    callBack: (data: Survey | SurveyTemplate) => {
+      if (isTemplate) {
+        return id
+          ? SurveyTemplateController.createTemplate(
+              data as SurveyTemplate,
+              selectedTemplateCategory!._id!
+            )
+          : SurveyTemplateController.createTemplate(
+              data as SurveyTemplate,
+              selectedTemplateCategory!._id!
+            );
+      } else {
+        return id
+          ? SurveyController.updateSurvey(id, data as Survey)
+          : SurveyController.createSurvey(data as Survey);
+      }
+    },
+    onSuccess: (_) => {
+      navigate(`/${RouteNames.dashboard}/${RouteNames.surveys_home}`);
+    },
+  });
 
   const onSubmit = (_: any) => {
     const template: SurveyTemplate = {
@@ -115,6 +137,7 @@ export const FormPreview = () => {
       name: formDetails.formTitle,
       description: formDetails.formDescription,
       isTemplate: true,
+
       blocs: formDetails.sections.map((section) => ({
         key: section.id,
         metaData: {
@@ -322,35 +345,76 @@ export const FormPreview = () => {
               </Typography>
             </div>
 
-            <Box
-              sx={{
-                transition: 'all 0.2s',
-                translate: `${
-                  animationState.isAnimating
-                    ? animationState.isForward
-                      ? '10rem'
-                      : '10rem'
-                    : '0'
-                } 0`,
-                opacity: ` ${animationState.isAnimating ? '0' : '1'}`,
-              }}
-            >
-              <Stack>
-                {previewItems &&
-                  previewItems
-                    .map((item, index) => {
-                      const name = generateFormName(item.label, `${index}`);
-                      const newField = { ...item, name };
-                      const newItem = {
-                        ...newField,
-                        isPreview: true,
-                        control: control,
-                      };
-                      return <FormRenderer key={index} {...newItem} />;
-                    })
-                    .filter((_, index) => index == currentIndex)}
-              </Stack>
-            </Box>
+            <div>
+              <Box
+                sx={{
+                  width: '100%',
+                  transition: 'all 0.2s',
+                  translate: `${
+                    animationState.isAnimating
+                      ? animationState.isForward
+                        ? '10rem'
+                        : '10rem'
+                      : '0'
+                  } 0`,
+                  opacity: ` ${animationState.isAnimating ? '0' : '1'}`,
+                }}
+              >
+                <Stack>
+                  {previewItems &&
+                    previewItems
+                      .map((item, index) => {
+                        const name = generateFormName(item.label, `${index}`);
+                        const newField = { ...item, name };
+                        const newItem = {
+                          ...newField,
+                          isPreview: true,
+                          control: control,
+                        };
+                        return <FormRenderer key={index} {...newItem} />;
+                      })
+                      .filter((_, index) => index == currentIndex)}
+                </Stack>
+              </Box>
+
+              {isTemplate && (
+                <>
+                  {isCategoryLoading && (
+                    <div className="w-full bg-secondary-50 rounded-sm px-5 py-4 my-2">
+                      <SkeletonBar count={3} />
+                    </div>
+                  )}
+                  {isTemplateCategoryError && (
+                    <ErrorCard
+                      title="Template Error"
+                      className="!h-[20vh] my-2"
+                      message={templateCategoryError.message}
+                      callback={refetchTemplates}
+                    />
+                  )}
+                  {templateCategories && (
+                    <div className="w-full mt-2">
+                      <AppSelect
+                        label="Select Template Category"
+                        id=""
+                        value={selectedTemplateCategory?.name}
+                        items={templateCategories.map(
+                          (template) => template.name
+                        )}
+                        onChange={(e) => {
+                          const selected = templateCategories.find(
+                            (template) => template.name == e.target.value
+                          );
+                          setSelectedTemplateCategory(selected);
+                        }}
+                        width="100%"
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+
             <div className="flex flex-row w-full items-center justify-between mb-5">
               <FormProgressIndicators
                 currentIndex={currentIndex}

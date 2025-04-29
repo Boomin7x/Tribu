@@ -15,9 +15,13 @@ const findTemplateById = async (id: string) => {
 };
 
 const createTemplate = async (
-  surveys: SurveyTemplate
+  surveys: SurveyTemplate,
+  categoryId: string
 ): Promise<AxiosResponse<SurveyTemplate, any>> => {
-  const response = await SurveyTemplateService.createTemplate(surveys);
+  const response = await SurveyTemplateService.createTemplate(
+    surveys,
+    categoryId
+  );
   const dataResponse: AxiosResponse<SurveyTemplate, any> = {
     ...response,
     ...{ data: response.data['data'] },

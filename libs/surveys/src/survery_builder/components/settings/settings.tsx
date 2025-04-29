@@ -149,7 +149,7 @@ export const Audience = () => {
   const dispatch = useDispatch();
   const { audienceIds } = useSelector((state: RootState) => state.form);
 
-  const { data, isLoading, isError, error, isSuccess, refetch } = useApi.get({
+  const { data, isLoading, isError, error, isSuccess, refetch } = useApi.query({
     queryKey: [],
     callBack: () => {
       return AudienceController.getAudience();

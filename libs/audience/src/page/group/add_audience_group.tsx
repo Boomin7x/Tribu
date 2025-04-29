@@ -155,7 +155,7 @@ export const NewAudienceGroup = () => {
   const [currentBloc, setCurrentBloc] = useState<Bloc>(allBlocs[0]);
   const [formDataValue, setFormDataValue] = useState<PersonaDto>({});
 
-  const { mutate: addAudience, isPending } = useApi.post({
+  const { mutate: addAudience, isPending } = useApi.mutate({
     queryKey: [],
     callBack: (data: CreateAudience) => {
       return AudienceController.createAudience(data);

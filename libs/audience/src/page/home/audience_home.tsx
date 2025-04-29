@@ -12,7 +12,7 @@ export const AudienceHome = () => {
   const navigate = useNavigate();
   const [debounce, setDebouncedValue] = useDebounce('', 500);
 
-  const { data, isLoading, isError, error } = useApi.get({
+  const { data, isLoading, isError, error } = useApi.query({
     queryKey: ['audience'],
     callBack: () => {
       return AudienceController.getAudience();

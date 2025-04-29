@@ -5,7 +5,8 @@ import AppErrorMessage from '../base/app_error2_message';
 import { TextInputInterface } from '../../interfaces';
 import { AppInput } from '../base/app_input';
 interface FormInputFieldInterface extends TextInputInterface {
-  control?: Control<FieldValues>;
+  // control?: Control<FieldValues>;
+  control?: Control<FieldValues> | any;
 }
 export const FormInputField = (props: FormInputFieldInterface) => {
   const name = props.name ?? generateFormName(props.label, props.id);

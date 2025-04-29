@@ -13,7 +13,7 @@ import { UseQueryResult } from '@tanstack/react-query';
 
 export const EditAudienceGroup = () => {
   const { id } = useParams();
-  const response = useApi.get<CreateAudience>({
+  const response = useApi.query<CreateAudience>({
     queryKey: [id!],
     callBack: () => AudienceController.findAudienceGroupById(id!),
   });
@@ -74,7 +74,7 @@ export const EditAudienceFormGroup = ({
 
   console.log('errors', errors);
 
-  const { mutate: updateAudience, isPending } = useApi.post({
+  const { mutate: updateAudience, isPending } = useApi.mutate({
     queryKey: ['audience'],
     callBack: (data: CreateAudience) => {
       return AudienceController.updateAudience(id, data);

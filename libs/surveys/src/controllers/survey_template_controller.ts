@@ -9,12 +9,12 @@ const findTemplateById = async (id: string) => {
   return SurveyTemplateRepository.findTemplateById(id);
 };
 
-const createTemplate = async (audience: SurveyTemplate) => {
-  return SurveyTemplateRepository.createTemplate(audience);
+const createTemplate = async (template: SurveyTemplate, categoryId: string) => {
+  return SurveyTemplateRepository.createTemplate(template, categoryId);
 };
 
-const updateTemplate = async (audience: SurveyTemplate) => {
-  return SurveyTemplateRepository.updateTemplate(audience);
+const updateTemplate = async (template: SurveyTemplate) => {
+  return SurveyTemplateRepository.updateTemplate(template);
 };
 
 export const SurveyTemplateController = {

@@ -5,7 +5,7 @@ import { generateFormName } from '@tribu/forms';
 import { TextAreaInterface } from '@tribu/forms';
 
 interface FormTextAreaInterface extends TextAreaInterface {
-  control?: Control<FieldValues>;
+  control?: Control<FieldValues> | any;
 }
 export const FormTextArea = (props: FormTextAreaInterface) => {
   const name = props.name ?? generateFormName(props.label, props.id);
