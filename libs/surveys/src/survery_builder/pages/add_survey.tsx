@@ -8,18 +8,17 @@ import {
   DraggableContainerComponents,
   FormFieldEditor,
   setFormData,
-  setSelectedTab,
 } from '@tribu/surveys';
 import { Box, Stack } from '@mui/material';
 import colors from '../utils/styles/colors.module.scss';
 import { RootState } from '../data/store/app_store';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppFormState, FormFields, GlobalTab } from '@tribu/forms';
+import { AppFormState, GlobalTab } from '@tribu/forms';
 import { useParams } from 'react-router-dom';
 import { useApi } from '@tribu/utils';
-import { CreateSurvey } from '../data/interfaces/create_survey';
 import SurveyController from '../../controllers/survey_controller';
 import { SurveyInfo } from '../data/interfaces/survey';
+import { setSurveyInfo } from '../data/logic/survey_slice';
 
 export const AddSurvey: FC = () => {
   const { id } = useParams();
@@ -32,9 +31,8 @@ export const AddSurvey: FC = () => {
     });
 
     useEffect(() => {
-      console.log('datass', data);
-
       if (data) {
+        dispatch(setSurveyInfo(data));
         const formData: AppFormState = {
           sections: data.form.blocs.map((item) => {
             return {

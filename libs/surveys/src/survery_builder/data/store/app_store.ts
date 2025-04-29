@@ -1,7 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
-import FormReducer from "../logic/form.slice";
-import TabReducer from "../logic/tab.slice";
-import PreviewReducer from "../logic/preview.slice";
+import { configureStore } from '@reduxjs/toolkit';
+import FormReducer from '../logic/form.slice';
+import TabReducer from '../logic/tab.slice';
+import PreviewReducer from '../logic/preview.slice';
+import SurveyReducer from '../logic/survey_slice';
 // ...
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     form: FormReducer,
     tabs: TabReducer,
     previewItem: PreviewReducer,
+    survey: SurveyReducer,
   },
 });
 
