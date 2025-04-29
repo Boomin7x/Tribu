@@ -2,7 +2,6 @@ import React, { InputHTMLAttributes, ReactNode } from 'react';
 
 export interface AppUIInputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: ReactNode;
-  additionalClasses?: string;
   hint?: string;
   label?: string;
   inputClasses?: string;
@@ -10,7 +9,6 @@ export interface AppUIInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const AppUIInput: React.FC<AppUIInputProps> = ({
   icon,
-  additionalClasses,
   inputClasses,
   label,
   ...props

@@ -17,7 +17,7 @@ export const AudienceGLMap: FC<AudienceGLMapProps> = (props) => {
   const { location, setLocation } = useGeolocation(false);
   const [address, setAddress] = useState('');
   const { loading, geoData, error, geocode } = useGeocode();
-  const debouncedAddress = useDebounce(address, 500);
+  const [debouncedAddress] = useDebounce(address, 500);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddress(e.target.value);

@@ -1,8 +1,11 @@
 import {
+  resetState,
+  RootState,
   setFormData,
   Survey,
   SurveyTemplate,
   TemplateCategoryController,
+  updateFormTitle,
 } from '@tribu/surveys';
 import {
   AppButton,
@@ -12,7 +15,7 @@ import {
   SkeletonBar,
 } from '@tribu/ui';
 import { RouteNames, useApi } from '@tribu/utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TemplateCategory } from '../../data/interfaces/template_category';
 import {
@@ -24,18 +27,20 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSurveyInfo } from '../data/logic/survey_slice';
+import { Update } from '@mui/icons-material';
 
 export const SurveyTemplates = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [activeSurvey, setActiveSurvey] = useState<
     SurveyTemplate | undefined
   >();
   const [activeItem, setActiveItem] = useState<TemplateCategory | undefined>();
   const [action, setAction] = useState(false);
-
+  const { formTitle } = useSelector((state: RootState) => state.form);
   const schema = yup
     .object({
       name: yup.string().required(),
@@ -64,11 +69,11 @@ export const SurveyTemplates = () => {
   });
   const {
     data: templateCategories,
-    isLoading: isCategoryLoading,
+    isPending: isCategoryLoading,
     isError: isCategoryError,
     error: categoryError,
-    refetch: refetchCategories,
-  } = useApi.query<TemplateCategory[]>({
+    mutate: fetchCategories,
+  } = useApi.mutate<TemplateCategory[]>({
     queryKey: ['getCategories'],
     callBack: () => TemplateCategoryController.getCategories(),
   });
@@ -84,7 +89,7 @@ export const SurveyTemplates = () => {
       return TemplateCategoryController.createTemplateCategory(data);
     },
     onSuccess: () => {
-      refetchCategories();
+      fetchCategories({});
       setAction(false);
       reset();
     },
@@ -95,6 +100,10 @@ export const SurveyTemplates = () => {
     addCategory(data);
   };
 
+  useEffect(() => {
+    if (!templateCategories) fetchCategories({});
+  }, [templateCategories]);
+
   return (
     <div className="w-screen h-screen">
       <div className="flex w-full">
@@ -104,8 +113,8 @@ export const SurveyTemplates = () => {
             <AppUIInput
               placeholder="Enter campaign Name"
               label="Enter campaign Name"
-              additionalClasses="mt-20"
               inputClasses="w-full py-3"
+              onChange={(e) => dispatch(updateFormTitle(e.target.value))}
             />
           </div>
           <div className="h-[60vh] overflow-y-scroll border-y-[1px] border-gray-200 mt-10 w-full">
@@ -129,7 +138,7 @@ export const SurveyTemplates = () => {
                     title="Could not fetch templates"
                     message={categoryError.message}
                     className="h-full py-20 text-center px-5"
-                    callback={() => refetchCategories()}
+                    callback={() => fetchCategories({})}
                   />
                 )}
                 {templateCategories && templateCategories.length == 0 && (
@@ -149,8 +158,9 @@ export const SurveyTemplates = () => {
                       <div
                         onClick={() => {
                           setActiveItem(item);
-                          fetchTemplate(item._id);
                           setActiveSurvey(undefined);
+                          dispatch(resetState({}));
+                          fetchTemplate(item._id);
                         }}
                         className={`
                         cursor-pointer font-normal ${
@@ -244,12 +254,15 @@ export const SurveyTemplates = () => {
               onClick={() => setAction(true)}
             />
             <AppButton
-              disabled={!activeSurvey}
+              disabled={formTitle.length < 2 && !activeSurvey}
               label="Proceed"
-              className="flex mt-10 justify-end rounded-sm bg-primary-600"
+              className="flex mt-10 justify-end rounded-sm "
               onClick={() => {
-                dispatch(setSurveyInfo(activeSurvey));
                 if (activeSurvey) {
+                  dispatch(setSurveyInfo(activeSurvey));
+                  navigate('/dashboard/surveys/new');
+                }
+                if (formTitle.length > 2) {
                   navigate('/dashboard/surveys/new');
                 }
               }}

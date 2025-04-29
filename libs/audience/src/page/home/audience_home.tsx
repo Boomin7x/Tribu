@@ -11,22 +11,25 @@ import { useEffect, useState } from 'react';
 export const AudienceHome = () => {
   const navigate = useNavigate();
   const [debounce, setDebouncedValue] = useDebounce('', 500);
+  const [demographics, setDemographics] = useState<
+    {
+      id: string | undefined;
+      bloc: Bloc | undefined;
+    }[]
+  >([]);
 
-  const { data, isLoading, isError, error } = useApi.query({
+  const {
+    data,
+    mutate: fetchAudiences,
+    isPending: isLoading,
+    isError,
+    error,
+  } = useApi.mutate({
     queryKey: ['audience'],
     callBack: () => {
       return AudienceController.getAudience();
     },
   });
-
-  const initialData = (data || []).map((bloc) => {
-    return {
-      id: bloc['_id'],
-      bloc: bloc.blocs.find((item) => item.key == Parameters.Demographics),
-    };
-  });
-
-  const [demographics, setDemographics] = useState(initialData || []);
 
   const getValue: any = (bloc: Bloc | undefined, name: string) => {
     const value = bloc?.fields.find((item) => item.name == name);
@@ -34,11 +37,21 @@ export const AudienceHome = () => {
   };
 
   useEffect(() => {
-    console.log('debounce', debounce);
+    const initialData = (data || []).map((bloc) => {
+      return {
+        id: bloc['_id'],
+        bloc: bloc.blocs.find((item) => item.key == Parameters.Demographics),
+      };
+    });
     const filtered = initialData?.filter((item) => {
       const title = getValue(item.bloc, 'title');
+
+      if (typeof title === 'string') {
+        return title.toLowerCase().includes(debounce.toLowerCase());
+      }
       return title?.includes(debounce);
     });
+    setDemographics(filtered);
   }, [debounce]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +59,16 @@ export const AudienceHome = () => {
   };
 
   useEffect(() => {
-    setDemographics(initialData);
+    if (!data) fetchAudiences({});
+    if (data) {
+      const initialData = data.map((bloc) => {
+        return {
+          id: bloc['_id'],
+          bloc: bloc.blocs.find((item) => item.key == Parameters.Demographics),
+        };
+      });
+      setDemographics(initialData);
+    }
   }, [data]);
 
   return (
@@ -58,7 +80,6 @@ export const AudienceHome = () => {
               <CiSearch className="absolute left-2 text-gray-400 scale-150" />
             }
             inputClasses="w-full pl-10"
-            additionalClasses="w-[40%]"
             placeholder="Search personas"
             onChange={handleSearch}
           />
@@ -124,7 +145,7 @@ export const AudienceHome = () => {
                     `/${RouteNames.dashboard}/${RouteNames.edit_audience}/${id}`
                   );
                 }}
-                className="w-full md:w-[48%] lg:w-[30%] cursor-pointer hover:bg-secondary-50 rounded-lg"
+                className="w-full md:w-[48%] lg:w-[30%] cursor-pointer hover:bg-secondary-50 rounded-lg transition-all duration-300 ease-in-out"
                 key={`pk-${index}-${index}`}
               >
                 <div className="border flex items-center border-gray-100 rounded-lg p-4">
