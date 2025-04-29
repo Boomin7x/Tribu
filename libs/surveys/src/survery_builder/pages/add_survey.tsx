@@ -8,6 +8,7 @@ import {
   DraggableContainerComponents,
   FormFieldEditor,
   setFormData,
+  resetState,
 } from '@tribu/surveys';
 import { Box, Stack } from '@mui/material';
 import colors from '../utils/styles/colors.module.scss';
@@ -17,15 +18,24 @@ import { AppFormState, GlobalTab } from '@tribu/forms';
 import { useParams } from 'react-router-dom';
 import { useApi } from '@tribu/utils';
 import SurveyController from '../../controllers/survey_controller';
-import { SurveyInfo } from '../data/interfaces/survey';
 import { setSurveyInfo } from '../data/logic/survey_slice';
+import { Survey } from '../../data/interfaces/create_survey';
 
 export const AddSurvey: FC = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const formDetails: AppFormState = useSelector(
+    (state: RootState) => state.form
+  );
+
+  useEffect(() => {
+    if (!id) {
+      dispatch(resetState({}));
+    }
+  }, []);
 
   if (id) {
-    const { data } = useApi.get<SurveyInfo>({
+    const { data } = useApi.get<Survey>({
       queryKey: [id!],
       callBack: () => SurveyController.findSurveyById(id),
     });
@@ -45,7 +55,7 @@ export const AddSurvey: FC = () => {
           formTitle: data.name,
           formDescription: data.description,
           selectedField: null,
-          audienceIds: data.audiences.map((a) => a._id),
+          audienceIds: data.audienceIds ?? [],
         };
         dispatch(setFormData(formData));
       }

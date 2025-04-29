@@ -1,8 +1,8 @@
+import { SurveyTemplateController } from '@tribu/surveys';
 import { AppButton, AppUIInput, ErrorCard } from '@tribu/ui';
 import { RouteNames, useApi } from '@tribu/utils';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SurveyTemplateController from '../controller/survey_template_controller';
 export const SurveyTemplates = () => {
   let navigate = useNavigate();
 
@@ -32,10 +32,11 @@ export const SurveyTemplates = () => {
             <div className="flex">
               <div
                 className={`w-[30%] border-r-[1px] flex flex-col gap-5 ${
-                  isError ? '' : 'pl-10 lg:pl-20 pt-10'
+                  isError || (data && data.length == 0)
+                    ? ''
+                    : 'pl-10 lg:pl-20 pt-10'
                 }`}
               >
-                activeItem
                 {isLoading &&
                   Array.from({ length: 10 }, (_, index) => index + 1).map(
                     (index) => {
@@ -71,24 +72,22 @@ export const SurveyTemplates = () => {
                   />
                 )}
                 {data &&
-                  data
-                    .map((item) => item.form)
-                    .map((item) => {
-                      return (
-                        <div
-                          onClick={() => setActiveItem(item.name)}
-                          className={`
+                  data.map((item) => {
+                    return (
+                      <div
+                        onClick={() => setActiveItem(item.name)}
+                        className={`
                         cursor-pointer font-normal ${
                           activeItem === item.name &&
                           'border-r-2 border-primary-500'
                         }
                         `}
-                          key={`template-${item.name}`}
-                        >
-                          {item.name}
-                        </div>
-                      );
-                    })}
+                        key={`template-${item.name}`}
+                      >
+                        {item.name}
+                      </div>
+                    );
+                  })}
               </div>
               <div className="w-[70%] h-[60vh]"></div>
             </div>

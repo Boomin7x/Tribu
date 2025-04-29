@@ -1,5 +1,5 @@
 import { http } from '@tribu/utils';
-import { CreateSurveyTemplate } from '../interfaces/survey_template';
+import { SurveyTemplate } from '../interfaces/survey_template';
 
 const getTemplates = async () => {
   return await http.run({
@@ -14,7 +14,7 @@ const findTemplateById = async (id: string) => {
   });
 };
 
-const createTemplate = async (survey: CreateSurveyTemplate) => {
+const createTemplate = async (survey: SurveyTemplate) => {
   return await http.run({
     url: 'api/tribu/v1/form/template',
     method: 'POST',
@@ -22,15 +22,15 @@ const createTemplate = async (survey: CreateSurveyTemplate) => {
   });
 };
 
-const updateTemplate = async (id: string, survey: CreateSurveyTemplate) => {
+const updateTemplate = async (survey: SurveyTemplate) => {
   return await http.run({
-    url: `api/tribu/v1/form/template/${id}`,
+    url: `api/tribu/v1/form/template/${survey._id}`,
     method: 'PUT',
     body: survey,
   });
 };
 
-const deleteTemplate = async (id: string, survey: CreateSurveyTemplate) => {
+const deleteTemplate = async (id: string) => {
   return await http.run({
     url: `api/tribu/v1/form/template/${id}`,
     method: 'DELETE',

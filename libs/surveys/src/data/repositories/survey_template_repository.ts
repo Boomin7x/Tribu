@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios';
 import SurveyTemplateService from '../services/survey_template_service';
-import { CreateSurveyTemplate } from '../interfaces/survey_template';
+import { SurveyTemplate } from '../interfaces/survey_template';
 
 const getTemplates = async () => {
   const response = await SurveyTemplateService.getTemplates();
-  const dataResponse: AxiosResponse<CreateSurveyTemplate[], any> = {
+  const dataResponse: AxiosResponse<SurveyTemplate[], any> = {
     ...response,
     ...{ data: response.data['data'] },
   };
@@ -15,10 +15,22 @@ const findTemplateById = async (id: string) => {
 };
 
 const createTemplate = async (
-  surveys: CreateSurveyTemplate
-): Promise<AxiosResponse<CreateSurveyTemplate, any>> => {
+  surveys: SurveyTemplate
+): Promise<AxiosResponse<SurveyTemplate, any>> => {
   const response = await SurveyTemplateService.createTemplate(surveys);
-  const dataResponse: AxiosResponse<CreateSurveyTemplate, any> = {
+  const dataResponse: AxiosResponse<SurveyTemplate, any> = {
+    ...response,
+    ...{ data: response.data['data'] },
+  };
+
+  return dataResponse;
+};
+
+const updateTemplate = async (
+  surveys: SurveyTemplate
+): Promise<AxiosResponse<SurveyTemplate, any>> => {
+  const response = await SurveyTemplateService.updateTemplate(surveys);
+  const dataResponse: AxiosResponse<SurveyTemplate, any> = {
     ...response,
     ...{ data: response.data['data'] },
   };
@@ -30,6 +42,7 @@ const SurveyTemplateRepository = {
   findTemplateById,
   createTemplate,
   getTemplates,
+  updateTemplate,
 };
 
 export default SurveyTemplateRepository;

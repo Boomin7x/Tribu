@@ -38,7 +38,6 @@ export const FormSlice = createSlice({
       state.sections[item.activeSectionIndex].formItems[item.index] =
         action.payload;
       state.selectedField = action.payload;
-      console.log(item);
     },
     setSortedItems: (state, action) => {
       state.sections[state.activeSection].formItems = action.payload;
@@ -85,6 +84,16 @@ export const FormSlice = createSlice({
     updateFormAudienceId: (state, action) => {
       state.audienceIds = action.payload;
     },
+    resetState: (state, action) => {
+      (state.sections = [
+        { formItems: [], id: '928JHAIDKWHAA-992JIH', index: 0 },
+      ]),
+        (state.activeSection = 0),
+        (state.formTitle = ''),
+        (state.formDescription = ''),
+        (state.selectedField = null),
+        (state.audienceIds = []);
+    },
   },
 });
 
@@ -101,5 +110,6 @@ export const {
   updateFormTitle,
   updateFormDescription,
   updateFormAudienceId,
+  resetState,
 } = FormSlice.actions;
 export default FormSlice.reducer;

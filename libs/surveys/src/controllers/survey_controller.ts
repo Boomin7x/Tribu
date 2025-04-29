@@ -1,24 +1,19 @@
 import SurveyRepository from '../data/repositories/survey_repository';
-import { CreateSurvey } from '../survery_builder/data/interfaces/create_survey';
-import { UpdateSurvey } from '../survery_builder/data/interfaces/update_survey';
+import { Survey } from '../data/interfaces/create_survey';
 
 const getSurvey = async () => {
   return SurveyRepository.getSurveys();
-};
-
-const getSurveysTemplates = async () => {
-  return SurveyRepository.getSurveyTemplates();
 };
 
 const findSurveyById = async (id: string) => {
   return SurveyRepository.findSurveyById(id);
 };
 
-const createSurvey = async (survey: CreateSurvey) => {
+const createSurvey = async (survey: Survey) => {
   return SurveyRepository.createSurvey(survey);
 };
 
-const updateSurvey = async (id: string, survey: UpdateSurvey) => {
+const updateSurvey = async (id: string, survey: Survey) => {
   return SurveyRepository.updateSurvey(id, survey);
 };
 
@@ -32,7 +27,6 @@ export const SurveyController = {
   createSurvey,
   findSurveyById,
   updateSurvey,
-  getSurveysTemplates,
 };
 
 export default SurveyController;

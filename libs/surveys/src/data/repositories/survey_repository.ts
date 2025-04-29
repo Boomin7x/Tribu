@@ -1,12 +1,10 @@
 import { AxiosResponse } from 'axios';
-import { CreateSurvey } from '../../survery_builder/data/interfaces/create_survey';
 import SurveyService from '../services/survey_service';
-import { UpdateSurvey } from '../../survery_builder/data/interfaces/update_survey';
-import { SurveyInfo } from '../../survery_builder/data/interfaces/survey';
+import { Survey } from '../interfaces/create_survey';
 
 const getSurveys = async () => {
   const response = await SurveyService.getSurveys();
-  const dataResponse: AxiosResponse<SurveyInfo[], any> = {
+  const dataResponse: AxiosResponse<Survey[], any> = {
     ...response,
     ...{ data: response.data['data'] },
   };
@@ -15,7 +13,7 @@ const getSurveys = async () => {
 
 const findSurveyById = async (id: string) => {
   const response = await SurveyService.findSurveyById(id);
-  const dataResponse: AxiosResponse<SurveyInfo, any> = {
+  const dataResponse: AxiosResponse<Survey, any> = {
     ...response,
     ...{ data: response.data['data'] },
   };
@@ -23,10 +21,10 @@ const findSurveyById = async (id: string) => {
 };
 
 const createSurvey = async (
-  Survey: CreateSurvey
-): Promise<AxiosResponse<CreateSurvey, any>> => {
-  const response = await SurveyService.createSurvey(Survey);
-  const dataResponse: AxiosResponse<CreateSurvey, any> = {
+  Survey: Survey
+): Promise<AxiosResponse<Survey, any>> => {
+  const response = await SurveyService.Survey(Survey);
+  const dataResponse: AxiosResponse<Survey, any> = {
     ...response,
     ...{ data: response.data['data'] },
   };
@@ -36,10 +34,10 @@ const createSurvey = async (
 
 const updateSurvey = async (
   id: string,
-  Survey: UpdateSurvey
-): Promise<AxiosResponse<CreateSurvey, any>> => {
+  Survey: Survey
+): Promise<AxiosResponse<Survey, any>> => {
   const response = await SurveyService.updateSurvey(id, Survey);
-  const dataResponse: AxiosResponse<CreateSurvey, any> = {
+  const dataResponse: AxiosResponse<Survey, any> = {
     ...response,
     ...{ data: response.data['data'] },
   };
@@ -54,7 +52,7 @@ const deleteSurvey = async (id: string): Promise<AxiosResponse<any, any>> => {
 
 const getSurveyTemplates = async () => {
   const response = await SurveyService.getSurveysTemplates();
-  const dataResponse: AxiosResponse<CreateSurvey[], any> = {
+  const dataResponse: AxiosResponse<Survey[], any> = {
     ...response,
     ...{ data: response.data['data'] },
   };

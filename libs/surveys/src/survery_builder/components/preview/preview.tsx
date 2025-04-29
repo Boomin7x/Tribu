@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../data/store/app_store';
-import { Box, Checkbox, Stack, Switch, Typography } from '@mui/material';
+import { Box, Checkbox, Stack, Typography } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import FormRenderer from '../forms/components/form_field_renderer';
 import { useDispatch } from 'react-redux';
@@ -23,10 +23,11 @@ import {
   FormFields,
 } from '@tribu/forms';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { CreateSurvey } from '../../data/interfaces/create_survey';
 import { RouteNames, useApi } from '@tribu/utils';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SurveyTemplateController, SurveyController } from '@tribu/surveys';
+import { SurveyTemplate } from 'libs/surveys/src/data/interfaces/survey_template';
+import { Survey } from 'libs/surveys/src/data/interfaces/create_survey';
 
 export type AnimatingData = {
   isAnimating: boolean;
@@ -88,20 +89,58 @@ export const FormPreview = () => {
     };
   }, [formDetails.sections]);
 
-  const { mutate: addSurvey, isPending } = useApi.post({
-    queryKey: [],
-    callBack: (data: CreateSurvey) => {
-      return id
-        ? SurveyController.updateSurvey(id, data)
-        : SurveyController.createSurvey(data);
-    },
-    onSuccess: (_) => {
-      navigate(`/${RouteNames.dashboard}/${RouteNames.surveys_home}`);
-    },
-  });
+  const { mutate: addSurvey, isPending } = useApi.post<Survey | SurveyTemplate>(
+    {
+      queryKey: ['Survey', 'UpdateSurvey'],
+      callBack: (data: Survey | SurveyTemplate) => {
+        if (isTemplate) {
+          return id
+            ? SurveyTemplateController.createTemplate(data as SurveyTemplate)
+            : SurveyTemplateController.createTemplate(data as SurveyTemplate);
+        } else {
+          return id
+            ? SurveyController.updateSurvey(id, data as Survey)
+            : SurveyController.createSurvey(data as Survey);
+        }
+      },
+      onSuccess: (_) => {
+        navigate(`/${RouteNames.dashboard}/${RouteNames.surveys_home}`);
+      },
+    }
+  );
 
   const onSubmit = (_: any) => {
-    const survey: CreateSurvey = {
+    const template: SurveyTemplate = {
+      _id: id,
+      name: formDetails.formTitle,
+      description: formDetails.formDescription,
+      isTemplate: true,
+      blocs: formDetails.sections.map((section) => ({
+        key: section.id,
+        metaData: {
+          key: section.id,
+          index: section.index,
+        },
+        questions: section.formItems.map((item) => ({
+          key: item.id,
+          name: item.label,
+          description: item.label,
+          type: item.type,
+          branch: {
+            key: section.id,
+            index: section.index,
+          },
+          metaData: item,
+        })),
+      })),
+
+      metaData: {
+        key: formDetails.formTitle,
+        index: 0,
+      },
+    };
+
+    const survey: Survey = {
       _id: id,
       name: formDetails.formTitle,
       description: formDetails.formDescription,
@@ -139,7 +178,7 @@ export const FormPreview = () => {
     if (currentIndex == previewItems.length - 1) {
       console.log('Submitting ...');
       console.log('survey', survey);
-      addSurvey(survey);
+      addSurvey(isTemplate ? template : survey);
     }
   };
   const [animationState, setAnimationState] = useState<AnimatingData>({
@@ -318,15 +357,17 @@ export const FormPreview = () => {
                 previewItems={previewItems}
               />
               <div className="flex flex-col">
-                <div className="flex flex-row items-center justify-between">
-                  <p>Use as template?</p>
-                  <Checkbox
-                    onChange={(e) => {
-                      setIsTemplate(e.target.checked);
-                    }}
-                    checked={isTemplate}
-                  />
-                </div>
+                {!id && (
+                  <div className="flex flex-row items-center justify-between">
+                    <p>Use as template?</p>
+                    <Checkbox
+                      onChange={(e) => {
+                        setIsTemplate(e.target.checked);
+                      }}
+                      checked={isTemplate}
+                    />
+                  </div>
+                )}
                 <PreviewButtons
                   id={id}
                   currentIndex={currentIndex}

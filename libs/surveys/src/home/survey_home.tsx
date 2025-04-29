@@ -5,15 +5,11 @@ import { CiSearch } from 'react-icons/ci';
 import { AppTable, TableColumn } from '@tribu/tables';
 import { RouteNames, useApi } from '@tribu/utils';
 import SurveyController from '../controllers/survey_controller';
-import {
-  CreateSurvey,
-  Form,
-} from '../survery_builder/data/interfaces/create_survey';
 import { useEffect, useState } from 'react';
-import { SurveyInfo } from '../survery_builder/data/interfaces/survey';
 import { useDispatch } from 'react-redux';
 import { GlobalTab } from '@tribu/forms';
 import { setSelectedTab } from '../survery_builder/data';
+import { Survey } from '../data/interfaces/create_survey';
 
 type counterItem = {
   id: number;
@@ -80,7 +76,7 @@ export const SurveyHome = () => {
       setAction({ status: false });
     },
   });
-  const [tableData, setTableData] = useState<SurveyInfo[]>([]);
+  const [tableData, setTableData] = useState<Survey[]>([]);
 
   useEffect(() => {
     const tableD = data?.map((item) => item.form);
@@ -125,7 +121,7 @@ export const SurveyHome = () => {
       {isError && (
         <ErrorCard title="Fetching Surveys Failed!" message={error.message} />
       )}
-      <AppTable<SurveyInfo>
+      <AppTable<Survey>
         loading={isLoading}
         tableData={tableData}
         className="mt-10"
@@ -165,7 +161,7 @@ export const SurveyHome = () => {
               name: 'Questions Count',
               selector: (row) => row.form.blocs.length,
             },
-          ] as TableColumn<SurveyInfo>[]
+          ] as TableColumn<Survey>[]
         }
         totalRows={0}
         perPage={0}

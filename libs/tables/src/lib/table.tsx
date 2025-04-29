@@ -46,6 +46,7 @@ export interface AppTableProps<T> extends React.HTMLAttributes<HTMLDivElement> {
   onDelete?: (row: T) => void;
   onView?: (row: T) => void;
   fetchData?: (page: number) => void;
+  onRowMouseEnter?: ((row: T, e: React.MouseEvent) => void) | undefined;
 }
 export const AppTable = <T,>({
   tableData,
@@ -56,6 +57,7 @@ export const AppTable = <T,>({
   onEdit,
   onDelete,
   onRowClicked,
+  onRowMouseEnter,
   ...props
 }: AppTableProps<T>) => {
   const [totalRows, setTotalRows] = useState(0);
@@ -110,6 +112,7 @@ export const AppTable = <T,>({
         progressPending={loading}
         pagination
         onRowClicked={onRowClicked}
+        onRowMouseEnter={onRowMouseEnter}
         paginationServer
         paginationTotalRows={totalRows}
         onChangeRowsPerPage={handlePerRowsChange}
@@ -124,7 +127,7 @@ export const AppTable = <T,>({
         }}
         noDataComponent={
           <div className="flex justify-center items-center h-[40vh] w-full bg-secondary-50 rounded-sm">
-            <p>No content to display</p>
+            <p>No data to display</p>
           </div>
         }
       />

@@ -1,11 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { SurveyInfo } from '../interfaces/survey';
-
+import { Survey } from '../../../data/interfaces/create_survey';
 interface SurveyInfoState {
-  surveyInfo?: SurveyInfo;
+  surveyInfo?: Survey;
 }
 const initialState: SurveyInfoState = {};
-export const Survey = createSlice({
+export const SurveySlice = createSlice({
   name: 'survey',
   initialState,
   reducers: {
@@ -15,5 +14,5 @@ export const Survey = createSlice({
   },
 });
 
-export const { setSurveyInfo } = Survey.actions;
-export default Survey.reducer;
+export const { setSurveyInfo } = SurveySlice.actions;
+export default SurveySlice.reducer;
