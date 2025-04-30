@@ -1,6 +1,6 @@
 import { AppButton, AppChip } from '@tribu/ui';
 import { useEffect, useState } from 'react';
-import { IoMdClose } from 'react-icons/io';
+import { IoMdAdd, IoMdClose } from 'react-icons/io';
 import { demographicFormData } from '../../page/forms_data/data/demographic_form_data';
 import {
   FormFields,
@@ -16,14 +16,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import GenerateForm from '../../page/forms_data/forms/new_audience_form';
 import AudienceController from '../../controllers/audience_controller';
 import { RouteNames, useApi } from '@tribu/utils';
+import { GoTrash } from 'react-icons/go';
 import { Parameters } from '../../data/enums/form_enums';
-import { Bloc, CreateAudience } from '../../data/interfaces/create_audience';
 import { useNavigate } from 'react-router-dom';
 import { behavioralFormData } from '../forms_data/data/behavior_form_data';
+import { AudienceBloc, CreateAudience, Question } from '@tribu/audience';
+import AddAudienceCategoryModal from '../components/audience_category_modal';
+import AudienceFieldModal from '../components/audience_field_modal';
 
 export const NewAudienceGroup = () => {
   console.log('Rendering NewAudienceGroup ....');
-  const allBlocs: Bloc[] = [
+
+  const allBlocs: AudienceBloc[] = [
     {
       fields: [
         ...demographicFormData.map((item, index) => ({
@@ -124,10 +128,12 @@ export const NewAudienceGroup = () => {
     },
   ];
   const [validationSchema, setValidationSchema] = useState<any>();
-  const [blocs, setBlocs] = useState<Bloc[]>(allBlocs);
+  const [blocs, setBlocs] = useState<AudienceBloc[]>(allBlocs);
+  const [openCategoryModal, setAddOpenCategoryModal] = useState(false);
+  const [openField, setOpenField] = useState(false);
 
   const schema = generateValidationSchema(
-    allBlocs
+    blocs
       .map((item) =>
         item.fields.map((field) => {
           return {
@@ -141,7 +147,7 @@ export const NewAudienceGroup = () => {
 
   useEffect(() => {
     setValidationSchema(schema);
-  }, []);
+  }, [blocs]);
   const navigate = useNavigate();
 
   const {
@@ -152,7 +158,13 @@ export const NewAudienceGroup = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const [currentBloc, setCurrentBloc] = useState<Bloc>(allBlocs[0]);
+  const [currentBloc, setCurrentBloc] = useState<AudienceBloc | undefined>(
+    allBlocs.length > 0 ? allBlocs[0] : undefined
+  );
+
+  const [hoveredBloc, setHoveredBloc] = useState<AudienceBloc | undefined>(
+    undefined
+  );
   const [formDataValue, setFormDataValue] = useState<PersonaDto>({});
 
   const { mutate: addAudience, isPending } = useApi.mutate({
@@ -178,98 +190,146 @@ export const NewAudienceGroup = () => {
     addAudience(finalData);
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <div>
-        <div className="w-full h-[88vh]">
-          <div className="flex w-[90%] mx-auto  border-b-gray-100">
-            <div className="flex w-1/2">
-              <div className="w-1/4 py-10">
-                {allBlocs.map((parameter, index) => (
-                  <div
-                    key={`{${parameter}-x-${index}`}
-                    className={`py-4 cursor-pointer pl-2 text-sm ${
-                      currentBloc.key === parameter.key
-                        ? 'bg-gray-100 border-r-primary-500 border-r-2'
-                        : ''
-                    }`}
-                    onClick={() => setCurrentBloc(parameter)}
-                  >
-                    {parameter.key}
+    <>
+      <AddAudienceCategoryModal
+        action={openCategoryModal}
+        setAction={setAddOpenCategoryModal}
+        onAddCategory={(bloc: AudienceBloc) => {
+          setBlocs([...blocs, bloc]);
+        }}
+      />
+      {currentBloc && (
+        <AudienceFieldModal
+          currentBloc={currentBloc}
+          action={openField}
+          setAction={setOpenField}
+          onAddField={(question: Question) => {
+            currentBloc?.fields.push(question);
+            setCurrentBloc(currentBloc);
+
+            const currentIndex = blocs.findIndex(
+              (item) => item.key == currentBloc.key
+            );
+            blocs[currentIndex] = currentBloc;
+            setBlocs([...blocs]);
+          }}
+        />
+      )}
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <div>
+          <div className="w-full h-[88vh]">
+            <div className="flex w-[90%] mx-auto  border-b-gray-100">
+              <div className="flex w-1/2">
+                <div className="w-1/4 py-10">
+                  <div className="flex justify-between items-center mt-2 border-0 border-b">
+                    <AppButton
+                      label="New Category"
+                      className="w-full"
+                      onClick={() => setAddOpenCategoryModal(true)}
+                    />
                   </div>
-                ))}
-              </div>
-              <div className="border-l border-gray-50 px-12 py-10 grow overflow-y-scroll h-[80vh]">
-                {/* <button
-                  onClick={() =>
-                    addPost({
-                      id: 1,
-                      title: 'Sample Title',
-                      body: 'This is a sample post body.',
-                      userId: 1,
-                    })
-                  }
-                >
-                  Add Post
-                </button> */}
-                <GenerateForm
-                  formDataValue={formDataValue}
-                  currentBloc={currentBloc}
-                  setFormDataValue={(data: PersonaDto) =>
-                    setFormDataValue(data)
-                  }
-                  updateBloc={(newFormData) => {
-                    const others = blocs.filter(
-                      (item) => item.key != currentBloc.key
-                    );
-                    const updatedBloc = [...others, newFormData];
-                    setBlocs(updatedBloc);
-                    console.log('newFormData', newFormData);
-                    console.log('updatedBoc', updatedBloc);
-                  }}
-                  control={control}
-                />
-              </div>
-            </div>
-            <div className="flex w-1/2 h-[80vh] overflow-y-auto">
-              <div className="flex flex-col w-full">
-                {Object.values(Parameters).map((parameter, index) => (
-                  <div
-                    className="flex w-full border-b  border-gray-100 grow"
-                    key={`{${parameter}-${index}`}
-                  >
+                  {/* {allBlocs.map((parameter, index) => ( */}
+                  {blocs.map((parameter, index) => (
                     <div
-                      className={`flex w-1/4 cursor-pointer text-sm items-center bg-gray-50 px-5`}
+                      key={`{${parameter}-x-${index}`}
+                      className={`flex items-center justify-between py-3 cursor-pointer pl-2 text-[0.75rem] transition-all duration-500 ease-in-out ${
+                        currentBloc?.key === parameter.key
+                          ? 'bg-gray-100 border-r-primary-500 border-r-2'
+                          : ''
+                      }`}
+                      onClick={() => setCurrentBloc(parameter)}
+                      onMouseEnter={() => setHoveredBloc(parameter)}
                     >
-                      {parameter}
-                    </div>
-                    <div className="flex w-full flex-wrap   py-4 items-center px-5 gap-x-2 gap-y-2">
-                      {formDataValue && (
-                        <GenerateChipPreview
-                          persona={formDataValue}
-                          parameter={parameter}
-                          updatePersona={(data) => {
-                            setFormDataValue(data);
+                      <p>{parameter.key}</p>
+                      <div
+                        className={`transition-all duration-300 ease-in-out ${
+                          hoveredBloc?.key === parameter.key ? '' : 'scale-0'
+                        }`}
+                      >
+                        <GoTrash
+                          className="p-2 bg-gray-200 cursor-pointer hover:bg-gray-300 rounded-sm text-red-500"
+                          size={30}
+                          onClick={() => {
+                            const newItems = blocs.filter(
+                              (item) => item.key != currentBloc?.key
+                            );
+                            setCurrentBloc(undefined);
+                            setBlocs(newItems);
                           }}
                         />
-                      )}
+                      </div>
                     </div>
+                  ))}
+                </div>
+                <div className="border-l border-gray-50 px-12 py-10 overflow-y-hidden h-[80vh] grow">
+                  <div className="flex justify-end items-center border-0 border-b mb-3 py-2">
+                    <AppButton
+                      label="New Question"
+                      onClick={() => setOpenField(true)}
+                    />
                   </div>
-                ))}
+                  <div className="overflow-y-scroll h-full">
+                    <GenerateForm
+                      formDataValue={formDataValue}
+                      currentBloc={currentBloc}
+                      setFormDataValue={(data: PersonaDto) =>
+                        setFormDataValue(data)
+                      }
+                      updateBloc={(newFormData) => {
+                        const others = blocs.filter(
+                          (item) => item.key != currentBloc?.key
+                        );
+                        const updatedBloc = [...others, newFormData];
+                        setBlocs(updatedBloc);
+                        console.log('newFormData', newFormData);
+                        console.log('updatedBoc', updatedBloc);
+                      }}
+                      control={control}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex w-1/2 h-[80vh] overflow-y-auto">
+                <div className="flex flex-col w-full">
+                  {Object.values(Parameters).map((parameter, index) => (
+                    <div
+                      className="flex w-full border-b  border-gray-100 grow"
+                      key={`{${parameter}-${index}`}
+                    >
+                      <div
+                        className={`flex w-1/4 cursor-pointer text-sm items-center bg-gray-50 px-5`}
+                      >
+                        {parameter}
+                      </div>
+                      <div className="flex w-full flex-wrap   py-4 items-center px-5 gap-x-2 gap-y-2">
+                        {formDataValue && (
+                          <GenerateChipPreview
+                            persona={formDataValue}
+                            parameter={parameter}
+                            updatePersona={(data) => {
+                              setFormDataValue(data);
+                            }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="border-b border-b-gray-50 w-full"></div>
-          <div className="flex justify-end w-[90%] mx-auto mt-5">
-            <AppButton
-              isLoading={isPending}
-              label="Save"
-              type="submit"
-              className="rounded-none w-32 justify-center item-center"
-            />
+            <div className="border-b border-b-gray-50 w-full"></div>
+            <div className="flex justify-end w-[90%] mx-auto mt-5">
+              <AppButton
+                isLoading={isPending}
+                label="Save"
+                type="submit"
+                className="rounded-none w-32 justify-center item-center"
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 };
 const GenerateChipPreview = ({

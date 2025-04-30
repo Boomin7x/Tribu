@@ -4,7 +4,7 @@ import { AppSelect, generateFormName } from '@tribu/forms';
 import AppErrorMessage from '../base/app_error2_message';
 import { RadioInterface } from '../../interfaces';
 interface FormSelectInterface extends RadioInterface {
-  control?: Control<FieldValues>;
+  control?: Control<FieldValues> | any;
 }
 export const FormSelect = (props: FormSelectInterface) => {
   const name = props.name ?? generateFormName(props.label, props.id);

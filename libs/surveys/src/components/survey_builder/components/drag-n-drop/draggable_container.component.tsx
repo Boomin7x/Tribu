@@ -1,9 +1,9 @@
 import { Box, Tab, Tabs } from '@mui/material';
-import { draggableItems } from '../../data/services/draggables';
 import DraggableComponent from './draggable.component';
 import colors from '../../utils/styles/colors.module.scss';
 import { useState } from 'react';
 import SettingsTab from '../settings/settings';
+import { draggableItems } from '@tribu/surveys';
 export const DraggableContainerComponents = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     console.log(event);

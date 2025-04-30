@@ -29,12 +29,8 @@ const BaseFieldItem: FC<ReusableContainerProps> = ({
   item,
 }: ReusableContainerProps) => {
   const dispatch = useDispatch();
-
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
-  // const selectedItem: AllFormInterfacesType | null = useSelector(
-  //   (state: RootState) => state.form.selectedField
-  // );
   const { sections, selectedField } = useSelector(
     (state: RootState) => state.form
   );
@@ -53,6 +49,10 @@ const BaseFieldItem: FC<ReusableContainerProps> = ({
         <Box width="100%">{children}</Box>
       </Box>
     );
+
+  if (item.type == FormFields.DIVIDER) {
+    return <Box>{children}</Box>;
+  }
   return (
     <Box
       display={'flex'}

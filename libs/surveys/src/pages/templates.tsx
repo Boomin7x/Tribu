@@ -2,34 +2,22 @@ import {
   resetState,
   RootState,
   setFormData,
-  Survey,
   SurveyTemplate,
   TemplateCategoryController,
   updateFormTitle,
 } from '@tribu/surveys';
-import {
-  AppButton,
-  AppModalDialog,
-  AppUIInput,
-  ErrorCard,
-  SkeletonBar,
-} from '@tribu/ui';
+import { AppButton, AppUIInput, ErrorCard, SkeletonBar } from '@tribu/ui';
 import { RouteNames, useApi } from '@tribu/utils';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TemplateCategory } from '../../data/interfaces/template_category';
-import {
-  AppFormState,
-  FormFields,
-  FormInputField,
-  FormTextArea,
-} from '@tribu/forms';
+import { TemplateCategory } from '../data/interfaces/template_category';
+import { AppFormState } from '@tribu/forms';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSurveyInfo } from '../data/logic/survey_slice';
-import { Update } from '@mui/icons-material';
+import { setSurveyInfo } from '../components/survey_builder/data/logic/survey_slice';
+import AddTemplateCategory from '../components/modals/template_modal';
 
 export const SurveyTemplates = () => {
   const navigate = useNavigate();
@@ -270,54 +258,15 @@ export const SurveyTemplates = () => {
           </div>
         </div>
       </div>
-      <AppModalDialog
-        isOpen={action}
-        onClose={() => {
-          setAction(false);
-        }}
-        title="Add Category"
-      >
-        <div>
-          <form onSubmit={handleSubmit(onSubmit)} noValidate>
-            <FormInputField
-              label="Category Name"
-              id=""
-              name="name"
-              type={FormFields.INPUT}
-              control={control}
-              placeholder="Enter Category Name"
-              index={0}
-              activeSectionIndex={0}
-            />
-            <div className="my-2"></div>
-            <FormTextArea
-              label="Category Name"
-              id=""
-              name="description"
-              type={FormFields.INPUT}
-              control={control}
-              placeholder="Enter Category Name"
-              index={0}
-              activeSectionIndex={0}
-              maxLength={200}
-            />
-            <div className="flex justify-end mt-4">
-              <AppButton
-                label="Cancel"
-                onClick={() => {
-                  setAction(false);
-                }}
-                className="mr-2"
-              />
-              <AppButton
-                label="Add"
-                isLoading={isAddingCategory}
-                type="submit"
-              />
-            </div>
-          </form>
-        </div>
-      </AppModalDialog>
+
+      <AddTemplateCategory
+        action={action}
+        setAction={setAction}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        isAddingCategory={isAddingCategory}
+        control={control}
+      />
     </div>
   );
 };

@@ -14,13 +14,13 @@ import { psychographicFormData } from '../data/psychographic_form_data';
 import { transactionFormData } from '../data/transaction_form_data';
 import { weatherAndClimateFormData } from '../data/weather_and_climate_form_data';
 import { Parameters } from '../../../data/enums/form_enums';
-import { Bloc } from 'libs/audience/src/data/interfaces/create_audience';
+import { AudienceBloc } from '@tribu/audience';
 
 export interface NewAudienceFormProps {
   formDataValue: PersonaDto | undefined;
-  currentBloc: Bloc;
+  currentBloc: AudienceBloc | undefined;
   setFormDataValue: (data: PersonaDto) => void;
-  updateBloc: (data: Bloc) => void;
+  updateBloc: (data: AudienceBloc) => void;
   control: any;
 }
 const GenerateForm = ({
@@ -30,6 +30,12 @@ const GenerateForm = ({
   setFormDataValue,
   updateBloc,
 }: NewAudienceFormProps) => {
+  if (!currentBloc)
+    return (
+      <div className="flex items-center justify-center h-[50vh]">
+        No Form added yet!
+      </div>
+    );
   switch (currentBloc.key) {
     case Parameters.Demographics:
       return (

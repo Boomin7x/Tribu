@@ -8,18 +8,17 @@ import {
   DraggableContainerComponents,
   FormFieldEditor,
   setFormData,
-  resetState,
+  RootState,
 } from '@tribu/surveys';
 import { Box, Stack } from '@mui/material';
-import colors from '../utils/styles/colors.module.scss';
-import { RootState } from '../data/store/app_store';
+import colors from '../components/survey_builder/utils/styles/colors.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppFormState, GlobalTab } from '@tribu/forms';
 import { useParams } from 'react-router-dom';
 import { useApi } from '@tribu/utils';
-import SurveyController from '../../controllers/survey_controller';
-import { setSurveyInfo } from '../data/logic/survey_slice';
-import { Survey } from '../../data/interfaces/create_survey';
+import SurveyController from '../controllers/survey_controller';
+import { Survey } from '../data/interfaces/create_survey';
+import { setSurveyInfo } from '../components/survey_builder/data/logic/survey_slice';
 
 export const AddSurvey: FC = () => {
   const { id } = useParams();

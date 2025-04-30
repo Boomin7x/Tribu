@@ -8,8 +8,8 @@ import SurveyController from '../controllers/survey_controller';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { GlobalTab } from '@tribu/forms';
-import { resetState, setSelectedTab } from '../survery_builder/data';
 import { Survey } from '../data/interfaces/create_survey';
+import { resetState, setSelectedTab } from '../components/survey_builder/data';
 
 type counterItem = {
   id: number;

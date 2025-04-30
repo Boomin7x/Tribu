@@ -4,9 +4,9 @@ import { CiSearch } from 'react-icons/ci';
 import { IoMdAdd } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import AudienceController from '../../controllers/audience_controller';
-import { Bloc } from '../../data/interfaces/create_audience';
 import { Parameters } from '../../data/enums/form_enums';
 import { useEffect, useState } from 'react';
+import { AudienceBloc } from '../../data/interfaces/create_audience';
 
 export const AudienceHome = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export const AudienceHome = () => {
   const [demographics, setDemographics] = useState<
     {
       id: string | undefined;
-      bloc: Bloc | undefined;
+      bloc: AudienceBloc | undefined;
     }[]
   >([]);
 
@@ -31,7 +31,7 @@ export const AudienceHome = () => {
     },
   });
 
-  const getValue: any = (bloc: Bloc | undefined, name: string) => {
+  const getValue: any = (bloc: AudienceBloc | undefined, name: string) => {
     const value = bloc?.fields.find((item) => item.name == name);
     return value?.metaData.value;
   };

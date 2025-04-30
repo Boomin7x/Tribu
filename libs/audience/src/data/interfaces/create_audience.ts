@@ -6,10 +6,10 @@ export interface CreateAudience {
   description: string;
   isTemplate: boolean;
   metaData: CreateAudienceMetaData;
-  blocs: Bloc[];
+  blocs: AudienceBloc[];
 }
 
-export interface Bloc {
+export interface AudienceBloc {
   key: string;
   fields: Question[];
 }
