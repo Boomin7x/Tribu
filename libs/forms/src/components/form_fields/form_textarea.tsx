@@ -19,8 +19,10 @@ export const FormTextArea = (props: FormTextAreaInterface) => {
           <>
             <AppTextArea
               {...props}
-              hasBorder={props.isPreview}
-              onChange={onChange}
+              onChange={(e: any) => {
+                onChange(e);
+                if (props.onChange) props?.onChange(e);
+              }}
               value={value}
             />
 

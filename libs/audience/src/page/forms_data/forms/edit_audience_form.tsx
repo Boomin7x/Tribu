@@ -2,12 +2,12 @@ import { AudienceGLMap } from '@tribu/maps';
 import AudienceGenericFormFIeldsForm from './generic_fields';
 import { DemographicDto, PersonaDto } from '@tribu/targets';
 import { Parameters } from '../../../data/enums/form_enums';
-import { Bloc } from 'libs/audience/src/data/interfaces/create_audience';
+import { AudienceBloc } from 'libs/audience/src/data/interfaces/create_audience';
 
 export interface NewAudienceFormProps {
-  bloc: Bloc;
+  bloc: AudienceBloc;
   setBloc: (data: PersonaDto) => void;
-  updateBloc: (data: Bloc) => void;
+  updateBloc: (data: AudienceBloc) => void;
   control: any;
 }
 const GenerateEditForm = ({
@@ -42,7 +42,7 @@ const GenerateEditForm = ({
   }
 
   return (
-    <AudienceGenericFormFIeldsForm<DemographicDto>
+    <AudienceGenericFormFIeldsForm
       data={bloc.fields}
       formFields={bloc.fields.map((field) => field.metaData)}
       formTitle={bloc.key}

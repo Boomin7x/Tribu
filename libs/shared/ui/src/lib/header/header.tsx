@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 
 import wallet from '../../../../icons/wallet.svg';
 import bell from '../../../../icons/bell.svg';
-import Chip from '../others/chip';
 import AppIcon from '../others/app_icon';
 import { useLocation } from 'react-router-dom';
+import { AppChip } from '@tribu/ui';
 
 export const AppHeader: FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
   const location = useLocation();
@@ -18,7 +18,7 @@ export const AppHeader: FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
         <h2 className="text-2xl font-medium">{capitalizedPath}</h2>
         <div className="flex gap-4 items-center">
           <AppIcon icon={wallet} />
-          <Chip label="XAF123.45" onClick={() => {}} className="text-2xl" />
+          <AppChip label="XAF123.45" onClick={() => {}} />
           <AppIcon icon={bell} />
         </div>
       </div>

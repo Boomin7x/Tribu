@@ -7,7 +7,8 @@ import { BaseInterface } from './base_interface';
 // }
 export interface RadioInterface extends BaseInterface {
   type: FormFields.RADIO;
-  elements: number[] | string[];
+  // elements: number[] | string[];
+  elements: (number | string)[];
 
   //*Optional Fields
   value?: number | string | undefined;

@@ -20,7 +20,7 @@ export const AppModalDialog: React.FC<AppModalDialogProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative"
+        className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative transition-all duration-500 ease-linear max-h-[80vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {title && <h2 className="text-xl font-semibold mb-4">{title}</h2>}

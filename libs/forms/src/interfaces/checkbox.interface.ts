@@ -11,7 +11,8 @@ export interface CheckboxInterface extends BaseInterface {
   // elements: FormItemElementInterface[];
   // value: FormItemElementInterface[];
 
-  elements: number[] | string[];
+  // elements: number[] | string[];
+  elements: (number | string)[];
   value: (number | string)[] | undefined;
   onChange?: (
     event: SelectChangeEvent<readonly string[] | readonly number[] | undefined>

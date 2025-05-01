@@ -1,5 +1,4 @@
 import React from 'react';
-import { AppChip } from '@tribu/ui';
 import {
   useController,
   Control,

@@ -23,6 +23,7 @@ import { behavioralFormData } from '../forms_data/data/behavior_form_data';
 import { AudienceBloc, CreateAudience, Question } from '@tribu/audience';
 import AddAudienceCategoryModal from '../components/audience_category_modal';
 import AudienceFieldModal from '../components/audience_field_modal';
+import GenerateChipPreview from '../components/chip_preview';
 
 export const NewAudienceGroup = () => {
   console.log('Rendering NewAudienceGroup ....');
@@ -91,18 +92,6 @@ export const NewAudienceGroup = () => {
       key: Parameters.TransactionalData,
     },
 
-    // {
-    //   fields: [
-    //     ...[].map((item, index) => ({
-    //       metaData: item,
-    //       key: `${Parameters.DeviceType}-${index}`,
-    //       name: '',
-    //       description: '',
-    //       type: '',
-    //     })),
-    //   ],
-    //   key: Parameters.DeviceType,
-    // },
     {
       fields: [
         {
@@ -131,6 +120,7 @@ export const NewAudienceGroup = () => {
   const [blocs, setBlocs] = useState<AudienceBloc[]>(allBlocs);
   const [openCategoryModal, setAddOpenCategoryModal] = useState(false);
   const [openField, setOpenField] = useState(false);
+  const navigate = useNavigate();
 
   const schema = generateValidationSchema(
     blocs
@@ -148,7 +138,6 @@ export const NewAudienceGroup = () => {
   useEffect(() => {
     setValidationSchema(schema);
   }, [blocs]);
-  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -196,6 +185,7 @@ export const NewAudienceGroup = () => {
         setAction={setAddOpenCategoryModal}
         onAddCategory={(bloc: AudienceBloc) => {
           setBlocs([...blocs, bloc]);
+          setCurrentBloc(bloc);
         }}
       />
       {currentBloc && (
@@ -204,14 +194,22 @@ export const NewAudienceGroup = () => {
           action={openField}
           setAction={setOpenField}
           onAddField={(question: Question) => {
-            currentBloc?.fields.push(question);
-            setCurrentBloc(currentBloc);
+            if (currentBloc) {
+              const newBloc: AudienceBloc = {
+                ...currentBloc,
+                fields: [...currentBloc.fields, question],
+              };
+              setCurrentBloc(newBloc);
 
-            const currentIndex = blocs.findIndex(
-              (item) => item.key == currentBloc.key
-            );
-            blocs[currentIndex] = currentBloc;
-            setBlocs([...blocs]);
+              const currentIndex = blocs.findIndex(
+                (item) => item.key == currentBloc.key
+              );
+              blocs[currentIndex] = currentBloc;
+              setBlocs([...blocs]);
+
+              console.log('currentBloc', currentBloc);
+              console.log('blocs', blocs);
+            }
           }}
         />
       )}
@@ -221,14 +219,13 @@ export const NewAudienceGroup = () => {
             <div className="flex w-[90%] mx-auto  border-b-gray-100">
               <div className="flex w-1/2">
                 <div className="w-1/4 py-10">
-                  <div className="flex justify-between items-center mt-2 border-0 border-b">
+                  <div className="flex justify-between items-center mt-2 mb-2 border-0 border-b">
                     <AppButton
                       label="New Category"
-                      className="w-full"
+                      className="w-full mb-2"
                       onClick={() => setAddOpenCategoryModal(true)}
                     />
                   </div>
-                  {/* {allBlocs.map((parameter, index) => ( */}
                   {blocs.map((parameter, index) => (
                     <div
                       key={`{${parameter}-x-${index}`}
@@ -261,28 +258,43 @@ export const NewAudienceGroup = () => {
                     </div>
                   ))}
                 </div>
-                <div className="border-l border-gray-50 px-12 py-10 overflow-y-hidden h-[80vh] grow">
+                <div className="border-l border-gray-50 px-5 py-10 overflow-y-hidden h-[80vh] grow">
                   <div className="flex justify-end items-center border-0 border-b mb-3 py-2">
                     <AppButton
                       label="New Question"
                       onClick={() => setOpenField(true)}
                     />
                   </div>
-                  <div className="overflow-y-scroll h-full">
+                  <div className="overflow-y-scroll px-2 h-full">
                     <GenerateForm
                       formDataValue={formDataValue}
                       currentBloc={currentBloc}
-                      setFormDataValue={(data: PersonaDto) =>
-                        setFormDataValue(data)
-                      }
+                      setBloc={(data: PersonaDto) => setFormDataValue(data)}
+                      onDeleteField={(index, field) => {
+                        const item = currentBloc?.fields[index];
+                        if (item) {
+                          const newItems = currentBloc?.fields.filter(
+                            (field) => field != item
+                          );
+                          if (currentBloc) {
+                            const updatedBloc = {
+                              ...currentBloc,
+                              fields: newItems || [],
+                            };
+                            setCurrentBloc(updatedBloc);
+
+                            const updatedBlocs = blocs.map((bloc) =>
+                              bloc.key === currentBloc.key ? updatedBloc : bloc
+                            );
+                            setBlocs(updatedBlocs);
+                          }
+                        }
+                      }}
                       updateBloc={(newFormData) => {
-                        const others = blocs.filter(
-                          (item) => item.key != currentBloc?.key
+                        const updatedBlocs = blocs.map((bloc) =>
+                          bloc.key === currentBloc?.key ? newFormData : bloc
                         );
-                        const updatedBloc = [...others, newFormData];
-                        setBlocs(updatedBloc);
-                        console.log('newFormData', newFormData);
-                        console.log('updatedBoc', updatedBloc);
+                        setBlocs(updatedBlocs);
                       }}
                       control={control}
                     />
@@ -291,23 +303,26 @@ export const NewAudienceGroup = () => {
               </div>
               <div className="flex w-1/2 h-[80vh] overflow-y-auto">
                 <div className="flex flex-col w-full">
-                  {Object.values(Parameters).map((parameter, index) => (
+                  {blocs.map((blocItem, index) => (
                     <div
                       className="flex w-full border-b  border-gray-100 grow"
-                      key={`{${parameter}-${index}`}
+                      key={`{${blocItem}-${index}`}
                     >
                       <div
                         className={`flex w-1/4 cursor-pointer text-sm items-center bg-gray-50 px-5`}
                       >
-                        {parameter}
+                        {blocItem.key}
                       </div>
                       <div className="flex w-full flex-wrap   py-4 items-center px-5 gap-x-2 gap-y-2">
                         {formDataValue && (
                           <GenerateChipPreview
-                            persona={formDataValue}
-                            parameter={parameter}
-                            updatePersona={(data) => {
-                              setFormDataValue(data);
+                            bloc={blocItem}
+                            emptyField={(data) => {
+                              const updatedBloc = blocs.map((item) =>
+                                item.key === data.key ? data : item
+                              );
+                              setBlocs(updatedBloc);
+                              console.log('newFormData', data);
                             }}
                           />
                         )}
@@ -331,192 +346,6 @@ export const NewAudienceGroup = () => {
       </form>
     </>
   );
-};
-const GenerateChipPreview = ({
-  persona,
-  parameter,
-  updatePersona,
-}: {
-  persona?: PersonaDto;
-  parameter: Parameters;
-  updatePersona: (data: PersonaDto) => undefined;
-}) => {
-  if (!persona) return <></>;
-
-  switch (parameter) {
-    case Parameters.Demographics:
-      return (
-        persona.demographic &&
-        Object.keys(persona.demographic).map((key, index) => {
-          const item = key as keyof typeof persona.demographic;
-          return (
-            <AppChip
-              label={persona.demographic?.[item]?.toString() || ''}
-              key={`${item}-y-${index}`}
-              additionClasses="bg-gray-50 text-gray-800 font-light px-4  border border-gray-100 text-sm hover:border-gray-100"
-              icon={
-                <IoMdClose
-                  className="hover:bg-gray-100 rounded-full w-6 h-6 p-1 "
-                  onClick={() => {
-                    const updatedDemographic = { ...persona.demographic };
-                    delete updatedDemographic[item];
-                    updatePersona({
-                      ...persona,
-                      demographic: updatedDemographic,
-                    });
-                  }}
-                />
-              }
-            />
-          );
-        })
-      );
-    case Parameters.Psychographics:
-      return (
-        persona.psychographics &&
-        Object.keys(persona.psychographics).map((key, index) => {
-          const item = key as keyof typeof persona.psychographics;
-          return (
-            <AppChip
-              label={persona.psychographics?.[item]?.toString() || ''}
-              key={`${item}-y-${index}`}
-              additionClasses="bg-gray-50 text-gray-800 font-light px-4  border border-gray-100 text-sm hover:border-gray-100"
-              icon={
-                <IoMdClose
-                  className="hover:bg-gray-100 rounded-full w-6 h-6 p-1 "
-                  onClick={() => {
-                    const updatedDemographic = { ...persona.psychographics };
-                    delete updatedDemographic[item];
-                    updatePersona({
-                      ...persona,
-                      psychographics: updatedDemographic,
-                    });
-                  }}
-                />
-              }
-            />
-          );
-        })
-      );
-    case Parameters.Behavior:
-      return (
-        persona.behavioral &&
-        Object.keys(persona.behavioral).map((key, index) => {
-          const item = key as keyof typeof persona.behavioral;
-          return (
-            <AppChip
-              label={persona.behavioral?.[item]?.toString() || ''}
-              key={`${item}-y-${index}`}
-              additionClasses="bg-gray-50 text-gray-800 font-light px-4  border border-gray-100 text-sm hover:border-gray-100"
-              icon={
-                <IoMdClose
-                  className="hover:bg-gray-100 rounded-full w-6 h-6 p-1 "
-                  onClick={() => {
-                    const updatedDemographic = { ...persona.behavioral };
-                    delete updatedDemographic[item];
-                    updatePersona({
-                      ...persona,
-                      behavioral: updatedDemographic,
-                    });
-                  }}
-                />
-              }
-            />
-          );
-        })
-      );
-
-    case Parameters.WeatherAndClimate:
-      return (
-        persona.weatherAndClimate &&
-        Object.keys(persona.weatherAndClimate).map((key, index) => {
-          const item = key as keyof typeof persona.weatherAndClimate;
-          return (
-            <AppChip
-              label={persona.weatherAndClimate?.[item]?.toString() || ''}
-              key={`${item}-y-${index}`}
-              additionClasses="bg-gray-50 text-gray-800 font-light px-4  border border-gray-100 text-sm hover:border-gray-100"
-              icon={
-                <IoMdClose
-                  className="hover:bg-gray-100 rounded-full w-6 h-6 p-1 "
-                  onClick={() => {
-                    const updatedWeatherAndClimate = {
-                      ...persona.weatherAndClimate,
-                    };
-                    delete updatedWeatherAndClimate[item];
-                    updatePersona({
-                      ...persona,
-                      weatherAndClimate: updatedWeatherAndClimate,
-                    });
-                  }}
-                />
-              }
-            />
-          );
-        })
-      );
-    case Parameters.TransactionalData:
-      return (
-        persona.transactionalData &&
-        Object.keys(persona.transactionalData).map((key, index) => {
-          const item = key as keyof typeof persona.transactionalData;
-          return (
-            <AppChip
-              label={persona.transactionalData?.[item]?.toString() || ''}
-              key={`${item}-y-${index}`}
-              additionClasses="bg-gray-50 text-gray-800 font-light px-4  border border-gray-100 text-sm hover:border-gray-100"
-              icon={
-                <IoMdClose
-                  className="hover:bg-gray-100 rounded-full w-6 h-6 p-1 "
-                  onClick={() => {
-                    const updatedTransactionalData = {
-                      ...persona.transactionalData,
-                    };
-                    delete updatedTransactionalData[item];
-                    updatePersona({
-                      ...persona,
-                      transactionalData: updatedTransactionalData,
-                    });
-                  }}
-                />
-              }
-            />
-          );
-        })
-      );
-    case Parameters.Location:
-      return (
-        persona.location &&
-        Object.keys(persona.location).map((key, index) => {
-          const item = key as keyof typeof persona.location;
-          return (
-            <AppChip
-              label={persona.location?.[item]?.toString() || ''}
-              key={`${item}-y-${index}`}
-              additionClasses="bg-gray-50 text-gray-800 font-light px-4  border border-gray-100 text-sm hover:border-gray-100"
-              icon={
-                <IoMdClose
-                  className="hover:bg-gray-100 rounded-full w-6 h-6 p-1 "
-                  onClick={() => {
-                    const updatedTransactionalData = {
-                      ...persona.location,
-                    };
-                    // delete updatedTransactionalData[item];
-                    // updatePersona({
-                    //   ...persona,
-                    //   transactionalData: updatedTransactionalData,
-                    // });
-                  }}
-                />
-              }
-            />
-          );
-        })
-      );
-
-    default:
-      break;
-  }
 };
 
 export default NewAudienceGroup;

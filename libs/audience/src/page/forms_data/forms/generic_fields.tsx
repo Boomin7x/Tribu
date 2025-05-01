@@ -7,8 +7,12 @@ import {
   FormSelect,
   generateFormName,
   FormMultiSelect,
+  FormTextArea,
 } from '@tribu/forms';
+import { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
+import { GoTrash } from 'react-icons/go';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface AudienceGenericFormFIeldsProps<T extends FieldValues> {
   data?: any;
@@ -17,6 +21,7 @@ interface AudienceGenericFormFIeldsProps<T extends FieldValues> {
   formTitle: string;
   updateAudienceGenericFormFIelds: (data: T) => void;
   updateField: (index: number, value: any) => void;
+  onDeleteField: (index: number, value: any) => void;
 }
 export const AudienceGenericFormFIelds = <T extends FieldValues>({
   data,
@@ -25,6 +30,7 @@ export const AudienceGenericFormFIelds = <T extends FieldValues>({
   control,
   formTitle,
   updateField,
+  onDeleteField,
 }: AudienceGenericFormFIeldsProps<T>) => {
   const generateField = (field: AllFormInterfacesType, index: number) => {
     const value = data;
@@ -90,10 +96,16 @@ export const AudienceGenericFormFIelds = <T extends FieldValues>({
           <FormMultiSelect
             {...newField}
             control={control}
-            // value={value}
             onChange={(e) => handleChange(newField.name, e.target.value)}
-            // value={Array.isArray(value) ? value : [value]}
-            // onChange={(e) => handleChange(newField.name, e.target.value)}
+          />
+        );
+      case FormFields.TEXTAREA:
+        return (
+          <FormTextArea
+            {...newField}
+            control={control}
+            type={FormFields.INPUT}
+            onChange={(e: any) => handleChange(newField.name, e.target.value)}
           />
         );
 
@@ -106,13 +118,43 @@ export const AudienceGenericFormFIelds = <T extends FieldValues>({
     }
   };
 
+  const [hoveredBloc, setHoveredBloc] = useState<
+    AllFormInterfacesType | undefined
+  >(undefined);
   return (
-    <div className="w-full">
-      {formFields.map((newField, key) => (
-        <div className="mb-3" key={key}>
-          {generateField(newField, key)}
-        </div>
-      ))}
+    <div className="w-full mb-10">
+      <AnimatePresence>
+        {formFields.map((newField, key) => (
+          <motion.div
+            // key={`${newField.name}${newField.label}-${key}`}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div
+              className="mb-3 flex items-center justify-between gap-x-2"
+              key={key}
+              onMouseEnter={() => setHoveredBloc(newField)}
+            >
+              <div className="w-full">{generateField(newField, key)}</div>
+              <div
+                className={`transition-all duration-300 ease-in-out ${
+                  newField.name === hoveredBloc?.name ? '' : 'scale-0'
+                }`}
+              >
+                <GoTrash
+                  className="p-2  bg-gray-200 cursor-pointer hover:bg-gray-300 rounded-sm text-red-500"
+                  size={30}
+                  onClick={() => {
+                    onDeleteField(key, newField);
+                  }}
+                />
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 };

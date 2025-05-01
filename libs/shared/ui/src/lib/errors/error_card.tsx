@@ -15,7 +15,7 @@ export const ErrorCard = ({ title, message, ...props }: ErrorCardProps) => {
         props.className || ''
       }`}
     >
-      <p className="text-md">{title}</p>
+      <p className="text-md font-medium">{title}</p>
       {<p>{message}</p>}
       {props.callback && (
         <AppButton
