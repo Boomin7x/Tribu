@@ -1,13 +1,12 @@
-import { AppButton, AppChip } from '@tribu/ui';
+import { AppButton } from '@tribu/ui';
 import { useEffect, useState } from 'react';
-import { IoMdAdd, IoMdClose } from 'react-icons/io';
 import { demographicFormData } from '../../page/forms_data/data/demographic_form_data';
 import {
   FormFields,
   generateFormName,
   generateValidationSchema,
 } from '@tribu/forms';
-import { PersonaDto } from '@tribu/targets';
+
 import { psychographicFormData } from '../../page/forms_data/data/psychographic_form_data';
 import { weatherAndClimateFormData } from '../../page/forms_data/data/weather_and_climate_form_data';
 import { transactionFormData } from '../../page/forms_data/data/transaction_form_data';
@@ -154,7 +153,7 @@ export const NewAudienceGroup = () => {
   const [hoveredBloc, setHoveredBloc] = useState<AudienceBloc | undefined>(
     undefined
   );
-  const [formDataValue, setFormDataValue] = useState<PersonaDto>({});
+  // const [formDataValue, setFormDataValue] = useState<PersonaDto>({});
 
   const { mutate: addAudience, isPending } = useApi.mutate({
     queryKey: [],
@@ -267,9 +266,7 @@ export const NewAudienceGroup = () => {
                   </div>
                   <div className="overflow-y-scroll px-2 h-full">
                     <GenerateForm
-                      formDataValue={formDataValue}
                       currentBloc={currentBloc}
-                      setBloc={(data: PersonaDto) => setFormDataValue(data)}
                       onDeleteField={(index, field) => {
                         const item = currentBloc?.fields[index];
                         if (item) {
@@ -314,7 +311,7 @@ export const NewAudienceGroup = () => {
                         {blocItem.key}
                       </div>
                       <div className="flex w-full flex-wrap   py-4 items-center px-5 gap-x-2 gap-y-2">
-                        {formDataValue && (
+                        {
                           <GenerateChipPreview
                             bloc={blocItem}
                             emptyField={(data) => {
@@ -325,7 +322,7 @@ export const NewAudienceGroup = () => {
                               console.log('newFormData', data);
                             }}
                           />
-                        )}
+                        }
                       </div>
                     </div>
                   ))}

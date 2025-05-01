@@ -1,6 +1,6 @@
 import { AudienceGLMap } from '@tribu/maps';
 import AudienceGenericFormFIeldsForm from './generic_fields';
-import { DemographicDto, PersonaDto } from '@tribu/targets';
+import { PersonaDto } from '@tribu/targets';
 import { Parameters } from '../../../data/enums/form_enums';
 import { AudienceBloc } from 'libs/audience/src/data/interfaces/create_audience';
 
@@ -9,12 +9,14 @@ export interface NewAudienceFormProps {
   setBloc: (data: PersonaDto) => void;
   updateBloc: (data: AudienceBloc) => void;
   control: any;
+  onDeleteField: (index: number, value: any) => void;
 }
 const GenerateEditForm = ({
   control,
   bloc,
   setBloc,
   updateBloc,
+  onDeleteField,
 }: NewAudienceFormProps) => {
   if (bloc.key == Parameters.Location) {
     return (
@@ -54,6 +56,7 @@ const GenerateEditForm = ({
       updateAudienceGenericFormFIelds={(data) => {
         setBloc({ ...bloc, demographic: data });
       }}
+      onDeleteField={onDeleteField}
     />
   );
 };

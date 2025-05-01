@@ -6,8 +6,8 @@ import { AudienceBloc } from '@tribu/audience';
 import { ErrorCard } from '@tribu/ui';
 
 export interface NewAudienceFormProps {
-  formDataValue: PersonaDto | undefined;
-  setBloc: (data: PersonaDto) => void;
+  // formDataValue: PersonaDto | undefined;
+  // setBloc: (data: PersonaDto) => void;
   currentBloc: AudienceBloc | undefined;
   updateBloc: (data: AudienceBloc) => void;
   onDeleteField: (index: number, value: any) => void;
@@ -16,7 +16,7 @@ export interface NewAudienceFormProps {
 const GenerateForm = ({
   currentBloc,
   control,
-  setBloc,
+  // setBloc,
   updateBloc,
   onDeleteField,
 }: NewAudienceFormProps) => {
@@ -42,20 +42,20 @@ const GenerateForm = ({
         onLocationUpdate={(location) => {
           currentBloc.fields[0].metaData.value = location?.text;
           updateBloc(currentBloc);
-          setBloc({
-            ...currentBloc,
-            location: {
-              country: 'string',
-              region: 'string',
-              city: location?.text,
-              postalCode: 'string',
-              latitude: location?.coordinates.latitude,
-              longitude: location?.coordinates.longitude,
-              neighborhood: location?.place_name,
-              proximityToLandmark: 'string',
-              timeZone: 'string',
-            },
-          });
+          // setBloc({
+          //   ...currentBloc,
+          //   location: {
+          //     country: 'string',
+          //     region: 'string',
+          //     city: location?.text,
+          //     postalCode: 'string',
+          //     latitude: location?.coordinates.latitude,
+          //     longitude: location?.coordinates.longitude,
+          //     neighborhood: location?.place_name,
+          //     proximityToLandmark: 'string',
+          //     timeZone: 'string',
+          //   },
+          // });
         }}
       />
     );
@@ -73,7 +73,7 @@ const GenerateForm = ({
         updateBloc(currentBloc);
       }}
       updateAudienceGenericFormFIelds={(data) => {
-        setBloc({ ...currentBloc, demographic: data });
+        // setBloc({ ...currentBloc, demographic: data });
       }}
     />
   );

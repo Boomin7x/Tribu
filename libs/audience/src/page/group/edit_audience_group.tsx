@@ -18,6 +18,7 @@ import GenerateChipPreview from '../components/chip_preview';
 import AddAudienceCategoryModal from '../components/audience_category_modal';
 import AudienceFieldModal from '../components/audience_field_modal';
 import { GoTrash } from 'react-icons/go';
+import GenerateForm from '../forms_data/forms/new_audience_form';
 
 export const EditAudienceGroup = () => {
   const { id } = useParams();
@@ -218,9 +219,9 @@ export const EditAudienceFormGroup = ({
                     />
                   </div>
                   {currentBloc && (
-                    <GenerateEditForm
-                      bloc={currentBloc}
-                      setBloc={(data) => {}}
+                    <GenerateForm
+                      currentBloc={currentBloc}
+                      // setBloc={(data) => {}}
                       updateBloc={(newFormData) => {
                         const updatedBloc = blocs.map((item) =>
                           item.key === currentBloc.key ? newFormData : item
@@ -230,6 +231,26 @@ export const EditAudienceFormGroup = ({
                         console.log('updatedBloc', updatedBloc);
                       }}
                       control={control}
+                      onDeleteField={(index, field) => {
+                        const item = currentBloc?.fields[index];
+                        if (item) {
+                          const newItems = currentBloc?.fields.filter(
+                            (field) => field != item
+                          );
+                          if (currentBloc) {
+                            const updatedBloc = {
+                              ...currentBloc,
+                              fields: newItems || [],
+                            };
+                            setCurrentBloc(updatedBloc);
+
+                            const updatedBlocs = blocs.map((bloc) =>
+                              bloc.key === currentBloc.key ? updatedBloc : bloc
+                            );
+                            setBlocs(updatedBlocs);
+                          }
+                        }
+                      }}
                     />
                   )}
                 </div>
