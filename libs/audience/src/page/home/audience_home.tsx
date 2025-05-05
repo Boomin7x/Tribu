@@ -116,21 +116,25 @@ export const AudienceHome = () => {
           <ErrorCard title="Failed to load audience!" message={error.message} />
         )}
 
-        {!isLoading && demographics && demographics.length === 0 && (
-          <div className="item-center w-full flex flex-col gap-y-2 justify-center bg-purple-50 h-[50vh] items-center">
-            <p className="text-md">No audience added!</p>
-            <AppButton
-              onClick={() => {
-                navigate('/dashboard/audience/groups/new');
-              }}
-              label="New Group"
-              icon={<IoMdAdd />}
-              className="!rounded-sm mt-5"
-            />
-          </div>
-        )}
+        {!isLoading &&
+          !isError &&
+          demographics &&
+          demographics.length === 0 && (
+            <div className="item-center w-full flex flex-col gap-y-2 justify-center bg-purple-50 h-[50vh] items-center">
+              <p className="text-md">No audience added!</p>
+              <AppButton
+                onClick={() => {
+                  navigate('/dashboard/audience/groups/new');
+                }}
+                label="New Group"
+                icon={<IoMdAdd />}
+                className="!rounded-sm mt-5"
+              />
+            </div>
+          )}
 
         {!isLoading &&
+          !isError &&
           demographics &&
           demographics.map(({ bloc, id }, index) => {
             const age = getValue(bloc, 'age');
