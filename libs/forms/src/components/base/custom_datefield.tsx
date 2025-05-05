@@ -10,6 +10,7 @@ import {
   DateValidationError,
   FieldSection,
 } from '@mui/x-date-pickers/models';
+
 export interface ButtonFieldProps
   extends UseDateFieldProps<Dayjs>,
     BaseSingleInputFieldProps<
@@ -70,7 +71,7 @@ export type CustomDateFieldType = {
   width?: string;
 };
 
-export default function CustomDateField(props: CustomDateFieldType) {
+export const CustomDateField = (props: CustomDateFieldType) => {
   React.useEffect(() => {
     if (props.value != null) setValue(dayjs(props.value));
   }, [props.value]);
@@ -95,4 +96,6 @@ export default function CustomDateField(props: CustomDateFieldType) {
       />
     </LocalizationProvider>
   );
-}
+};
+
+export default CustomDateField;

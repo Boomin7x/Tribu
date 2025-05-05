@@ -15,7 +15,6 @@ export * from './drag-n-drop/form_draggble_wrapper';
 export * from './drag-n-drop/strick_mode_droppable';
 export * from './drag-n-drop/survey.component';
 
-export * from './form-field-editor/components/custom_datefield';
 export * from './form-field-editor/components/datefield';
 export * from './form-field-editor/components/input';
 export * from './form-field-editor/components/matrix';

@@ -7,9 +7,13 @@ import FieldIcon from '../../forms/base/field_icon';
 import clock from '../../../assets/icons/clock.svg';
 import calendar from '../../../assets/icons/calendar.svg';
 import { ReactNode } from 'react';
-import CustomDateField from './custom_datefield';
 import { Dayjs } from 'dayjs';
-import { AppInput, AppSelect, TextDateInterface } from '@tribu/forms';
+import {
+  AppInput,
+  AppSelect,
+  CustomDateField,
+  TextDateInterface,
+} from '@tribu/forms';
 export const FormDateFieldRenderer = (formItem: TextDateInterface) => {
   const dispatch = useDispatch();
 
