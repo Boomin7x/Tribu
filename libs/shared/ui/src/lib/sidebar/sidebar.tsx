@@ -6,7 +6,8 @@ import logout from '../../../../icons/logout.svg';
 import AppIcon from '../others/app_icon';
 import { useNavigate } from 'react-router-dom';
 import SidebarItem, { SidebarItemProps } from './sidebar_item';
-
+import { Icon } from '@iconify/react';
+import { RouteNames } from '@tribu/utils';
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const Sidebar = (props: SidebarProps) => {
@@ -14,6 +15,11 @@ export const Sidebar = (props: SidebarProps) => {
     {
       icon: check_box,
       label: 'Home',
+      onClick: () => {},
+    },
+    {
+      icon: <Icon icon="wpf:search" className="size-6" />,
+      label: RouteNames.location_int,
       onClick: () => {},
     },
     {

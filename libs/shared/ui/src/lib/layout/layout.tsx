@@ -2,12 +2,14 @@ import { Sidebar, AppHeader } from '@tribu/ui';
 import { FC, ReactNode } from 'react';
 import Main from '../main/main';
 import { Outlet, useLocation } from 'react-router';
+import { RouteNames } from '@tribu/utils';
 
 export const Layout: FC<React.HTMLAttributes<HTMLDivElement>> = () => {
   const location = useLocation();
   const isNewSurvey =
     location.pathname.includes('surveys/new') ||
-    location.pathname.includes('surveys/edit');
+    location.pathname.includes('surveys/edit') ||
+    location.pathname.includes(RouteNames.location_int);
   return (
     <div className="flex flex-row h-screen w-screen justify-between items-center">
       <Sidebar className="w-[5%] bg-primary-50" />

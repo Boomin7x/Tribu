@@ -10,4 +10,10 @@ export const RouteNames = {
   add_survey: 'surveys/new',
   edit_survey: 'surveys/edit',
   survey_templates: 'surveys/templates',
+
+  location_int: 'location_int',
+  location_int_target: 'target',
+  location_int_layers: 'layers',
+  location_int_campaigns: 'campaigns',
+  location_int_contacts: 'contacts',
 };

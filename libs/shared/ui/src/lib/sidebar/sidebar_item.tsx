@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 export interface SidebarItemProps {
-  icon: string;
+  icon: string | ReactNode;
   label: string;
   onClick: () => void;
 }
@@ -42,11 +42,16 @@ const SidebarItem: FC<SidebarItemProps> = ({ icon, label, onClick }) => {
       onClick={() => navigate(label.toLowerCase())}
     >
       {/* <h2 className="text-red-500 text-sm"> {`${isActiveRoute}`}</h2> */}
-      <img
-        src={icon}
-        alt={label}
-        className={`${isActiveRoute && 'fill-white'} w-6 h-6`}
-      />
+      {typeof icon === 'string' ? (
+        <img
+          src={icon}
+          alt={label}
+          className={`${isActiveRoute && 'fill-white'} w-6 h-6`}
+        />
+      ) : (
+        // If icon is a ReactNode/component, render it directly
+        <span className={`${isActiveRoute && 'text-white'}`}>{icon}</span>
+      )}
     </div>
   );
 };
