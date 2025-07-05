@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { LOCAL_STORAGE_KEYS } from '../locationIntelligence/_utils';
 const mapClient = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: import.meta.env.VITE_MAP_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

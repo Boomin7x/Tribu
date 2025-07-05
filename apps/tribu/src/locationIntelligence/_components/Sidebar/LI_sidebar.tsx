@@ -1,10 +1,11 @@
 import { RouteNames } from '@tribu/utils';
 import { useLocation } from 'react-router-dom';
-import LILayersSide from './LI_layers-side';
+// import LILayersSide from './LI_layers-side';
 import LISideNav from './LI_side_nav';
 import LITargetSidebar from './LI_target_sidebar';
 import LIContactsSide from './LI_contacts_side';
 import LICampaignSidebar from './LI_Campaign_side';
+import LILayersSide from './LI_layers-side';
 
 const LocationIntelligenceSidebar = () => {
   const urlPrefix = RouteNames.location_int + '/';

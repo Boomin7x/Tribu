@@ -5,8 +5,14 @@ export interface IGetBuildingByCategoryParams {
   page?: number;
 }
 
+export interface IBbox {
+  min_lat: number | string;
+  max_lat: number | string;
+  min_lon: number | string;
+  max_lon: number | string;
+}
 export interface IGetAllBuildingsParams {
-  bbox: string;
+  bbox: IBbox | string;
   limit?: number;
   page?: number;
 }
