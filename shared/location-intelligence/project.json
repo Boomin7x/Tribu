@@ -1,0 +1,9 @@
+{
+  "name": "location-intelligence",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "shared/location-intelligence/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project location-intelligence --web",
+  "targets": {}
+}

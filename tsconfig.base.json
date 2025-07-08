@@ -15,13 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@locationIntelligence": ["./apps/tribu/src/locationIntelligence/*"],
-      "@tribu/app": ["./apps/tribu/src/*"],
       "@tribu/audience": ["libs/audience/src/index.ts"],
       "@tribu/forms": ["libs/forms/src/index.ts"],
       "@tribu/home": ["libs/home/src/index.ts"],
+      "@tribu/location-intelligence": [
+        "shared/location-intelligence/src/index.ts"
+      ],
       "@tribu/maps": ["libs/maps/src/index.ts"],
-      "@tribu/shared": ["shared/src/index.ts"],
       "@tribu/surveys": ["libs/surveys/src/index.ts"],
       "@tribu/tables": ["libs/tables/src/index.ts"],
       "@tribu/targets": ["libs/targets/src/index.ts"],

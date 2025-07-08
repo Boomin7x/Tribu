@@ -1,28 +1,28 @@
-import { DashboardNotFound, Layout } from '@tribu/ui';
-import { Home } from '@tribu/home';
-import { AddSurvey, SurveyHome, SurveyTemplates } from '@tribu/surveys';
 import {
   AudienceHome,
-  NewAudienceGroup,
   EditAudienceGroup,
+  NewAudienceGroup,
 } from '@tribu/audience';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Home } from '@tribu/home';
+import {
+  LICampaigns,
+  LIContactsPage,
+  LILayersPage,
+  LITargetsPage,
+  LocationIntelligenceLayout,
+  Root,
+} from '@tribu/location-intelligence';
+import { AddSurvey, SurveyHome, SurveyTemplates } from '@tribu/surveys';
+import { DashboardNotFound, Layout } from '@tribu/ui';
+import { AppConfig, RouteNames } from '@tribu/utils';
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
-import { AppConfig, RouteNames } from '@tribu/utils';
-import LocationIntelligenceLayout from '../locationIntelligence/layout/locationIntelligenceLayout';
-import LILayersPage from '../locationIntelligence/_pages/layers';
-import LICampaigns from '../locationIntelligence/_pages/campaigns';
-import LIContactsPage from '../locationIntelligence/_pages/contacts';
-import LITargetsPage from '../locationIntelligence/_pages/targets';
-import Root from '../locationIntelligence/_pages/kepler';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+// import LITargetsPage from 'shared/location-intelligence/src/_pages/targets/LITargetsPage';
+// import LITargetsPage from 'shared/location-intelligence/src/_pages/targets/LITargetsPage';
+
 export function App() {
   console.log(AppConfig);
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    // navigate('/dashboard');
-  }, []);
 
   return (
     <>

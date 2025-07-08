@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { LOCAL_STORAGE_KEYS } from '../locationIntelligence/_utils';
+import { LOCAL_STORAGE_KEYS } from '@tribu/location-intelligence';
+// import {}
 const mapClient = axios.create({
   baseURL: import.meta.env.VITE_MAP_BASE_URL,
   headers: {
