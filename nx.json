@@ -67,6 +67,11 @@
       "inputs": ["production", "^production"]
     }
   },
+  "projects": {
+    "tribu": {
+      "root": "apps/tribu" 
+    }
+  },
   "generators": {
     "@nx/react": {
       "application": {
