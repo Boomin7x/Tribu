@@ -3,9 +3,11 @@ import { Control, Controller, FieldValues } from 'react-hook-form';
 import { AppMultiSelect, generateFormName } from '@tribu/forms';
 import AppErrorMessage from '../base/app_error2_message';
 import { CheckboxInterface } from '../../interfaces';
+
 interface FormMultiSelectInterface extends CheckboxInterface {
   control?: Control<FieldValues>;
 }
+
 export const FormMultiSelect = (props: FormMultiSelectInterface) => {
   const name = props.name ?? generateFormName(props.label, props.id);
 
@@ -19,7 +21,7 @@ export const FormMultiSelect = (props: FormMultiSelectInterface) => {
           <>
             <AppMultiSelect
               {...props}
-              items={props.elements}
+              items={props.elements as string[] | number[]}
               hasBorder={props.isPreview}
               fullWidth
               onChange={(e) => {

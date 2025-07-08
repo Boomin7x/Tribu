@@ -3,6 +3,7 @@
 //   \\
 // ]['   q1` ;pkjhgfdszZXchm/;
 // cv
+import { FieldErrors, FieldValues } from 'react-hook-form';
 import { ErrorMessage } from '../types/error.types';
 // import colo
 //   / m  rs from '../styles/colors.module.scss';

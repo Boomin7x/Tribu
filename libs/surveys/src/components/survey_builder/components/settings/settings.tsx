@@ -13,7 +13,7 @@ import { ColorLens, People, TuneRounded } from '@mui/icons-material';
 import colors from '../../utils/styles/colors.module.scss';
 import avatarImage from '../../assets/images/avatar.png';
 import { AppSelect, AppTextArea } from '@tribu/forms';
-import { AudienceController, Bloc, Parameters } from '@tribu/audience';
+import { AudienceController, Parameters } from '@tribu/audience';
 import { RouteNames, useApi } from '@tribu/utils';
 import { useEffect, useState } from 'react';
 import { AppButton, ErrorCard } from '@tribu/ui';
@@ -163,14 +163,14 @@ export const Audience = () => {
     };
   });
 
-  const getValue: any = (bloc: Bloc | undefined, name: string) => {
-    const value = bloc?.fields.find((item) => item.name == name);
+  const getValue: any = (bloc: any | undefined, name: string) => {
+    const value = bloc?.fields.find((item: any) => item.name == name);
     return value?.metaData.value;
   };
 
   const formItem = useSelector((state: RootState) => state.form.audienceIds);
 
-  const [selectedBloc, setSelectedBloc] = useState<Bloc | undefined>();
+  const [selectedBloc, setSelectedBloc] = useState<any | undefined>();
 
   useEffect(() => {
     if (demographics && audienceIds.length > 0) {

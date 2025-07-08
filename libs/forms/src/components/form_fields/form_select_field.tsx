@@ -21,7 +21,7 @@ export const FormSelect = (props: FormSelectInterface) => {
           <>
             <AppSelect
               {...props}
-              items={props.elements}
+              items={props.elements as string[] | number[]}
               hasBorder={props.isPreview}
               fullWidth
               onChange={(e, child) => {
