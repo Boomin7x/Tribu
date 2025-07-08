@@ -1,5 +1,6 @@
-import mapClient from '../../../../../apps/tribu/src/config/mapClient.config';
+// import mapClient from '../../../../../apps/tribu/src/config/mapClient.config';
 import { IGetCurrentWeatherByCoordsParams } from '../types/weather_types';
+import mapClient from '@tribu/map-config';
 
 export const weatherApi = {
   getCurrentWeatherByCoords: async ({

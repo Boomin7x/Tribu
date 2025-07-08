@@ -21,6 +21,7 @@
       "@tribu/location-intelligence": [
         "shared/location-intelligence/src/index.ts"
       ],
+      "@tribu/map-config": ["libs/map-config/src/index.ts"],
       "@tribu/maps": ["libs/maps/src/index.ts"],
       "@tribu/surveys": ["libs/surveys/src/index.ts"],
       "@tribu/tables": ["libs/tables/src/index.ts"],

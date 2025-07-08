@@ -2,7 +2,9 @@
 // import mapClient from '../../../../../../../../../config/mapClient.config';
 // import mapClient from 'apps/tribu/src/config/mapClient.config';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import mapClient from '../../../../../apps/tribu/src/config/mapClient.config';
+// import mapClient from '../../../../../apps/tribu/src/config/mapClient.config';
+import mapClient from '@tribu/map-config';
+
 import {
   ICategoryroadsParams,
   IGetAllRoadParams,
