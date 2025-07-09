@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nx serve tribu",
-    "build": "NODE_ENV=production nx build tribu --skip-nx-cache --verbose"
+    "build": "yarn nx run tribu:build"
   },
   "private": true,
   "dependencies": {
