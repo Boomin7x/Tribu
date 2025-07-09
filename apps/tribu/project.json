@@ -5,7 +5,7 @@
   "projectType": "application",
   "tags": [],
   "scripts": {
-    "build": "NODE_ENV=production nx build tribu --skip-nx-cache --verbose"
+    "build": "yarn nx run tribu:build "
   },
   "targets": {
     "build": {

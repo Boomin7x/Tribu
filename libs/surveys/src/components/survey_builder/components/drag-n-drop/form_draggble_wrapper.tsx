@@ -1,4 +1,5 @@
-import { FC, ReactNode } from 'react';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { FC, Fragment, ReactNode } from 'react';
 import { Box } from '@mui/material';
 import { Draggable } from 'react-beautiful-dnd';
 interface FormDraggableWrapperProps {
@@ -10,21 +11,24 @@ export const FormDraggableWrapper: FC<FormDraggableWrapperProps> = ({
   children,
 }) => {
   return (
-    <Draggable draggableId={index.toString()} index={index}>
-      {(provided) => (
-        <Box
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-          sx={{
-            mb: 3,
-            width: '100%',
-          }}
-        >
-          {children}
-        </Box>
-      )}
-    </Draggable>
+    <Fragment>
+      {/* @ts-expect-error */}
+      <Draggable draggableId={index.toString()} index={index}>
+        {(provided) => (
+          <Box
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            sx={{
+              mb: 3,
+              width: '100%',
+            }}
+          >
+            {children}
+          </Box>
+        )}
+      </Draggable>
+    </Fragment>
   );
 };
 

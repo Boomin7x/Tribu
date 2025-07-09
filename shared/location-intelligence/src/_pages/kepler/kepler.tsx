@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import * as React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -57,6 +58,7 @@ const App: React.FC = () => (
       height: '100%',
     }}
   >
+    {/* @ts-expect-error */}
     <AutoSizer>
       {({ height, width }: { height: number; width: number }) => (
         <KeplerGl

@@ -16,6 +16,9 @@
   },
   "nxCloudId": "6781da2357d4c071d40ff5d0",
    "packageManager": "yarn",
+   "nxCloud": {
+     "accessToken": "false" 
+  },
   "plugins": [
     {
       "plugin": "@nx/vite/plugin",
