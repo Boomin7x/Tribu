@@ -1,6 +1,6 @@
 {
   "buildCommand": "npx nx reset && npx nx build tribu --skip-nx-cache",
   "outputDirectory": "dist/apps/tribu",
-  "installCommand": "npm ci",
+  "installCommand": "npm install",
   "framework": null
 }
