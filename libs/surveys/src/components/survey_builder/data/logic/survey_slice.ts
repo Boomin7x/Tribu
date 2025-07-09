@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Survey } from '../../../data/interfaces/create_survey';
+import { Survey } from '@tribu/surveys';
+// import { Survey } from '../../../data/interfaces/create_survey';
 interface SurveyInfoState {
   surveyInfo?: Survey;
 }

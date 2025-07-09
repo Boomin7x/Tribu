@@ -14,7 +14,8 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
   },
-  "nxCloudId": "6781da2357d4c071d40ff5d0",
+   "packageManager": "yarn",
+   
   "plugins": [
     {
       "plugin": "@nx/vite/plugin",
@@ -65,6 +66,11 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    }
+  },
+  "projects": {
+    "tribu": {
+      "root": "apps/tribu" 
     }
   },
   "generators": {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FC } from 'react';
 import { useDrop } from 'react-dnd';
 import {
@@ -113,6 +114,7 @@ export const DropZone: FC<DropZoneProps> = ({ width, activeSectionIndex }) => {
 
   return (
     <FormProvider {...form}>
+      {/* @ts-expect-error */}
       <DragDropContext onDragEnd={handleDrop}>
         <Box
           ref={drop}
@@ -163,7 +165,7 @@ export const DropZone: FC<DropZoneProps> = ({ width, activeSectionIndex }) => {
                           </FormDraggableWrapper>
                         );
                       })}
-                      {provided.placeholder}
+                      {provided.placeholder as any}
                     </Box>
                   </Box>
                 )}

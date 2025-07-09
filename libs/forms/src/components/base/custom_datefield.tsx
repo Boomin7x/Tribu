@@ -4,23 +4,20 @@ import Button from '@mui/material/Button';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker';
-import { UseDateFieldProps } from '@mui/x-date-pickers/DateField';
-import {
-  BaseSingleInputFieldProps,
-  DateValidationError,
-  FieldSection,
-} from '@mui/x-date-pickers/models';
 
-export interface ButtonFieldProps
-  extends UseDateFieldProps<Dayjs>,
-    BaseSingleInputFieldProps<
-      Dayjs | null,
-      Dayjs,
-      FieldSection,
-      DateValidationError
-    > {
+export interface ButtonFieldProps {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  label?: string;
+  id?: string;
+  disabled?: boolean;
+  InputProps?: {
+    ref?: React.Ref<any>;
+  };
+  inputProps?: {
+    'aria-label'?: string;
+  };
 }
+
 export function ButtonField(props: ButtonFieldProps) {
   const {
     setOpen,
@@ -45,26 +42,30 @@ export function ButtonField(props: ButtonFieldProps) {
     </Button>
   );
 }
+
 export function ButtonDatePicker(
-  props: Omit<DatePickerProps<Dayjs>, 'open' | 'onOpen' | 'onClose'>
+  props: Omit<DatePickerProps<any>, 'open' | 'onOpen' | 'onClose'>
 ) {
   const [open, setOpen] = React.useState(false);
 
   return (
     <DatePicker
       slots={{ field: ButtonField, ...props.slots }}
-      slotProps={{ field: { setOpen } as any }}
+      slotProps={{
+        field: { setOpen } as any,
+        ...props.slotProps,
+      }}
       {...props}
-      // label={label}
       open={open}
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
     />
   );
 }
+
 export type CustomDateFieldType = {
-  id: string | undefined;
-  placeholder: string | undefined;
+  id?: string;
+  placeholder?: string;
   onChange?: (value: Dayjs) => Dayjs | void;
   hasBorder?: boolean;
   value?: string | number;
@@ -72,10 +73,13 @@ export type CustomDateFieldType = {
 };
 
 export const CustomDateField = (props: CustomDateFieldType) => {
-  React.useEffect(() => {
-    if (props.value != null) setValue(dayjs(props.value));
-  }, [props.value]);
   const [initialValue, setValue] = React.useState<Dayjs | null>(null);
+
+  React.useEffect(() => {
+    if (props.value != null) {
+      setValue(dayjs(props.value));
+    }
+  }, [props.value]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -88,7 +92,7 @@ export const CustomDateField = (props: CustomDateFieldType) => {
         value={initialValue}
         onChange={(newValue) => {
           setValue(newValue);
-          if (props.onChange) {
+          if (props.onChange && newValue) {
             const newDate = dayjs(newValue);
             props.onChange(newDate);
           }

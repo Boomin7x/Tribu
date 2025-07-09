@@ -103,7 +103,7 @@ export const RenderConditionalField = ({
           // }
           // updateCondition(allSelectedItems);
         }}
-        items={item.elements}
+        items={item.elements as string[] | number[]}
         value={condition_or_action?.value ?? ''}
       />
     );
@@ -118,7 +118,7 @@ export const RenderConditionalField = ({
         onChange={(event) =>
           updateCondition((event.target.value as string) ?? '')
         }
-        items={item.elements}
+        items={item.elements as string[] | number[]}
         value={condition_or_action?.value ?? ''}
       />
     );
