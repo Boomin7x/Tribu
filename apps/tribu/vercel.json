@@ -1,5 +1,5 @@
 {
-  "buildCommand": "nx build tribu",
+  "buildCommand": "nx build tribu --configuration=production",
   "outputDirectory": "dist/apps/tribu",
   "installCommand": "npm install"
 }
