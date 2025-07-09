@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "nx serve tribu",
-    "build": "nx build tribu"
+    "build": "NODE_ENV=production nx build tribu --skip-nx-cache --verbose"
   },
+  
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",
