@@ -1,0 +1,8 @@
+{
+  "buildCommand": "yarn run build",
+  "outputDirectory": "dist/apps/tribu",
+  "framework": null,
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
